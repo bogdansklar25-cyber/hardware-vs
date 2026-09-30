@@ -27,7 +27,6 @@
         }
         #cinema-intro.fade-out { opacity: 0; visibility: hidden; }
 
-        /* Экраны шагов интро */
         .intro-stage { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
         .intro-stage.active { display: flex; }
 
@@ -37,7 +36,6 @@
         }
         .stage-tag.cpu-tag { color: #2f81f7; text-shadow: 0 0 10px rgba(47,129,247,0.5); }
 
-        /* Демо-монитор для тестов */
         .intro-monitor {
             background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px;
             padding: 25px; width: 90%; max-width: 450px; box-shadow: 0 0 40px rgba(138, 43, 226, 0.25); box-sizing: border-box;
@@ -55,15 +53,12 @@
         }
         .monitor-verdict.show { opacity: 1; }
 
-        /* Эпичное приближение названия (ЗУМ) */
         .zoom-logo {
             font-size: 1.5rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow));
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px;
             transform: scale(0.3) translateZ(-500px); opacity: 0; filter: blur(10px); box-sizing: border-box; text-align: center;
         }
-        .zoom-logo.active {
-            animation: cinematicZoom 1.4s cubic-bezier(0.1, 0.8, 0.1, 1) forwards;
-        }
+        .zoom-logo.active { animation: cinematicZoom 1.4s cubic-bezier(0.1, 0.8, 0.1, 1) forwards; }
 
         @keyframes cinematicZoom {
             0% { transform: scale(0.2) translateZ(-400px); opacity: 0; filter: blur(10px); }
@@ -71,22 +66,47 @@
             100% { transform: scale(3.5) translateZ(100px); opacity: 1; filter: drop-shadow(0 0 30px rgba(191,85,236,0.8)); font-size: 1.8rem; }
         }
 
-        /* Кнопка настроек */
+        /* 🌐 ЗАГРУЗКА ХАКЕРСКОГО ПЕРЕВОДА */
+        #translate-preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 3, 10, 0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(8px);
+        }
+        #translate-preloader.active { display: flex; }
+        .translate-title { font-size: 1.4rem; font-weight: bold; color: var(--neon-glow); margin-bottom: 20px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(191,85,236,0.5); }
+        .translate-bar-bg { width: 80%; max-width: 350px; background-color: #0b0813; border: 1px solid var(--accent-purple); height: 12px; border-radius: 4px; overflow: hidden; }
+        .translate-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-purple), var(--neon-glow)); box-shadow: 0 0 15px var(--neon-glow); transition: width 1.8s linear; }
+
+        /* 👑 ВЕРХНИЙ ТУЛБАР В ОДИН РЯД */
+        .top-navbar {
+            position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 15px; z-index: 5;
+        }
+        .action-link-btn {
+            background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple);
+            border-radius: 8px; padding: 10px 16px; font-size: 0.9rem; font-weight: bold; text-decoration: none;
+            transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap;
+        }
+        .action-link-btn:hover {
+            border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15);
+            box-shadow: 0 0 12px rgba(191,85,236,0.3);
+        }
         .settings-btn {
-            position: absolute; top: 25px; right: 25px; background: none; border: none; cursor: pointer; color: var(--text-color);
-            padding: 0; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s;
-            filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2)); z-index: 5;
+            background: none; border: none; cursor: pointer; color: var(--text-color); padding: 0;
+            display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s;
+            filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2));
         }
         .settings-btn:hover { color: var(--neon-glow); transform: rotate(90deg); }
         .settings-btn svg { width: 32px; height: 32px; fill: currentColor; }
+        
         .header { text-align: center; margin-bottom: 50px; }
         .header h1 { font-size: 3.5rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
+        
         .buttons-container { display: flex; gap: 25px; max-width: 600px; width: 100%; z-index: 2; }
         .nav-btn {
             flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple);
             border-radius: 12px; padding: 24px; font-size: 1.3rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
         .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
+        
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 8, 19, 0.8); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 10; backdrop-filter: blur(4px); }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative; }
@@ -94,28 +114,32 @@
         .modal-header { font-size: 1.6rem; font-weight: bold; margin-bottom: 20px; color: #fff; border-bottom: 1px solid #302654; padding-bottom: 10px; }
         .setting-row { margin-bottom: 20px; }
         .setting-label { font-size: 1.05rem; margin-bottom: 8px; color: #bfaee3; }
+        .lang-switch-btn { width: 100%; background-color: #211a3d; color: #fff; border: 1px solid var(--accent-purple); border-radius: 6px; padding: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+        .lang-switch-btn:hover { border-color: var(--neon-glow); background-color: #2a204e; }
         .modal-close-btn { width: 100%; background-color: var(--accent-purple); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
         .modal-close-btn:hover { background-color: var(--neon-glow); }
-        @media (max-width: 500px) { .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; } .nav-btn { padding: 20px; font-size: 1.15rem; } .header h1 { font-size: 2.6rem; } .settings-btn { top: 15px; right: 15px; } }
+        @media (max-width: 650px) {
+            .top-navbar { position: static; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; width: 100%; }
+            .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; }
+            .nav-btn { padding: 20px; font-size: 1.15rem; }
+            .header h1 { font-size: 2.6rem; }
+        }
     </style>
 </head>
 <body>
 
     <!-- 🎬 ЭПИЧНЫЙ СЮЖЕТНЫЙ ТРЕЙЛЕР-ЗАСТАВКА -->
     <div id="cinema-intro">
-        
-        <!-- ЭТАП 1: ТЕСТ ВИДЕОКАРТ -->
         <div class="intro-stage" id="stage-gpu">
             <div class="stage-tag">GPU BENCHMARK...</div>
             <div class="intro-monitor">
-                <div class="monitor-header"><span>NVIDIA RTX 4090 VS AMD RX 7900 XTX</span><span id="gpu-pts">0 pts</span></div>
+                <div class="monitor-header"><span>NVIDIA RTX 5090 VS AMD RX 8800 XT</span><span id="gpu-pts">0 pts</span></div>
                 <div class="monitor-bar-bg"><div class="monitor-bar gpu-b1" id="gpuBar1"></div></div>
                 <div class="monitor-bar-bg"><div class="monitor-bar gpu-b2" id="gpuBar2"></div></div>
-                <div class="monitor-verdict" id="gpuVerdict">Модель RTX 4090 мощнее в тестах ровно на 2100 баллов!</div>
+                <div class="monitor-verdict" id="gpuVerdict">Модель RTX 5090 мощнее в тестах ровно на 5532 балла!</div>
             </div>
         </div>
 
-        <!-- ЭТАП 2: ТЕСТ ПРОЦЕССОРОВ -->
         <div class="intro-stage" id="stage-cpu">
             <div class="stage-tag cpu-tag">CPU BENCHMARK...</div>
             <div class="intro-monitor">
@@ -126,126 +150,222 @@
             </div>
         </div>
 
-        <!-- ЭТАП 3: ОГРОМНЫЙ КИНЕМАТОГРАФИЧНЫЙ ЗУМ НАЗВАНИЯ -->
         <div class="zoom-logo" id="stage-zoom">HardwareVS</div>
     </div>
 
-    <!-- Кнопка-Шестерёнка -->
-    <button class="settings-btn" id="openSettings" title="Настройки">
-        <svg viewBox="0 0 24 24">
-            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1 .25 1 .25s.99.03 1.47.43l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1-.22 1-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
-        </svg>
-    </button>
+    <!-- 🌐 ЭКРАН ЗАГРУЗКИ ХАКЕРСКОГО ПЕРЕВОДА -->
+    <div id="translate-preloader">
+        <div class="translate-title" id="trans-loading-text">TRANSLATING SYSTEM...</div>
+        <div class="translate-bar-bg"><div class="translate-bar-fill" id="transBarFill"></div></div>
+    </div>
+
+    <!-- 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР В ОДИН РЯД -->
+    <div class="top-navbar">
+        <a href="#suggest" class="action-link-btn" id="nav-suggest-btn" onclick="openSuggestModal(event)">💡 Предложения</a>
+        <a href="#review" class="action-link-btn" id="nav-review-btn" onclick="openReviewModal(event)">✍️ Отзывы</a>
+        
+        <button class="settings-btn" id="openSettings" title="Настройки">
+            <svg viewBox="0 0 24 24">
+                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1-.22 1-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+            </svg>
+        </button>
+    </div>
 
     <div class="header">
-        <h1>HardwareVS</h1>
+        <h1 id="main-logo-text">HardwareVS</h1>
     </div>
 
     <div class="buttons-container">
-        <a href="gpu.html" class="nav-btn">Сравнить видеокарты</a>
-        <a href="cpu.html" class="nav-btn">Сравнить процессоры</a>
+        <a href="gpu.html" class="nav-btn" id="btn-gpu-text">Сравнить видеокарты</a>
+        <a href="cpu.html" class="nav-btn" id="btn-cpu-text">Сравнить процессоры</a>
     </div>
 
-    <!-- Модальное окно настроек -->
+    <!-- 1️⃣ ОКНО НАСТРОЕК (ЯЗЫК) -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
-            <div class="modal-header">Настройки сайта</div>
+            <div class="modal-header" id="modal-title-text">Настройки сайта</div>
             <div class="setting-row">
-                <div class="setting-label">Язык интерфейса:</div>
-                <div style="color: #fff; font-weight: bold; background: #211a3d; padding: 10px; border-radius: 6px; border: 1px solid var(--accent-purple);">
-                     🇷🇺 Русский (по умолчанию)
-                </div>
+                <div class="setting-label" id="label-lang-text">Язык интерфейса:</div>
+                <button class="lang-switch-btn" id="changeLangBtn">
+                    <span id="current-lang-name">🇷🇺 Русский</span>
+                    <span style="color: var(--neon-glow); font-size: 0.85rem;">CHANGE 🔁</span>
+                </button>
             </div>
             <div class="setting-row">
-                <div class="setting-label">Версия базы данных:</div>
-                <div style="color: #64f38c; font-size: 0.95rem; font-weight: bold;">
-                    ● Актуальная (PassMark 2026)
-                </div>
+                <div class="setting-label" id="label-db-text">Версия базы данных:</div>
+                <div style="color: #64f38c; font-size: 0.95rem; font-weight: bold;" id="db-status-text">● Актуальная (PassMark 2026)</div>
             </div>
             <button class="modal-close-btn" id="closeSettings">Закрыть</button>
         </div>
     </div>
 
+    <!-- 2️⃣ ОКНО ПРЕДЛОЖЕНИЙ ЖЕЛЕЗА -->
+    <div class="modal-overlay" id="suggestOverlay">
+        <div class="modal-content">
+            <div class="modal-header" id="suggest-header-text">Предложить новое железо</div>
+            <form action="mailto:bogdansklar43@gmail.com" method="GET" enctype="text/plain" style="margin: 0; padding: 0;">
+                <div class="setting-row">
+                    <div class="setting-label" id="suggest-label-type">Что добавить?</div>
+                    <select name="Тип комплектующего" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%;">
+                        <option value="Новая Видеокарта">📟 Новую видеокарту</option>
+                        <option value="Новый Процессор">🎛️ Новый процессор</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label" id="suggest-label-name">Название модели:</div>
+                    <input type="text" name="Название модели" placeholder="Напр. NVIDIA RTX 5070 Ti" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; box-sizing:border-box;" required>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label" id="suggest-label-specs">Характеристики (Ватты, Баллы):</div>
+                    <input type="text" name="Точные характеристики" placeholder="Точные баллы PassMark и TDP ватт без округлений" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; box-sizing:border-box;" required>
+                </div>
+                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #2ea043, #3fb950); margin-bottom: 10px;" id="suggest-btn-send">Отправить письмо</button>
+            </form>
+            <button class="modal-close-btn" onclick="closeSuggestModal()" id="suggest-btn-close">Отмена</button>
+        </div>
+    </div>
+
+    <!-- 3️⃣ ОКНО ОТЗЫВОВ АДМИНИСТРАЦИИ -->
+    <div class="modal-overlay" id="reviewOverlay">
+        <div class="modal-content">
+            <div class="modal-header" id="review-header-text">Оставить отзыв администрации</div>
+            <form action="mailto:bogdansklar43@gmail.com" method="GET" enctype="text/plain" style="margin: 0; padding: 0;">
+                <div class="setting-row">
+                    <div class="setting-label" id="review-label-name">Ваше имя или ник:</div>
+                    <input type="text" name="Имя пользователя" placeholder="Никнейм" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; box-sizing:border-box;" required>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label" id="review-label-stars">Оценка сайта:</div>
+                    <select name="Оценка сайта" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%;">
+                        <option value="5 из 5 звезд">5 из 5 ⭐⭐⭐⭐⭐</option>
+                        <option value="4 из 5 звезд">4 из 5 ⭐⭐⭐⭐</option>
+                        <option value="3 из 5 звезд">3 из 5 ⭐⭐⭐</option>
+                    </select>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-label" id="review-label-msg">Текст отзыва:</div>
+                    <textarea name="Текст отзыва" placeholder="Ваше мнение о сайте..." style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; height:80px; resize:none; font-family:inherit; box-sizing:border-box;" required></textarea>
+                </div>
+                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #0071e3, #005bb5); margin-bottom: 10px;" id="review-btn-send">Отправить отзыв</button>
+            </form>
+            <button class="modal-close-btn" onclick="closeReviewModal()" id="review-btn-close">Закрыть</button>
+        </div>
+    </div>
     <script>
+        const languages = {
+            ru: {
+                logo: "HardwareVS", btnGpu: "Сравнить видеокарты", btnCpu: "Сравнить процессоры",
+                modalTitle: "Настройки сайта", labelLang: "Язык интерфейса:", labelDb: "Версия базы данных:",
+                dbStatus: "● Актуальная (PassMark 2026)", modalClose: "Закрыть", currentLang: "🇷🇺 Русский",
+                navSuggest: "💡 Предложения", navReview: "✍️ Отзывы",
+                sHead: "Предложить новое железо", sType: "Что добавить?", sName: "Название модели:", sSpecs: "Характеристики (Ватты, Баллы):", sSend: "Отправить письмо", sClose: "Отмена",
+                rHead: "Оставить отзыв администрации", rName: "Ваше имя или ник:", rStars: "Оценка сайта:", rMsg: "Текст отзыва:", rSend: "Отправить отзыв", rClose: "Закрыть"
+            },
+            en: {
+                logo: "HARDWARE.VS", btnGpu: "COMPARE GRAPHICS CARDS", btnCpu: "COMPARE PROCESSORS",
+                modalTitle: "SYSTEM SETTINGS", labelLang: "INTERFACE LANGUAGE:", labelDb: "DATABASE VERSION:",
+                dbStatus: "● LIVE REPO (PassMark 2026)", modalClose: "CLOSE WINDOW", currentLang: "🇺🇸 English",
+                navSuggest: "💡 Suggestions", navReview: "✍️ Reviews",
+                sHead: "Suggest New Hardware", sType: "Hardware category:", sName: "Model name:", sSpecs: "Specs (Watts, Scores):", sSend: "Send Email", sClose: "Cancel",
+                rHead: "Leave Feedback to Admin", rName: "Your name or nick:", rStars: "Site rating:", rMsg: "Review message:", rSend: "Submit Review", rClose: "Close"
+            }
+        };
+
+        let currentLanguage = 'ru';
+
         window.addEventListener('DOMContentLoaded', () => {
-            // МГНОВЕННЫЙ ОУТРО-ЭФФЕКТ ДЛЯ БЫСТРОГО ВОЗВРАТА НАЗАД
             if (document.referrer.includes('gpu.html') || document.referrer.includes('cpu.html')) {
-                // Прячем длинную заставку полностью
                 document.getElementById('cinema-intro').style.display = 'none';
-                
-                // Делаем красивое появление из вспышки всего за 0.4 секунды
-                document.body.style.opacity = '0';
-                document.body.style.transform = 'scale(1.05)';
-                document.body.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                setTimeout(() => {
-                    document.body.style.opacity = '1';
-                    document.body.style.transform = 'scale(1)';
-                }, 50);
+                document.body.style.opacity = '0'; document.body.style.transform = 'scale(1.05)'; document.body.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                setTimeout(() => { document.body.style.opacity = '1'; document.body.style.transform = 'scale(1)'; }, 50);
                 return; 
             }
-
-            // --- ТРЕХЭТАПНОЕ СЮЖЕТНОЕ ИНТРО ---
-            const stageGpu = document.getElementById('stage-gpu');
-            const stageCpu = document.getElementById('stage-cpu');
-            const stageZoom = document.getElementById('stage-zoom');
-
-            // ЭТАП 1: Запуск теста видеокарт
+            const stageGpu = document.getElementById('stage-gpu'); const stageCpu = document.getElementById('stage-cpu'); const stageZoom = document.getElementById('stage-zoom');
             stageGpu.classList.add('active');
-            setTimeout(() => {
-                document.getElementById('gpuBar1').style.width = '95%';
-                document.getElementById('gpuBar2').style.width = '82%';
-                animatePoints('gpu-pts', 43300, 1000);
-            }, 100);
-
+            setTimeout(() => { document.getElementById('gpuBar1').style.width = '95%'; document.getElementById('gpuBar2').style.width = '78%'; animatePoints('gpu-pts', 39652, 1000); }, 100);
             setTimeout(() => { document.getElementById('gpuVerdict').classList.add('show'); }, 1100);
-
-            // ЭТАП 2: Переход на тест процессоров через 2.5 сек
             setTimeout(() => {
-                stageGpu.classList.remove('active');
-                stageCpu.classList.add('active');
-                setTimeout(() => {
-                    document.getElementById('cpuBar1').style.width = '92%';
-                    document.getElementById('cpuBar2').style.width = '88%';
-                    animatePoints('cpu-pts', 64000, 1000);
-                }, 50);
+                stageGpu.classList.remove('active'); stageCpu.classList.add('active');
+                setTimeout(() => { document.getElementById('cpuBar1').style.width = '92%'; document.getElementById('cpuBar2').style.width = '88%'; animatePoints('cpu-pts', 64000, 1000); }, 50);
             }, 2500);
-
             setTimeout(() => { document.getElementById('cpuVerdict').classList.add('show'); }, 3600);
+            setTimeout(() => { stageCpu.classList.remove('active'); stageZoom.classList.add('active'); }, 5000);
+            setTimeout(() => { document.getElementById('cinema-intro').classList.add('fade-out'); }, 6200);
 
-            // ЭТАП 3: Налетающий ЗУМ логотипа через 5 сек
-            setTimeout(() => {
-                stageCpu.classList.remove('active');
-                stageZoom.classList.add('active');
-            }, 5000);
-
-            // Полное растворение интро и показ главной страницы
-            setTimeout(() => {
-                document.getElementById('cinema-intro').classList.add('fade-out');
-            }, 6200);
-
-            // Генератор бегущих циферок
             function animatePoints(elementId, target, time) {
-                const el = document.getElementById(elementId);
-                let current = 0;
-                const start = performance.now();
+                const el = document.getElementById(elementId); let current = 0; const start = performance.now();
                 function step(now) {
-                    const elapsed = now - start;
-                    const progress = Math.min(elapsed / time, 1);
-                    current = Math.floor(progress * target);
-                    if(el) el.innerText = current + ' pts';
+                    const elapsed = now - start; const progress = Math.min(elapsed / time, 1);
+                    current = Math.floor(progress * target); if(el) el.innerText = current + ' pts';
                     if (progress < 1) requestAnimationFrame(step);
                 }
                 requestAnimationFrame(step);
             }
         });
 
-        // Кнопка настроек
-        const openBtn = document.getElementById('openSettings');
-        const closeBtn = document.getElementById('closeSettings');
-        const overlay = document.getElementById('modalOverlay');
+        function openSuggestModal(e) { e.preventDefault(); document.getElementById('suggestOverlay').classList.add('active'); }
+        function closeSuggestModal() { document.getElementById('suggestOverlay').classList.remove('active'); }
+        function openReviewModal(e) { e.preventDefault(); document.getElementById('reviewOverlay').classList.add('active'); }
+        function closeReviewModal() { document.getElementById('reviewOverlay').classList.remove('active'); }
+
+        const openBtn = document.getElementById('openSettings'); const closeBtn = document.getElementById('closeSettings'); const overlay = document.getElementById('modalOverlay');
         if(openBtn) openBtn.addEventListener('click', () => { overlay.classList.add('active'); });
         if(closeBtn) closeBtn.addEventListener('click', () => { overlay.classList.remove('active'); });
-        if(overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
+
+        changeLangBtn.addEventListener('click', () => {
+            overlay.classList.remove('active'); transPreloader.classList.add('active'); transBarFill.style.width = '0%';
+            setTimeout(() => { transBarFill.style.width = '100%'; }, 50);
+            const nextLang = currentLanguage === 'ru' ? 'en' : 'ru';
+
+            let intervals = [];
+            const scrambleElements = [
+                { id: 'main-logo-text', final: languages[nextLang].logo },
+                { id: 'btn-gpu-text', final: languages[nextLang].btnGpu },
+                { id: 'btn-cpu-text', final: languages[nextLang].btnCpu },
+                { id: 'nav-suggest-btn', final: languages[nextLang].navSuggest },
+                { id: 'nav-review-btn', final: languages[nextLang].navReview }
+            ];
+
+            scrambleElements.forEach(item => {
+                const el = document.getElementById(item.id); if(!el) return;
+                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@$%&*";
+                let interval = setInterval(() => {
+                    let scrambled = ""; for(let i=0; i<item.final.length; i++) scrambled += chars[Math.floor(Math.random() * chars.length)];
+                    el.innerText = scrambled;
+                }, 60); intervals.push(interval);
+            });
+
+            setTimeout(() => {
+                intervals.forEach(clearInterval); currentLanguage = nextLang; const data = languages[currentLanguage];
+                document.getElementById('main-logo-text').innerText = data.logo;
+                document.getElementById('btn-gpu-text').innerText = data.btnGpu;
+                document.getElementById('btn-cpu-text').innerText = data.btnCpu;
+                document.getElementById('nav-suggest-btn').innerText = data.navSuggest;
+                document.getElementById('nav-review-btn').innerText = data.navReview;
+                document.getElementById('modal-title-text').innerText = data.modalTitle;
+                document.getElementById('label-lang-text').innerText = data.labelLang;
+                document.getElementById('label-db-text').innerText = data.labelDb;
+                document.getElementById('db-status-text').innerText = data.dbStatus;
+                document.getElementById('closeSettings').innerText = data.modalClose;
+                document.getElementById('current-lang-name').innerText = data.currentLang;
+
+                document.getElementById('suggest-header-text').innerText = data.sHead;
+                document.getElementById('suggest-label-type').innerText = data.sType;
+                document.getElementById('suggest-label-name').innerText = data.sName;
+                document.getElementById('suggest-label-specs').innerText = data.sSpecs;
+                document.getElementById('suggest-btn-send').innerText = data.sSend;
+                document.getElementById('suggest-btn-close').innerText = data.sClose;
+
+                document.getElementById('review-header-text').innerText = data.rHead;
+                document.getElementById('review-label-name').innerText = data.rName;
+                document.getElementById('review-label-stars').innerText = data.rStars;
+                document.getElementById('review-label-msg').innerText = data.rMsg;
+                document.getElementById('review-btn-send').innerText = data.rSend;
+                document.getElementById('review-btn-close').innerText = data.rClose;
+
+                transPreloader.classList.remove('active');
+            }, 1800);
+        });
     </script>
 </body>
 </html>
