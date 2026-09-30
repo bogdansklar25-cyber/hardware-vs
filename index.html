@@ -3,16 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HardwareVS — Сравнение видеокарт</title>
+    <title>HardwareVS — Сравнение комплектующих</title>
     <style>
         :root {
-            --bg-color: #0d1117;
-            --card-bg: #161b22;
-            --accent-color: #ff9f00;
-            --text-color: #c9d1d9;
-            --bar-color-1: #2f81f7;
-            --bar-color-2: #e55350;
-            --bar-color-3: #3fb950;
+            --bg-color: #0b0813;
+            --card-bg: #140e28;
+            --accent-purple: #8a2be2;
+            --neon-glow: #bf55ec;
+            --text-color: #e2daf8;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -23,133 +21,68 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             min-height: 100vh;
+            box-sizing: border-box;
         }
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            margin-top: 20px;
+            margin-bottom: 50px;
         }
         .header h1 { 
-            font-size: 2.8rem; 
+            font-size: 3.5rem; 
             margin: 0; 
-            font-weight: 800; 
-            background: linear-gradient(45deg, var(--accent-color), #ff5500);
+            font-weight: 900; 
+            background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3));
         }
-        .header p { color: #8b949e; margin-top: 10px; font-size: 1.1rem; }
         
-        .compare-container {
-            background-color: var(--card-bg);
-            border: 1px solid #30363d;
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 650px;
-            width: 100%;
-            box-shadow: 0 12px 32px rgba(0,0,0,0.6);
-            box-sizing: border-box;
-        }
-        .select-group {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: 15px;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-        .vs-label {
-            font-weight: bold;
-            color: #8b949e;
-            font-size: 1.2rem;
-        }
-        select {
-            background-color: #21262d;
-            color: var(--text-color);
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 14px;
-            font-size: 1rem;
-            outline: none;
-            cursor: pointer;
-            width: 100%;
-            box-sizing: border-box;
-            transition: border-color 0.2s;
-        }
-        select:focus { border-color: var(--accent-color); }
-        
-        button {
-            width: 100%;
-            background: linear-gradient(90deg, var(--accent-color), #ff7b00);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            padding: 16px;
-            font-size: 1.15rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.1s ease, filter 0.2s;
-            box-shadow: 0 4px 14px rgba(255, 159, 0, 0.3);
-        }
-        button:hover { filter: brightness(1.1); }
-        button:active { transform: scale(0.98); }
-
-        .results { margin-top: 35px; display: none; }
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            color: #f0f6fc;
-            border-bottom: 1px solid #30363d;
-            padding-bottom: 8px;
-        }
-        .result-item { margin-bottom: 24px; }
-        .gpu-name-label { font-size: 0.95rem; color: #8b949e; margin-bottom: 6px; }
-        
-        .bar-container {
-            background-color: #21262d;
-            border-radius: 8px;
-            height: 28px;
-            overflow: hidden;
-            border: 1px solid #30363d;
-            position: relative;
-        }
-        .bar {
-            height: 100%;
-            width: 0%; 
-            transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1); 
+        .buttons-container {
             display: flex;
-            align-items: center;
-            padding-left: 12px;
-            font-size: 0.95rem;
+            gap: 25px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 2px solid var(--accent-purple);
+            border-radius: 12px;
+            padding: 24px;
+            font-size: 1.3rem;
             font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .nav-btn:hover {
+            background-color: var(--accent-purple);
             color: #fff;
-            box-sizing: border-box;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
-        }
-        .bar-mem { background: linear-gradient(90deg, #1f6feb, var(--bar-color-1)); }
-        .bar-watt { background: linear-gradient(90deg, #e55350, var(--bar-color-2)); }
-        .bar-power { background: linear-gradient(90deg, #2ea043, var(--bar-color-3)); }
-        
-        .summary {
-            margin-top: 30px;
-            padding: 18px;
-            background-color: rgba(255, 159, 0, 0.08);
-            border-left: 4px solid var(--accent-color);
-            border-radius: 0 8px 8px 0;
-            font-size: 1.1rem;
-            line-height: 1.5;
-            border-top: 1px solid rgba(255, 159, 0, 0.1);
-            border-right: 1px solid rgba(255, 159, 0, 0.1);
-            border-bottom: 1px solid rgba(255, 159, 0, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
+            border-color: var(--neon-glow);
         }
         
+        .nav-btn:active {
+            transform: translateY(-1px);
+        }
+
         @media (max-width: 500px) {
-            .select-group {
-                grid-template-columns: 1fr;
-                justify-items: center;
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 0 10px;
             }
-            .vs-label { margin: 5px 0; }
+            .nav-btn { padding: 20px; font-size: 1.15rem; }
+            .header h1 { font-size: 2.6rem; }
         }
     </style>
 </head>
@@ -157,202 +90,13 @@
 
     <div class="header">
         <h1>HardwareVS</h1>
-        <p>Баттл videoкарт: столкни их лбами и узнай чистую мощность!</p>
     </div>
 
-    <div class="compare-container">
-        <div class="select-group">
-            <select id="gpu1">
-                <option value="" disabled selected>Выберите карту 1 ⬇</option>
-            </select>
-            <div class="vs-label">VS</div>
-            <select id="gpu2">
-                <option value="" disabled selected>Выберите карту 2 ⬇</option>
-            </select>
-        </div>
-
-        <button onclick="compareGPUs()">Сравнить видеокарты!</button>
-
-        <div class="results" id="resultsBlock">
-            <div class="section-title">📋 Объем видеопамяти:</div>
-            <div class="result-item">
-                <div class="gpu-name-label" id="memName1">Карта 1</div>
-                <div class="bar-container"><div class="bar bar-mem" id="barMem1">0</div></div>
-            </div>
-            <div class="result-item">
-                <div class="gpu-name-label" id="memName2">Карта 2</div>
-                <div class="bar-container"><div class="bar bar-mem" id="barMem2">0</div></div>
-            </div>
-
-            <div class="section-title">⚡ Потребление энергии (Ватты):</div>
-            <div class="result-item">
-                <div class="gpu-name-label" id="wattName1">Карта 1</div>
-                <div class="bar-container"><div class="bar bar-watt" id="barWatt1">0</div></div>
-            </div>
-            <div class="result-item">
-                <div class="gpu-name-label" id="wattName2">Карта 2</div>
-                <div class="bar-container"><div class="bar bar-watt" id="barWatt2">0</div></div>
-            </div>
-
-            <div class="section-title">🚀 Мощность (Чистые баллы PassMark):</div>
-            <div class="result-item">
-                <div class="gpu-name-label" id="powerName1">Карта 1</div>
-                <div class="bar-container"><div class="bar bar-power" id="barPower1">0</div></div>
-            </div>
-            <div class="result-item">
-                <div class="gpu-name-label" id="powerName2">Карта 2</div>
-                <div class="bar-container"><div class="bar bar-power" id="barPower2">0</div></div>
-            </div>
-
-            <div class="summary" id="summaryText"></div>
-        </div>
+    <div class="buttons-container">
+        <!-- Кнопки реагируют на наведение и ведут на отдельные файлы сравнения -->
+        <a href="gpu.html" class="nav-btn">Сравнить видеокарты</a>
+        <a href="cpu.html" class="nav-btn">Сравнить процессоры</a>
     </div>
 
-    <script>
-        const gpuDatabase = [
-            { name: "NVIDIA GT 1030", score: 1500, watt: 30, mem: 2 },
-            { name: "NVIDIA GTX 1050", score: 4300, watt: 75, mem: 2 },
-            { name: "NVIDIA GTX 1050 Ti", score: 4500, watt: 75, mem: 4 },
-            { name: "NVIDIA GTX 1060 3GB", score: 7900, watt: 120, mem: 3 },
-            { name: "NVIDIA GTX 1060 6GB", score: 9500, watt: 120, mem: 6 },
-            { name: "NVIDIA GTX 1070", score: 13300, watt: 150, mem: 8 },
-            { name: "NVIDIA GTX 1070 Ti", score: 14700, watt: 180, mem: 8 },
-            { name: "NVIDIA GTX 1080", score: 15400, watt: 180, mem: 8 },
-            { name: "NVIDIA GTX 1080 Ti", score: 18200, watt: 250, mem: 11 },
-            { name: "NVIDIA GTX 1650", score: 7800, watt: 75, mem: 4 },
-            { name: "NVIDIA GTX 1650 Super", score: 9600, watt: 100, mem: 4 },
-            { name: "NVIDIA GTX 1660", score: 11600, watt: 120, mem: 6 },
-            { name: "NVIDIA GTX 1660 Super", score: 12700, watt: 125, mem: 6 },
-            { name: "NVIDIA GTX 1660 Ti", score: 12800, watt: 120, mem: 6 },
-            { name: "NVIDIA RTX 2060", score: 14100, watt: 160, mem: 6 },
-            { name: "NVIDIA RTX 2060 Super", score: 16400, watt: 175, mem: 8 },
-            { name: "NVIDIA RTX 2070", score: 16200, watt: 175, mem: 8 },
-            { name: "NVIDIA RTX 2070 Super", score: 18100, watt: 215, mem: 8 },
-            { name: "NVIDIA RTX 2080", score: 18700, watt: 215, mem: 8 },
-            { name: "NVIDIA RTX 2080 Super", score: 19500, watt: 250, mem: 8 },
-            { name: "NVIDIA RTX 2080 Ti", score: 21800, watt: 250, mem: 11 },
-            { name: "NVIDIA RTX 3050 6GB", score: 9200, watt: 70, mem: 6 },
-            { name: "NVIDIA RTX 3050 8GB", score: 12800, watt: 130, mem: 8 },
-            { name: "NVIDIA RTX 3060 12GB", score: 17100, watt: 170, mem: 12 },
-            { name: "NVIDIA RTX 3060 Ti", score: 20600, watt: 200, mem: 8 },
-            { name: "NVIDIA RTX 3070", score: 22100, watt: 220, mem: 8 },
-            { name: "NVIDIA RTX 3070 Ti", score: 23600, watt: 290, mem: 8 },
-            { name: "NVIDIA RTX 3080", score: 24800, watt: 320, mem: 10 },
-            { name: "NVIDIA RTX 3080 Ti", score: 26600, watt: 350, mem: 12 },
-            { name: "NVIDIA RTX 3090", score: 26800, watt: 350, mem: 24 },
-            { name: "NVIDIA RTX 3090 Ti", score: 29800, watt: 450, mem: 24 },
-            { name: "NVIDIA RTX 4060", score: 22800, watt: 115, mem: 8 },
-Используйте код с осторожностью.
-{ name: "NVIDIA RTX 4060 Ti", score: 26200, watt: 160, mem: 8 },
-{ name: "NVIDIA RTX 4070", score: 31700, watt: 200, mem: 12 },
-{ name: "NVIDIA RTX 4070 Super", score: 35400, watt: 220, mem: 12 },
-{ name: "NVIDIA RTX 4070 Ti", score: 36800, watt: 285, mem: 12 },
-{ name: "NVIDIA RTX 4070 Ti Super", score: 38200, watt: 285, mem: 16 },
-{ name: "NVIDIA RTX 4080", score: 40200, watt: 320, mem: 16 },
-{ name: "NVIDIA RTX 4080 Super", score: 42100, watt: 320, mem: 16 },
-{ name: "NVIDIA RTX 4090", score: 43300, watt: 450, mem: 24 },
-{ name: "NVIDIA RTX 5060", score: 31000, watt: 140, mem: 12 },
-{ name: "NVIDIA RTX 5070", score: 42000, watt: 220, mem: 12 },
-{ name: "NVIDIA RTX 5080", score: 53000, watt: 400, mem: 16 },
-{ name: "NVIDIA RTX 5090 🚀", score: 71000, watt: 600, mem: 32 },
-{ name: "AMD RX 470 4GB", score: 7700, watt: 120, mem: 4 },
-{ name: "AMD RX 480 8GB", score: 8100, watt: 150, mem: 8 },
-{ name: "AMD RX 550", score: 2600, watt: 50, mem: 2 },
-{ name: "AMD RX 560", score: 3600, watt: 75, mem: 4 },
-{ name: "AMD RX 570 4GB", score: 6900, watt: 150, mem: 4 },
-{ name: "AMD RX 570 8GB", score: 7000, watt: 150, mem: 8 },
-{ name: "AMD RX 580 4GB", score: 8700, watt: 185, mem: 4 },
-{ name: "AMD RX 580 8GB", score: 8800, watt: 185, mem: 8 },
-{ name: "AMD RX 590", score: 10200, watt: 225, mem: 8 },
-{ name: "AMD RX 5500 XT", score: 9000, watt: 130, mem: 8 },
-{ name: "AMD RX 5600 XT", score: 13800, watt: 150, mem: 6 },
-{ name: "AMD RX 5700", score: 14400, watt: 180, mem: 8 },
-{ name: "AMD RX 5700 XT", score: 16700, watt: 225, mem: 8 },
-{ name: "AMD RX 6400", score: 7500, watt: 53, mem: 4 },
-{ name: "AMD RX 6500 XT", score: 9400, watt: 107, mem: 4 },
-{ name: "AMD RX 6600", score: 14900, watt: 132, mem: 8 },
-{ name: "AMD RX 6600 XT", score: 18800, watt: 160, mem: 8 },
-{ name: "AMD RX 6650 XT", score: 19500, watt: 180, mem: 8 },
-{ name: "AMD RX 6700", score: 18200, watt: 175, mem: 10 },
-{ name: "AMD RX 6700 XT", score: 19900, watt: 230, mem: 12 },
-{ name: "AMD RX 6750 XT", score: 21300, watt: 250, mem: 12 },
-{ name: "AMD RX 6800", score: 22400, watt: 250, mem: 16 },
-{ name: "AMD RX 6800 XT", score: 25600, watt: 300, mem: 16 },
-{ name: "AMD RX 6900 XT", score: 27100, watt: 300, mem: 16 },
-{ name: "AMD RX 6950 XT", score: 28800, watt: 335, mem: 16 },
-{ name: "AMD RX 7600", score: 20100, watt: 165, mem: 8 },
-{ name: "AMD RX 7600 XT", score: 21400, watt: 190, mem: 16 },
-{ name: "AMD RX 7700 XT", score: 27800, watt: 245, mem: 12 },
-{ name: "AMD RX 7800 XT", score: 31200, watt: 263, mem: 16 },
-{ name: "AMD RX 7900 GRE", score: 32400, watt: 260, mem: 16 },
-{ name: "AMD RX 7900 XT", score: 37400, watt: 315, mem: 20 },
-{ name: "AMD RX 7900 XTX 💥", score: 41200, watt: 355, mem: 24 },
-{ name: "AMD RX 8600 XT 🆕", score: 29000, watt: 170, mem: 12 },
-{ name: "AMD RX 8700 XT 🆕", score: 39500, watt: 240, mem: 16 },
-{ name: "AMD RX 8800 XT 🚀", score: 49000, watt: 280, mem: 16 }];
-const s1 = document.getElementById('gpu1');
-const s2 = document.getElementById('gpu2');
-gpuDatabase.forEach((gpu, index) => {
-let opt1 = document.createElement('option');
-opt1.value = index;
-opt1.textContent = gpu.name;
-s1.appendChild(opt1);
-let opt2 = document.createElement('option');
-opt2.value = index;
-opt2.textContent = gpu.name;
-s2.appendChild(opt2);
-});
-function compareGPUs() {
-const index1 = s1.value;
-const index2 = s2.value;
-if (index1 === "" || index2 === "") {
-alert('Пожалуйста, выберите обе видеокарты!');
-return;}
-const card1 = gpuDatabase[index1];
-const card2 = gpuDatabase[index2];
-document.getElementById('memName1').innerText = card1.name;
-document.getElementById('memName2').innerText = card2.name;
-document.getElementById('wattName1').innerText = card1.name;
-document.getElementById('wattName2').innerText = card2.name;
-document.getElementById('powerName1').innerText = card1.name;
-document.getElementById('powerName2').innerText = card2.name;
-const maxMem = Math.max(card1.mem, card2.mem, 1);
-const maxWatt = Math.max(card1.watt, card2.watt, 1);
-const maxScore = Math.max(card1.score, card2.score, 1);
-document.getElementById('resultsBlock').style.display = 'block';
-setTimeout(() => {
-const bMem1 = document.getElementById('barMem1');
-const bMem2 = document.getElementById('barMem2');
-bMem1.style.width = (card1.mem / maxMem * 100) + '%';
-bMem1.innerText = card1.mem + ' ГБ';
-bMem2.style.width = (card2.mem / maxMem * 100) + '%';
-bMem2.innerText = card2.mem + ' ГБ';
-const bWatt1 = document.getElementById('barWatt1');
-const bWatt2 = document.getElementById('barWatt2');
-bWatt1.style.width = (card1.watt / maxWatt * 100) + '%';
-bWatt1.innerText = card1.watt + ' W';
-bWatt2.style.width = (card2.watt / maxWatt * 100) + '%';
-bWatt2.innerText = card2.watt + ' W';
-const bPower1 = document.getElementById('barPower1');
-const bPower2 = document.getElementById('barPower2');
-bPower1.style.width = (card1.score / maxScore * 100) + '%';
-bPower1.innerText = card1.score + ' pts';
-bPower2.style.width = (card2.score / maxScore * 100) + '%';
-bPower2.innerText = card2.score + ' pts';
-}, 50);
-function getBallWord(num) {
-let n = Math.abs(num) % 100;
-if (n >= 5 && n <= 20) return 'баллов';
-n %= 10;
-if (n === 1) return 'балл';
-if (n >= 2 && n <= 4) return 'балла';
-return 'баллов';}
-const diff = Math.abs(card1.score - card2.score);
-let text = '';
-if (card1.score > card2.score) {
-text = Модель <strong>${card1.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
-} else if (card2.score > card1.score) {
-text = Модель <strong>${card2.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
-} else {
-text = Обе видеокарты имеют абсолютно одинаковую производительность!;}
-document.getElementById('summaryText').innerHTML = text;}
+</body>
+</html>
