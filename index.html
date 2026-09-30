@@ -24,7 +24,36 @@
             justify-content: center;
             min-height: 100vh;
             box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
         }
+        
+        /* Кнопка настроек (Шестерёнка) */
+        .settings-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease, color 0.3s;
+            filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2));
+        }
+        .settings-btn:hover {
+            color: var(--neon-glow);
+            transform: rotate(90deg);
+        }
+        .settings-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: currentColor;
+        }
+
         .header {
             text-align: center;
             margin-bottom: 50px;
@@ -45,6 +74,7 @@
             gap: 25px;
             max-width: 600px;
             width: 100%;
+            z-index: 2;
         }
         
         .nav-btn {
@@ -71,32 +101,141 @@
             border-color: var(--neon-glow);
         }
         
-        .nav-btn:active {
-            transform: translateY(-1px);
+        /* Всплывающее окно настроек (Модальное окно) */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(11, 8, 19, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+            backdrop-filter: blur(4px);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 2px solid var(--accent-purple);
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.4);
+            transform: scale(0.85);
+            transition: transform 0.3s ease;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .modal-overlay.active .modal-content {
+            transform: scale(1);
+        }
+        .modal-header {
+            font-size: 1.6rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #fff;
+            border-bottom: 1px solid #302654;
+            padding-bottom: 10px;
+        }
+        .setting-row {
+            margin-bottom: 20px;
+        }
+        .setting-label {
+            font-size: 1.05rem;
+            margin-bottom: 8px;
+            color: #bfaee3;
+        }
+        .modal-close-btn {
+            width: 100%;
+            background-color: var(--accent-purple);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .modal-close-btn:hover {
+            background-color: var(--neon-glow);
         }
 
         @media (max-width: 500px) {
-            .buttons-container {
-                flex-direction: column;
-                gap: 15px;
-                padding: 0 10px;
-            }
+            .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; }
             .nav-btn { padding: 20px; font-size: 1.15rem; }
             .header h1 { font-size: 2.6rem; }
+            .settings-btn { top: 15px; right: 15px; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Кнопка-Шестерёнка -->
+    <button class="settings-btn" id="openSettings" title="Настройки">
+        <svg viewBox="0 0 24 24">
+            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 ... 1.25-1.25 1.25-1.25z"/>
+        </svg>
+    </button>
 
     <div class="header">
         <h1>HardwareVS</h1>
     </div>
 
     <div class="buttons-container">
-        <!-- Кнопки реагируют на наведение и ведут на отдельные файлы сравнения -->
         <a href="gpu.html" class="nav-btn">Сравнить видеокарты</a>
         <a href="cpu.html" class="nav-btn">Сравнить процессоры</a>
     </div>
 
+    <!-- Модальное окно настроек -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header">Настройки сайта</div>
+            
+            <div class="setting-row">
+                <div class="setting-label">Язык интерфейса:</div>
+                <div style="color: #fff; font-weight: bold; background: #211a3d; padding: 10px; border-radius: 6px; border: 1px solid var(--accent-purple);">
+                     🇷🇺 Русский (по умолчанию)
+                </div>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-label">Версия базы данных:</div>
+                <div style="color: #64f38c; font-size: 0.95rem; font-weight: bold;">
+                    ● Актуальная (PassMark 2026)
+                </div>
+            </div>
+
+            <button class="modal-close-btn" id="closeSettings">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        const openBtn = document.getElementById('openSettings');
+        const closeBtn = document.getElementById('closeSettings');
+        const overlay = document.getElementById('modalOverlay');
+
+        openBtn.addEventListener('click', () => {
+            overlay.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.remove('active');
+        });
+
+        // Закрытие при клике на темную область вокруг окна
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('active');
+            }
+        });
+    </script>
 </body>
 </html>
