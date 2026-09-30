@@ -11,7 +11,7 @@
             --accent-color: #ff9f00;
             --text-color: #c9d1d9;
             --bar-color-1: #2f81f7;
-            --bar-color-2: #f25f5c;
+            --bar-color-2: #e55350;
             --bar-color-3: #3fb950;
         }
         body {
@@ -157,14 +157,13 @@
 
     <div class="header">
         <h1>HardwareVS</h1>
-        <p>Баттл видеокарт: столкни их лбами и узнай чистую мощность!</p>
+        <p>Баттл videoкарт: столкни их лбами и узнай чистую мощность!</p>
     </div>
 
     <div class="compare-container">
         <div class="select-group">
             <select id="gpu1">
                 <option value="" disabled selected>Выберите карту 1 ⬇</option>
-                <!-- База видеокарт будет автоматически обработана скриптом -->
             </select>
             <div class="vs-label">VS</div>
             <select id="gpu2">
@@ -210,7 +209,6 @@
     </div>
 
     <script>
-        // Полная база данных ваших видеокарт (имя, баллы PassMark, Ватты, Память в ГБ)
         const gpuDatabase = [
             { name: "NVIDIA GT 1030", score: 1500, watt: 30, mem: 2 },
             { name: "NVIDIA GTX 1050", score: 4300, watt: 75, mem: 2 },
@@ -242,8 +240,9 @@
             { name: "NVIDIA RTX 3080", score: 24800, watt: 320, mem: 10 },
             { name: "NVIDIA RTX 3080 Ti", score: 26600, watt: 350, mem: 12 },
             { name: "NVIDIA RTX 3090", score: 26800, watt: 350, mem: 24 },
-{ name: "NVIDIA RTX 3090 Ti", score: 29800, watt: 450, mem: 24 },
-{ name: "NVIDIA RTX 4060", score: 22800, watt: 115, mem: 8 },
+            { name: "NVIDIA RTX 3090 Ti", score: 29800, watt: 450, mem: 24 },
+            { name: "NVIDIA RTX 4060", score: 22800, watt: 115, mem: 8 },
+Используйте код с осторожностью.
 { name: "NVIDIA RTX 4060 Ti", score: 26200, watt: 160, mem: 8 },
 { name: "NVIDIA RTX 4070", score: 31700, watt: 200, mem: 12 },
 { name: "NVIDIA RTX 4070 Super", score: 35400, watt: 220, mem: 12 },
@@ -290,9 +289,7 @@
 { name: "AMD RX 7900 XTX 💥", score: 41200, watt: 355, mem: 24 },
 { name: "AMD RX 8600 XT 🆕", score: 29000, watt: 170, mem: 12 },
 { name: "AMD RX 8700 XT 🆕", score: 39500, watt: 240, mem: 16 },
-{ name: "AMD RX 8800 XT 🚀", score: 49000, watt: 280, mem: 16 }
-];
-// Заполняем выпадающие списки из базы данных
+{ name: "AMD RX 8800 XT 🚀", score: 49000, watt: 280, mem: 16 }];
 const s1 = document.getElementById('gpu1');
 const s2 = document.getElementById('gpu2');
 gpuDatabase.forEach((gpu, index) => {
@@ -310,23 +307,19 @@ const index1 = s1.value;
 const index2 = s2.value;
 if (index1 === "" || index2 === "") {
 alert('Пожалуйста, выберите обе видеокарты!');
-return;
-}
+return;}
 const card1 = gpuDatabase[index1];
 const card2 = gpuDatabase[index2];
-// Имена для подписей шкал
 document.getElementById('memName1').innerText = card1.name;
 document.getElementById('memName2').innerText = card2.name;
 document.getElementById('wattName1').innerText = card1.name;
 document.getElementById('wattName2').innerText = card2.name;
 document.getElementById('powerName1').innerText = card1.name;
 document.getElementById('powerName2').innerText = card2.name;
-// Расчет максимальных значений для правильных пропорций шкал
 const maxMem = Math.max(card1.mem, card2.mem, 1);
 const maxWatt = Math.max(card1.watt, card2.watt, 1);
 const maxScore = Math.max(card1.score, card2.score, 1);
 document.getElementById('resultsBlock').style.display = 'block';
-// Плавный запуск анимации выезда шкал
 setTimeout(() => {
 const bMem1 = document.getElementById('barMem1');
 const bMem2 = document.getElementById('barMem2');
@@ -347,15 +340,13 @@ bPower1.innerText = card1.score + ' pts';
 bPower2.style.width = (card2.score / maxScore * 100) + '%';
 bPower2.innerText = card2.score + ' pts';
 }, 50);
-// Функция для склонения слова "балл"
 function getBallWord(num) {
 let n = Math.abs(num) % 100;
 if (n >= 5 && n <= 20) return 'баллов';
 n %= 10;
 if (n === 1) return 'балл';
 if (n >= 2 && n <= 4) return 'балла';
-return 'баллов';
-}
+return 'баллов';}
 const diff = Math.abs(card1.score - card2.score);
 let text = '';
 if (card1.score > card2.score) {
@@ -363,7 +354,5 @@ text = Модель <strong>${card1.name}</strong> мощнее в тестах 
 } else if (card2.score > card1.score) {
 text = Модель <strong>${card2.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
 } else {
-text = Обе видеокарты имеют абсолютно одинаковую производительность!;
-}
-document.getElementById('summaryText').innerHTML = text;
-}
+text = Обе видеокарты имеют абсолютно одинаковую производительность!;}
+document.getElementById('summaryText').innerHTML = text;}
