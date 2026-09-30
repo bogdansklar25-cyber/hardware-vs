@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: 'Segoe UI', sans-serif; background-color: #ffffff; text-align: center; padding: 10px; margin: 0; color: #333; }
+  .compare-container { display: inline-flex; align-items: center; gap: 15px; background: #f5f5f7; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.06); margin-bottom: 25px; box-sizing: border-box; width: 100%; max-width: 500px; flex-direction: column; }
+  select, button { padding: 12px 20px; font-size: 16px; border: 2px solid #ccc; border-radius: 8px; background-color: white; cursor: pointer; width: 100%; outline: none; font-weight: bold; box-sizing: border-box; }
+  select:focus { border-color: #0071e3; }
+  button { background-color: #0071e3; color: white; border: none; transition: background 0.2s; }
+  button:hover { background-color: #005bb5; }
+  .result-box { display: none; width: 100%; max-width: 500px; margin: 0 auto; background: #ffffff; border: 2px solid #f0f0f2; padding: 15px; border-radius: 16px; text-align: left; box-shadow: 0 10px 20px rgba(0,0,0,0.05); box-sizing: border-box; }
+  .metric-title { font-size: 14px; font-weight: bold; margin-top: 15px; margin-bottom: 5px; color: #555; }
+  .gpu-label { font-size: 13px; font-weight: 500; margin-bottom: 4px; display: flex; justify-content: space-between; gap: 10px; }
+  .bar-container { background-color: #e5e5ea; border-radius: 8px; height: 24px; width: 100%; margin-bottom: 12px; overflow: hidden;
+}
+  .bar-fill { height: 100%; border-radius: 8px; transition: width 1s ease-in-out; display: flex; align-items: center; padding-left: 10px; color: white; font-weight: bold; font-size: 12px; box-sizing: border-box; }
+  .bg-vram { background: linear-gradient(90deg, #0071e3, #00c7ff); }
+  .bg-watts { background: linear-gradient(90deg, #ff9500, #ffcc00); }
+  .bg-power { background: linear-gradient(90deg, #76b900, #5da300); }
+  .verdict { margin-top: 20px; padding: 12px; background-color: #e8f4ff; border-radius: 8px; font-size: 14px; line-height: 1.4; font-weight: 500; border-left: 5px solid #0071e3; }
+  @media (max-width: 600px) { padding-bottom: 450px !important; .compare-container { padding: 15px; } .gpu-label { flex-direction: column; align-items: flex-start; gap: 2px; } }
+</style>
+</head>
+<body>
+
+<h3>Сравнение видеокарт в тесте PassMark</h3>
+<div class="compare-container">
+  
+  <select id="gpu1">
+    <option value="" disabled selected>Выберите видеокарту 1 ⬇</option>
+    <!-- Карты 1-10 -->
+    <option value="gt1030">NVIDIA GT 1030</option>
+    <option value="gtx1050">NVIDIA GTX 1050</option>
+    <option value="gtx1050ti">NVIDIA GTX 1050 Ti</option>
+    <option value="gtx1060_3">NVIDIA GTX 1060 3GB</option>
+    <option value="gtx1060_6">NVIDIA GTX 1060 6GB</option>
+    <option value="gtx1070">NVIDIA GTX 1070</option>
+    <option value="gtx1070ti">NVIDIA GTX 1070 Ti</option>
+    <option value="gtx1080">NVIDIA GTX 1080</option>
+    <option value="gtx1080ti">NVIDIA GTX 1080 Ti</option>
+    <option value="gtx1650">NVIDIA GTX 1650</option>
+    <option value="gtx1650s">NVIDIA GTX 1650 Super</option>
+    <option value="gtx1660">NVIDIA GTX 1660</option>
+    <option value="gtx1660s">NVIDIA GTX 1660 Super</option>
+    <option value="gtx1660ti">NVIDIA GTX 1660 Ti</option>
+    <option value="rtx2060">NVIDIA RTX 2060</option>
+    <option value="rtx2060s">NVIDIA RTX 2060 Super</option>
+    <option value="rtx2070">NVIDIA RTX 2070</option>
+    <option value="rtx2070s">NVIDIA RTX 2070 Super</option>
+    <option value="rtx2080">NVIDIA RTX 2080</option>
+    <option value="rtx2080s">NVIDIA RTX 2080 Super</option>
+    <option value="rtx2080ti">NVIDIA RTX 2080 Ti</option>
+    <option value="rtx3050_6">NVIDIA RTX 3050 6GB</option>
+    <option value="rtx3050_8">NVIDIA RTX 3050 8GB</option>
+    <option value="rtx3060">NVIDIA RTX 3060 12GB</option>
+    <option value="rtx3060ti">NVIDIA RTX 3060 Ti</option>
+    <option value="rtx3070">NVIDIA RTX 3070</option>
+    <option value="rtx3070ti">NVIDIA RTX 3070 Ti</option>
+    <option value="rtx3080">NVIDIA RTX 3080</option>
+    <option value="rtx3080ti">NVIDIA RTX 3080 Ti</option>
+    <option value="rtx3090">NVIDIA RTX 3090</option>
+    <option value="rtx3090ti">NVIDIA RTX 3090 Ti</option>
+    <option value="rtx4060">NVIDIA RTX 4060</option>
+    <option value="rtx4060ti">NVIDIA RTX 4060 Ti</option>
+    <option value="rtx4070">NVIDIA RTX 4070</option>
+    <option value="rtx4070s">NVIDIA RTX 4070 Super</option>
+    <option value="rtx4070ti">NVIDIA RTX 4070 Ti</option>
+    <option value="rtx4070tis">NVIDIA RTX 4070 Ti Super</option>
+    <option value="rtx4080">NVIDIA RTX 4080</option>
+    <option value="rtx4080s">NVIDIA RTX 4080 Super</option>
+    <option value="rtx4090">NVIDIA RTX 4090</option>
+    <option value="rtx5060">NVIDIA RTX 5060</option>
+    <option value="rtx5070">NVIDIA RTX 5070</option>
+    <option value="rtx5080">NVIDIA RTX 5080</option>
+    <option value="rtx5090">NVIDIA RTX 5090 🚀</option>
+    <!-- Блок AMD Radeon (Список 1) -->
+    <option value="rx470_4">AMD RX 470 4GB</option>
+    <option value="rx480_8">AMD RX 480 8GB</option>
+    <option value="rx550">AMD RX 550</option>
+    <option value="rx560">AMD RX 560</option>
+    <option value="rx570_4">AMD RX 570 4GB</option>
+    <option value="rx570_8">AMD RX 570 8GB</option>
+    <option value="rx580_4">AMD RX 580 4GB</option>
+    <option value="rx580_8">AMD RX 580 8GB</option>
+    <option value="rx590">AMD RX 590</option>
+    <option value="rx5500xt">AMD RX 5500 XT</option>
+    <option value="rx5600xt">AMD RX 5600 XT</option>
+    <option value="rx5700">AMD RX 5700</option>
+    <option value="rx5700xt">AMD RX 5700 XT</option>
+    <option value="rx6400">AMD RX 6400</option>
+    <option value="rx6500xt">AMD RX 6500 XT</option>
+    <option value="rx6600">AMD RX 6600</option>
+    <option value="rx6600xt">AMD RX 6600 XT</option>
+    <option value="rx6650xt">AMD RX 6650 XT</option>
+    <option value="rx6700">AMD RX 6700</option>
+    <option value="rx6700xt">AMD RX 6700 XT</option>
+    <option value="rx6750xt">AMD RX 6750 XT</option>
+    <option value="rx6800">AMD RX 6800</option>
+    <option value="rx6800xt">AMD RX 6800 XT</option>
+    <option value="rx6900xt">AMD RX 6900 XT</option>
+    <option value="rx6950xt">AMD RX 6950 XT</option>
+    <option value="rx7600">AMD RX 7600</option>
+    <option value="rx7600xt">AMD RX 7600 XT</option>
+    <option value="rx7700xt">AMD RX 7700 XT</option>
+    <option value="rx7800xt">AMD RX 7800 XT</option>
+    <option value="rx7900gre">AMD RX 7900 GRE</option>
+    <option value="rx7900xt">AMD RX 7900 XT</option>
+    <option value="rx7900xtx">AMD RX 7900 XTX 💥</option>
+    <option value="rx8600xt">AMD RX 8600 XT 🆕</option>
+    <option value="rx8700xt">AMD RX 8700 XT 🆕</option>
+    <option value="rx8800xt">AMD RX 8800 XT 🚀</option>
+  </select>
+  
+  <span class="vs-text">VS</span>
+  
+  <!-- Открываем точно такой же второй список выбора -->
+  <select id="gpu2">
+    <option value="" disabled selected>Выберите видеокарту 2 ⬇</option>
+    <!-- Карты 1-10 для второго списка -->
+    <option value="gt1030">NVIDIA GT 1030</option>
+    <option value="gtx1050">NVIDIA GTX 1050</option>
+    <option value="gtx1050ti">NVIDIA GTX 1050 Ti</option>
+    <option value="gtx1060_3">NVIDIA GTX 1060 3GB</option>
+    <option value="gtx1060_6">NVIDIA GTX 1060 6GB</option>
+    <option value="gtx1070">NVIDIA GTX 1070</option>
+    <option value="gtx1070ti">NVIDIA GTX 1070 Ti</option>
+    <option value="gtx1080">NVIDIA GTX 1080</option>
+    <option value="gtx1080ti">NVIDIA GTX 1080 Ti</option>
+    <option value="gtx1650">NVIDIA GTX 1650</option>
+    <option value="gtx1650s">NVIDIA GTX 1650 Super</option>
+    <option value="gtx1660">NVIDIA GTX 1660</option>
+    <option value="gtx1660s">NVIDIA GTX 1660 Super</option>
+    <option value="gtx1660ti">NVIDIA GTX 1660 Ti</option>
+    <option value="rtx2060">NVIDIA RTX 2060</option>
+    <option value="rtx2060s">NVIDIA RTX 2060 Super</option>
+    <option value="rtx2070">NVIDIA RTX 2070</option>
+    <option value="rtx2070s">NVIDIA RTX 2070 Super</option>
+    <option value="rtx2080">NVIDIA RTX 2080</option>
+    <option value="rtx2080s">NVIDIA RTX 2080 Super</option>
+    <option value="rtx2080ti">NVIDIA RTX 2080 Ti</option>
+    <option value="rtx3050_6">NVIDIA RTX 3050 6GB</option>
+    <option value="rtx3050_8">NVIDIA RTX 3050 8GB</option>
+    <option value="rtx3060">NVIDIA RTX 3060 12GB</option>
+    <option value="rtx3060ti">NVIDIA RTX 3060 Ti</option>
+    <option value="rtx3070">NVIDIA RTX 3070</option>
+    <option value="rtx3070ti">NVIDIA RTX 3070 Ti</option>
+    <option value="rtx3080">NVIDIA RTX 3080</option>
+    <option value="rtx3080ti">NVIDIA RTX 3080 Ti</option>
+    <option value="rtx3090">NVIDIA RTX 3090</option>
+    <option value="rtx3090ti">NVIDIA RTX 3090 Ti</option>
+    <option value="rtx4060">NVIDIA RTX 4060</option>
+    <option value="rtx4060ti">NVIDIA RTX 4060 Ti</option>
+    <option value="rtx4070">NVIDIA RTX 4070</option>
+    <option value="rtx4070s">NVIDIA RTX 4070 Super</option>
+    <option value="rtx4070ti">NVIDIA RTX 4070 Ti</option>
+    <option value="rtx4070tis">NVIDIA RTX 4070 Ti Super</option>
+    <option value="rtx4080">NVIDIA RTX 4080</option>
+    <option value="rtx4080s">NVIDIA RTX 4080 Super</option>
+    <option value="rtx4090">NVIDIA RTX 4090</option>
+    <option value="rtx5060">NVIDIA RTX 5060</option>
+    <option value="rtx5070">NVIDIA RTX 5070</option>
+    <option value="rtx5080">NVIDIA RTX 5080</option>
+    <option value="rtx5090">NVIDIA RTX 5090 🚀</option>
+    <!-- Блок AMD Radeon (Список 1) -->
+    <option value="rx470_4">AMD RX 470 4GB</option>
+    <option value="rx480_8">AMD RX 480 8GB</option>
+    <option value="rx550">AMD RX 550</option>
+    <option value="rx560">AMD RX 560</option>
+    <option value="rx570_4">AMD RX 570 4GB</option>
+    <option value="rx570_8">AMD RX 570 8GB</option>
+    <option value="rx580_4">AMD RX 580 4GB</option>
+    <option value="rx580_8">AMD RX 580 8GB</option>
+    <option value="rx590">AMD RX 590</option>
+    <option value="rx5500xt">AMD RX 5500 XT</option>
+    <option value="rx5600xt">AMD RX 5600 XT</option>
+    <option value="rx5700">AMD RX 5700</option>
+    <option value="rx5700xt">AMD RX 5700 XT</option>
+    <option value="rx6400">AMD RX 6400</option>
+    <option value="rx6500xt">AMD RX 6500 XT</option>
+    <option value="rx6600">AMD RX 6600</option>
+    <option value="rx6600xt">AMD RX 6600 XT</option>
+    <option value="rx6650xt">AMD RX 6650 XT</option>
+    <option value="rx6700">AMD RX 6700</option>
+    <option value="rx6700xt">AMD RX 6700 XT</option>
+    <option value="rx6750xt">AMD RX 6750 XT</option>
+    <option value="rx6800">AMD RX 6800</option>
+    <option value="rx6800xt">AMD RX 6800 XT</option>
+    <option value="rx6900xt">AMD RX 6900 XT</option>
+    <option value="rx6950xt">AMD RX 6950 XT</option>
+    <option value="rx7600">AMD RX 7600</option>
+    <option value="rx7600xt">AMD RX 7600 XT</option>
+    <option value="rx7700xt">AMD RX 7700 XT</option>
+    <option value="rx7800xt">AMD RX 7800 XT</option>
+    <option value="rx7900gre">AMD RX 7900 GRE</option>
+    <option value="rx7900xt">AMD RX 7900 XT</option>
+    <option value="rx7900xtx">AMD RX 7900 XTX 💥</option>
+    <option value="rx8600xt">AMD RX 8600 XT 🆕</option>
+    <option value="rx8700xt">AMD RX 8700 XT 🆕</option>
+    <option value="rx8800xt">AMD RX 8800 XT 🚀</option>
+  </select>
+<div>
+  <button onclick="compareGPUs()">Сравнить видеокарты!</button>
+</div>
+
+<div id="resultBox" class="result-box">
+  <div class="metric-title">📋 Объем видеопамяти:</div>
+  <div id="vramBars"></div>
+
+  <div class="metric-title">⚡ Потребление энергии (Ватты):</div>
+  <div id="wattsBars"></div>
+
+  <div class="metric-title">🚀 Мощность:(Чистые баллы PassMark):</div>
+  <div id="powerBars"></div>
+  
+  <div id="verdictText" class="verdict"></div>
+</div>
+  </select>
+
+
+<div id="resultBox" class="result-box">
+  <div class="metric-title">📋 Объем видеопамяти:</div>
+  <div id="vramBars"></div>
+
+  <div class="metric-title">⚡ Потребление энергии (Ватты):</div>
+  <div id="wattsBars"></div>
+
+  <div class="metric-title">Сравнение мощности в тесте PassMark:</div>
+  <div id="powerBars"></div>
+  
+  <div id="verdictText" class="verdict"></div>
+</div>
+<script>
+const gpuData = {
+  // --- NVIDIA GeForce ---
+  gt1030: { n: "GT 1030", v: 2, w: 30, p: 2170 },
+  gtx1050: { n: "GTX 1050", v: 2, w: 75, p: 4300 },
+  gtx1050ti: { n: "GTX 1050 Ti", v: 4, w: 75, p: 5310 },
+  gtx1060_3: { n: "GTX 1060 3GB", v: 3, w: 120, p: 7900 },
+  gtx1060_6: { n: "GTX 1060 6GB", v: 6, w: 120, p: 10250 },
+  gtx1070: { n: "GTX 1070", v: 8, w: 150, p: 13350 },
+  gtx1070ti: { n: "GTX 1070 Ti", v: 8, w: 180, p: 14700 },
+  gtx1080: { n: "GTX 1080", v: 8, w: 180, p: 15450 },
+  gtx1080ti: { n: "GTX 1080 Ti", v: 11, w: 250, p: 18100 },
+  gtx1650: { n: "GTX 1650", v: 4, w: 75, p: 7780 },
+  gtx1650s: { n: "GTX 1650 Super", v: 4, w: 100, p: 9850 },
+  gtx1660: { n: "GTX 1660", v: 6, w: 120, p: 11600 },
+  gtx1660s: { n: "GTX 1660 Super", v: 6, w: 125, p: 12700 },
+  gtx1660ti: { n: "GTX 1660 Ti", v: 6, w: 120, p: 12850 },
+  rtx2060: { n: "RTX 2060", v: 6, w: 160, p: 14000 },
+  rtx2060s: { n: "RTX 2060 Super", v: 8, w: 175, p: 16400 },
+  rtx2070: { n: "RTX 2070", v: 8, w: 175, p: 16200 },
+  rtx2070s: { n: "RTX 2070 Super", v: 8, w: 215, p: 18100 },
+  rtx2080: { n: "RTX 2080", v: 8, w: 215, p: 18700 },
+  rtx2080s: { n: "RTX 2080 Super", v: 8, w: 250, p: 19500 },
+  rtx2080ti: { n: "RTX 2080 Ti", v: 11, w: 250, p: 21800 },
+  rtx3050_6: { n: "RTX 3050 6GB", v: 6, w: 75, p: 9200 },
+  rtx3050_8: { n: "RTX 3050 8GB", v: 8, w: 130, p: 12800 },
+  rtx3060: { n: "RTX 3060 12GB", v: 12, w: 170, p: 17200 },
+  rtx3060ti: { n: "RTX 3060 Ti", v: 8, w: 200, p: 20600 },
+  rtx3070: { n: "RTX 3070", v: 8, w: 220, p: 22100 },
+  rtx3070ti: { n: "RTX 3070 Ti", v: 8, w: 290, p: 23700 },
+  rtx3080: { n: "RTX 3080", v: 10, w: 320, p: 25200 },
+  rtx3080ti: { n: "RTX 3080 Ti", v: 12, w: 350, p: 26800 },
+  rtx3090: { n: "RTX 3090", v: 24, w: 350, p: 27100 },
+  rtx3090ti: { n: "RTX 3090 Ti", v: 24, w: 450, p: 29800 },
+  rtx4060: { n: "RTX 4060", v: 8, w: 115, p: 19460 },
+  rtx4060ti: { n: "RTX 4060 Ti", v: 16, w: 165, p: 22700 },
+  rtx4070: { n: "RTX 4070", v: 12, w: 200, p: 26900 },
+  rtx4070s: { n: "RTX 4070 Super", v: 12, w: 220, p: 30100 },
+  rtx4070ti: { n: "RTX 4070 Ti", v: 12, w: 285, p: 31800 },
+  rtx4070tis: { n: "RTX 4070 Ti Super", v: 16, w: 285, p: 32600 },
+  rtx4080: { n: "RTX 4080", v: 16, w: 320, p: 34700 },
+  rtx4080s: { n: "RTX 4080 Super", v: 16, w: 320, p: 35100 },
+  rtx4090: { n: "RTX 4090", v: 24, w: 450, p: 38660 },
+  rtx5060: { n: "RTX 5060", v: 8, w: 115, p: 23500 },
+  rtx5070: { n: "RTX 5070", v: 12, w: 200, p: 32100 },
+  rtx5080: { n: "RTX 5080", v: 16, w: 350, p: 41200 },
+  rtx5090: { n: "RTX 5090", v: 32, w: 600, p: 51800 },
+  // --- AMD Radeon ---
+  rx470_4: { n: "RX 470 4GB", v: 4, w: 120, p: 6730 },
+  rx480_8: { n: "RX 480 8GB", v: 8, w: 150, p: 8110 },
+  rx550: { n: "RX 550", v: 2, w: 50, p: 1700 },
+  rx560: { n: "RX 560", v: 4, w: 75, p: 3350 },
+  rx570_4: { n: "RX 570 4GB", v: 4, w: 150, p: 6950 },
+  rx570_8: { n: "RX 570 8GB", v: 8, w: 150, p: 7100 },
+  rx580_4: { n: "RX 580 4GB", v: 4, w: 185, p: 8600 },
+  rx580_8: { n: "RX 580 8GB", v: 8, w: 185, p: 8800 },
+  rx590: { n: "RX 590", v: 8, w: 225, p: 9500 },
+  rx5500xt: { n: "RX 5500 XT", v: 8, w: 130, p: 9000 },
+  rx5600xt: { n: "RX 5600 XT", v: 6, w: 150, p: 11600 },
+  rx5700: { n: "RX 5700", v: 8, w: 180, p: 14250 },
+  rx5700xt: { n: "RX 5700 XT", v: 8, w: 225, p: 16800 },
+  rx6400: { n: "RX 6400", v: 4, w: 53, p: 6000 },
+  rx6500xt: { n: "RX 6500 XT", v: 4, w: 107, p: 8100 },
+  rx6600: { n: "RX 6600", v: 8, w: 132, p: 15300 },
+  rx6600xt: { n: "RX 6600 XT", v: 8, w: 160, p: 16000 },
+  rx6650xt: { n: "RX 6650 XT", v: 8, w: 180, p: 17100 },
+  rx6700: { n: "RX 6700", v: 10, w: 175, p: 18200 },
+  rx6700xt: { n: "RX 6700 XT", v: 12, w: 230, p: 19800 },
+  rx6750xt: { n: "RX 6750 XT", v: 12, w: 250, p: 21100 },
+  rx6800: { n: "RX 6800", v: 16, w: 250, p: 22400 },
+  rx6800xt: { n: "RX 6800 XT", v: 16, w: 300, p: 23400 },
+  rx6900xt: { n: "RX 6900 XT", v: 16, w: 300, p: 25400 },
+  rx6950xt: { n: "RX 6950 XT", v: 16, w: 335, p: 26900 },
+  rx7600: { n: "RX 7600", v: 8, w: 165, p: 16400 },
+  rx7600xt: { n: "RX 7600 XT", v: 16, w: 190, p: 17900 },
+  rx7700xt: { n: "RX 7700 XT", v: 12, w: 245, p: 21200 },
+  rx7800xt: { n: "RX 7800 XT", v: 16, w: 263, p: 24100 },
+  rx7900gre: { n: "RX 7900 GRE", v: 16, w: 244, p: 26800 },
+  rx7900xt: { n: "RX 7900 XT", v: 20, w: 315, p: 29000 },
+  rx7900xtx: { n: "RX 7900 XTX", v: 24, w: 355, p: 31200 },
+  // Серия RX 8000 (Новинки 2026 года!)
+  rx8600xt: { n: "RX 8600 XT", v: 12, w: 160, p: 22500 },
+  rx8700xt: { n: "RX 8700 XT", v: 16, w: 210, p: 28500 },
+  rx8800xt: { n: "RX 8800 XT", v: 16, w: 250, p: 34000 }
+};
+function compareGPUs() {
+  const g1 = document.getElementById("gpu1").value;
+  const g2 = document.getElementById("gpu2").value;
+  
+  if(!g1 || !g2) { alert("Выберите две видеокарты!"); return; }
+  
+  const card1 = gpuData[g1]; 
+  const card2 = gpuData[g2];
+  
+  const maxV = Math.max(card1.v, card2.v);
+  const maxW = Math.max(card1.w, card2.w);
+  const maxP = Math.max(card1.p, card2.p);
+  
+  // Выводим полоски памяти (Синие)
+  document.getElementById("vramBars").innerHTML = `
+    <div class="gpu-label"><b>${card1.n}</b> <span>${card1.v} ГБ</span></div>
+    <div class="bar-container"><div class="bar-fill bg-vram" style="width: ${(card1.v/maxV)*100}%">${card1.v} ГБ</div></div>
+    <div class="gpu-label"><b>${card2.n}</b> <span>${card2.v} ГБ</span></div>
+    <div class="bar-container"><div class="bar-fill bg-vram" style="width: ${(card2.v/maxV)*100}%">${card2.v} ГБ</div></div>
+  `;
+  
+  // Выводим полоски ватт (Жёлтые)
+  document.getElementById("wattsBars").innerHTML = `
+    <div class="gpu-label"><b>${card1.n}</b> <span>${card1.w} W</span></div>
+    <div class="bar-container"><div class="bar-fill bg-watts" style="width: ${(card1.w/maxW)*100}%">${card1.w} Вт</div></div>
+    <div class="gpu-label"><b>${card2.n}</b> <span>${card2.w} W</span></div>
+    <div class="bar-container"><div class="bar-fill bg-watts" style="width: ${(card2.w/maxW)*100}%">${card2.w} Вт</div></div>
+  `;
+  
+  // Выводим полоски чистой игровой мощности (Зелёные)
+  document.getElementById("powerBars").innerHTML = `
+    <div class="gpu-label"><b>${card1.n}</b> <span>${card1.p} баллов</span></div>
+    <div class="bar-container"><div class="bar-fill bg-power" style="width: ${(card1.p/maxP)*100}%">${card1.p}</div></div>
+    <div class="gpu-label"><b>${card2.n}</b> <span>${card2.p} баллов</span></div>
+    <div class="bar-container"><div class="bar-fill bg-power" style="width: ${(card2.p/maxP)*100}%">${card2.p}</div></div>
+  `;
+  
+  let diff = Math.abs(card1.p - card2.p);
+  let winner = card1.p > card2.p ? card1.n : card2.n;
+  document.getElementById("verdictText").innerHTML = diff === 0 ? "Карты абсолютно равны." : `Модель <b>${winner}</b> мощнее в тестах ровно на <b>${diff}</b> балла(ов)!`;
+  document.getElementById("resultBox").style.display = "block";
+}
+</script>
+</body>
+</html>
