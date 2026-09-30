@@ -101,7 +101,6 @@
             <div class="summary" id="summaryText"></div>
         </div>
     </div>
-
     <script>
         const gpuDatabase = [
             { name: "NVIDIA RTX 5090 🚀", score: 46800, watt: 600, mem: 32 },
@@ -143,8 +142,6 @@
         const s2 = document.getElementById('gpu2');
 
         function initSelects() {
-            s1.innerHTML = '<option value="" disabled selected>Выберите карту 1 ⬇</option>';
-            s2.innerHTML = '<option value="" disabled selected>Выберите карту 2 ⬇</option>';
             gpuDatabase.forEach((gpu, index) => {
                 let opt1 = document.createElement('option'); opt1.value = index; opt1.textContent = gpu.name; s1.appendChild(opt1);
                 let opt2 = document.createElement('option'); opt2.value = index; opt2.textContent = gpu.name; s2.appendChild(opt2);
@@ -163,35 +160,45 @@
             document.getElementById('memName2').innerText = card2.name;
             document.getElementById('wattName1').innerText = card1.name;
             document.getElementById('wattName2').innerText = card2.name;
-document.getElementById('powerName1').innerText = card1.name;
-document.getElementById('powerName2').innerText = card2.name;
-const maxMem = Math.max(card1.mem, card2.mem, 1);
-const maxWatt = Math.max(card1.watt, card2.watt, 1);
-const maxScore = Math.max(card1.score, card2.score, 1);
-document.getElementById('resultsBlock').style.display = 'block';
-setTimeout(() => {
-const bMem1 = document.getElementById('barMem1'); const bMem2 = document.getElementById('barMem2');
-bMem1.style.width = (card1.mem / maxMem * 100) + '%'; bMem1.innerText = card1.mem + ' ГБ';
-bMem2.style.width = (card2.mem / maxMem * 100) + '%'; bMem2.innerText = card2.mem + ' ГБ';
-const bWatt1 = document.getElementById('barWatt1'); const bWatt2 = document.getElementById('barWatt2');
-bWatt1.style.width = (card1.watt / maxWatt * 100) + '%'; bWatt1.innerText = card1.watt + ' W';
-bWatt2.style.width = (card2.watt / maxWatt * 100) + '%'; bWatt2.innerText = card2.watt + ' W';
-const bPower1 = document.getElementById('barPower1'); const bPower2 = document.getElementById('barPower2');
-bPower1.style.width = (card1.score / maxScore * 100) + '%'; bPower1.innerText = card1.score + ' pts';
-bPower2.style.width = (card2.score / maxScore * 100) + '%'; bPower2.innerText = card2.score + ' pts';
-}, 50);
-function getBallWord(num) {
-let n = Math.abs(num) % 100; if (n >= 5 && n <= 20) return 'баллов';
-n %= 10; if (n === 1) return 'балл'; if (n >= 2 && n <= 4) return 'балла'; return 'баллов';
-}
-const diff = Math.abs(card1.score - card2.score);
-let text = '';
-if (card1.score > card2.score) {
-text = Модель <strong>${card1.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
-} else if (card2.score > card1.score) {
-text = Модель <strong>${card2.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
-} else {
-text = Обе видеокарты имеют абсолютно одинаковую производительность!;
-}
-document.getElementById('summaryText').innerHTML = text;
-}
+            document.getElementById('powerName1').innerText = card1.name;
+            document.getElementById('powerName2').innerText = card2.name;
+
+            const maxMem = Math.max(card1.mem, card2.mem, 1);
+            const maxWatt = Math.max(card1.watt, card2.watt, 1);
+            const maxScore = Math.max(card1.score, card2.score, 1);
+
+            document.getElementById('resultsBlock').style.display = 'block';
+
+            setTimeout(() => {
+                const bMem1 = document.getElementById('barMem1'); const bMem2 = document.getElementById('barMem2');
+                bMem1.style.width = (card1.mem / maxMem * 100) + '%'; bMem1.innerText = card1.mem + ' ГБ';
+                bMem2.style.width = (card2.mem / maxMem * 100) + '%'; bMem2.innerText = card2.mem + ' ГБ';
+
+                const bWatt1 = document.getElementById('barWatt1'); const bWatt2 = document.getElementById('barWatt2');
+                bWatt1.style.width = (card1.watt / maxWatt * 100) + '%'; bWatt1.innerText = card1.watt + ' W';
+                bWatt2.style.width = (card2.watt / maxWatt * 100) + '%'; bWatt2.innerText = card2.watt + ' W';
+
+                const bPower1 = document.getElementById('barPower1'); const bPower2 = document.getElementById('barPower2');
+                bPower1.style.width = (card1.score / maxScore * 100) + '%'; bPower1.innerText = card1.score + ' pts';
+                bPower2.style.width = (card2.score / maxScore * 100) + '%'; bPower2.innerText = card2.score + ' pts';
+            }, 50);
+
+            function getBallWord(num) {
+                let n = Math.abs(num) % 100; if (n >= 5 && n <= 20) return 'баллов';
+                n %= 10; if (n === 1) return 'балл'; if (n >= 2 && n <= 4) return 'балла'; return 'баллов';
+            }
+
+            const diff = Math.abs(card1.score - card2.score);
+            let text = '';
+            if (card1.score > card2.score) {
+                text = `Модель <strong>${card1.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!`;
+            } else if (card2.score > card1.score) {
+                text = `Модель <strong>${card2.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!`;
+            } else {
+                text = `Обе видеокарты имеют абсолютно одинаковую производительность!`;
+            }
+            document.getElementById('summaryText').innerHTML = text;
+        }
+    </script>
+</body>
+</html>
