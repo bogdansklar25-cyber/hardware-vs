@@ -103,3 +103,95 @@
     </div>
 
     <script>
+        const gpuDatabase = [
+            { name: "NVIDIA RTX 5090 🚀", score: 46800, watt: 600, mem: 32 },
+            { name: "AMD RX 8800 XT 🚀", score: 39000, watt: 280, mem: 16 },
+            { name: "NVIDIA RTX 4090", score: 38700, watt: 450, mem: 24 },
+            { name: "AMD RX 7900 XTX 💥", score: 31200, watt: 355, mem: 24 },
+            { name: "NVIDIA RTX 4080 Super", score: 30100, watt: 320, mem: 16 },
+            { name: "NVIDIA RTX 4080", score: 29100, watt: 320, mem: 16 },
+            { name: "AMD RX 7900 XT", score: 29000, watt: 315, mem: 20 },
+            { name: "NVIDIA RTX 4070 Ti Super", score: 26800, watt: 285, mem: 16 },
+            { name: "AMD RX 7900 GRE", score: 26100, watt: 260, mem: 16 },
+            { name: "NVIDIA RTX 4070 Super", score: 25400, watt: 220, mem: 12 },
+            { name: "NVIDIA RTX 4070 Ti", score: 25100, watt: 285, mem: 12 },
+            { name: "AMD RX 7800 XT", score: 24200, watt: 263, mem: 16 },
+            { name: "NVIDIA RTX 4070", score: 22100, watt: 200, mem: 12 },
+            { name: "AMD RX 7700 XT", score: 21500, watt: 245, mem: 12 },
+            { name: "NVIDIA RTX 4060 Ti", score: 20500, watt: 160, mem: 8 },
+            { name: "NVIDIA RTX 3070 Ti", score: 19500, watt: 290, mem: 8 },
+            { name: "NVIDIA RTX 3070", score: 18100, watt: 220, mem: 8 },
+            { name: "AMD RX 6800 XT", score: 17900, watt: 300, mem: 16 },
+            { name: "NVIDIA RTX 4060", score: 15900, watt: 115, mem: 8 },
+            { name: "AMD RX 6700 XT", score: 15100, watt: 230, mem: 12 },
+            { name: "NVIDIA RTX 3060 Ti", score: 14800, watt: 200, mem: 8 },
+            { name: "NVIDIA RTX 3060 12GB", score: 13100, watt: 170, mem: 12 },
+            { name: "AMD RX 6600 XT", score: 12100, watt: 160, mem: 8 },
+            { name: "NVIDIA GTX 1080 Ti", score: 11200, watt: 250, mem: 11 },
+            { name: "AMD RX 6600", score: 10900, watt: 132, mem: 8 },
+            { name: "NVIDIA RTX 3050 8GB", score: 9800, watt: 130, mem: 8 },
+            { name: "NVIDIA GTX 1080", score: 9500, watt: 180, mem: 8 },
+            { name: "NVIDIA GTX 1660 Super", score: 9100, watt: 125, mem: 6 },
+            { name: "AMD RX 590", score: 8200, watt: 225, mem: 8 },
+            { name: "AMD RX 580 8GB", score: 7100, watt: 185, mem: 8 },
+            { name: "NVIDIA GTX 1060 6GB", score: 5100, watt: 120, mem: 6 },
+            { name: "NVIDIA GTX 1050 Ti", score: 3200, watt: 75, mem: 4 },
+            { name: "NVIDIA GT 1030", score: 1200, watt: 30, mem: 2 }
+        ];
+
+        const s1 = document.getElementById('gpu1');
+        const s2 = document.getElementById('gpu2');
+
+        function initSelects() {
+            s1.innerHTML = '<option value="" disabled selected>Выберите карту 1 ⬇</option>';
+            s2.innerHTML = '<option value="" disabled selected>Выберите карту 2 ⬇</option>';
+            gpuDatabase.forEach((gpu, index) => {
+                let opt1 = document.createElement('option'); opt1.value = index; opt1.textContent = gpu.name; s1.appendChild(opt1);
+                let opt2 = document.createElement('option'); opt2.value = index; opt2.textContent = gpu.name; s2.appendChild(opt2);
+            });
+        }
+
+        initSelects();
+
+        function compareGPUs() {
+            const index1 = s1.value; const index2 = s2.value;
+            if (index1 === "" || index2 === "") { alert('Пожалуйста, выберите обе видеокарты!'); return; }
+
+            const card1 = gpuDatabase[index1]; const card2 = gpuDatabase[index2];
+
+            document.getElementById('memName1').innerText = card1.name;
+            document.getElementById('memName2').innerText = card2.name;
+            document.getElementById('wattName1').innerText = card1.name;
+            document.getElementById('wattName2').innerText = card2.name;
+document.getElementById('powerName1').innerText = card1.name;
+document.getElementById('powerName2').innerText = card2.name;
+const maxMem = Math.max(card1.mem, card2.mem, 1);
+const maxWatt = Math.max(card1.watt, card2.watt, 1);
+const maxScore = Math.max(card1.score, card2.score, 1);
+document.getElementById('resultsBlock').style.display = 'block';
+setTimeout(() => {
+const bMem1 = document.getElementById('barMem1'); const bMem2 = document.getElementById('barMem2');
+bMem1.style.width = (card1.mem / maxMem * 100) + '%'; bMem1.innerText = card1.mem + ' ГБ';
+bMem2.style.width = (card2.mem / maxMem * 100) + '%'; bMem2.innerText = card2.mem + ' ГБ';
+const bWatt1 = document.getElementById('barWatt1'); const bWatt2 = document.getElementById('barWatt2');
+bWatt1.style.width = (card1.watt / maxWatt * 100) + '%'; bWatt1.innerText = card1.watt + ' W';
+bWatt2.style.width = (card2.watt / maxWatt * 100) + '%'; bWatt2.innerText = card2.watt + ' W';
+const bPower1 = document.getElementById('barPower1'); const bPower2 = document.getElementById('barPower2');
+bPower1.style.width = (card1.score / maxScore * 100) + '%'; bPower1.innerText = card1.score + ' pts';
+bPower2.style.width = (card2.score / maxScore * 100) + '%'; bPower2.innerText = card2.score + ' pts';
+}, 50);
+function getBallWord(num) {
+let n = Math.abs(num) % 100; if (n >= 5 && n <= 20) return 'баллов';
+n %= 10; if (n === 1) return 'балл'; if (n >= 2 && n <= 4) return 'балла'; return 'баллов';
+}
+const diff = Math.abs(card1.score - card2.score);
+let text = '';
+if (card1.score > card2.score) {
+text = Модель <strong>${card1.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
+} else if (card2.score > card1.score) {
+text = Модель <strong>${card2.name}</strong> мощнее в тестах ровно на <strong>${diff}</strong> ${getBallWord(diff)}!;
+} else {
+text = Обе видеокарты имеют абсолютно одинаковую производительность!;
+}
+document.getElementById('summaryText').innerHTML = text;
+}
