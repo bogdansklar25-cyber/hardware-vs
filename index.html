@@ -14,159 +14,84 @@
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            box-sizing: border-box;
-            position: relative;
-            overflow: hidden;
+            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; box-sizing: border-box; position: relative; overflow: hidden;
+        }
+
+        /* СТИЛИ КИБЕРПАНК ЗАСТАВКИ (PRELOADER) */
+        #intro-preloader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
+            transition: opacity 0.8s cubic-bezier(0.1, 1, 0.1, 1), visibility 0.8s;
+        }
+        #intro-preloader.fade-out { opacity: 0; visibility: hidden; }
+        .intro-logo {
+            font-size: 3.8rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 30px; letter-spacing: 2px;
+            animation: pulseGlow 1.5s ease-in-out infinite alternate;
+        }
+        .intro-demo-monitor {
+            background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 12px;
+            padding: 20px; width: 90%; max-width: 400px; box-shadow: 0 0 30px rgba(138, 43, 226, 0.2); box-sizing: border-box;
+        }
+        .intro-title { font-size: 0.9rem; color: #8b949e; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 1px; display: flex; justify-content: space-between; }
+        .intro-bar-bg { background-color: #0b0813; border-radius: 6px; height: 16px; margin-bottom: 12px; overflow: hidden; border: 1px solid #302654; }
+        .intro-bar {
+            height: 100%; width: 0%; background: linear-gradient(90deg, #2ea043, #3fb950);
+            box-shadow: 0 0 10px rgba(63, 185, 80, 0.5); transition: width 2s cubic-bezier(0.1, 1, 0.1, 1);
+        }
+        .intro-bar-2 { background: linear-gradient(90deg, #1f6feb, #2f81f7); box-shadow: 0 0 10px rgba(47, 129, 247, 0.5); transition: width 2.3s cubic-bezier(0.1, 1, 0.1, 1); }
+
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 0 10px rgba(191, 85, 236, 0.4)); }
+            100% { filter: drop-shadow(0 0 25px rgba(191, 85, 236, 0.8)); }
         }
         
         /* Кнопка настроек (Шестерёнка) */
         .settings-btn {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--text-color);
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.3s ease, color 0.3s;
-            filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2));
+            position: absolute; top: 25px; right: 25px; background: none; border: none; cursor: pointer; color: var(--text-color);
+            padding: 0; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s;
+            filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2)); z-index: 5;
         }
-        .settings-btn:hover {
-            color: var(--neon-glow);
-            transform: rotate(90deg);
-        }
-        .settings-btn svg {
-            width: 32px;
-            height: 32px;
-            fill: currentColor;
-        }
+        .settings-btn:hover { color: var(--neon-glow); transform: rotate(90deg); }
+        .settings-btn svg { width: 32px; height: 32px; fill: currentColor; }
 
-        .header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+        .header { text-align: center; margin-bottom: 50px; }
         .header h1 { 
-            font-size: 3.5rem; 
-            margin: 0; 
-            font-weight: 900; 
-            background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: 2px;
-            filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3));
+            font-size: 3.5rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3));
         }
         
-        .buttons-container {
-            display: flex;
-            gap: 25px;
-            max-width: 600px;
-            width: 100%;
-            z-index: 2;
-        }
-        
+        .buttons-container { display: flex; gap: 25px; max-width: 600px; width: 100%; z-index: 2; }
         .nav-btn {
-            flex: 1;
-            background-color: var(--card-bg);
-            color: var(--text-color);
-            border: 2px solid var(--accent-purple);
-            border-radius: 12px;
-            padding: 24px;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple);
+            border-radius: 12px; padding: 24px; font-size: 1.3rem; font-weight: bold; cursor: pointer;
+            text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
         }
+        .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
         
-        .nav-btn:hover {
-            background-color: var(--accent-purple);
-            color: #fff;
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(138, 43, 226, 0.6);
-            border-color: var(--neon-glow);
-        }
-        
-        /* Всплывающее окно настроек (Модальное окно) */
+        /* Всплывающее окно настроек */
         .modal-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(11, 8, 19, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 10;
-            backdrop-filter: blur(4px);
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 8, 19, 0.8);
+            display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease; z-index: 10; backdrop-filter: blur(4px);
         }
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
         .modal-content {
-            background-color: var(--card-bg);
-            border: 2px solid var(--accent-purple);
-            border-radius: 16px;
-            padding: 30px;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 0 30px rgba(138, 43, 226, 0.4);
-            transform: scale(0.85);
-            transition: transform 0.3s ease;
-            box-sizing: border-box;
-            position: relative;
+            background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px;
+            padding: 30px; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4);
+            transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative;
         }
-        .modal-overlay.active .modal-content {
-            transform: scale(1);
-        }
-        .modal-header {
-            font-size: 1.6rem;
-            font-weight: bold;
-            margin-bottom: 20px;
-            color: #fff;
-            border-bottom: 1px solid #302654;
-            padding-bottom: 10px;
-        }
-        .setting-row {
-            margin-bottom: 20px;
-        }
-        .setting-label {
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-            color: #bfaee3;
-        }
+        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-header { font-size: 1.6rem; font-weight: bold; margin-bottom: 20px; color: #fff; border-bottom: 1px solid #302654; padding-bottom: 10px; }
+        .setting-row { margin-bottom: 20px; }
+        .setting-label { font-size: 1.05rem; margin-bottom: 8px; color: #bfaee3; }
         .modal-close-btn {
-            width: 100%;
-            background-color: var(--accent-purple);
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 12px;
-            font-size: 1.1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: background 0.2s;
+            width: 100%; background-color: var(--accent-purple); color: #fff; border: none; border-radius: 8px;
+            padding: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s;
         }
-        .modal-close-btn:hover {
-            background-color: var(--neon-glow);
-        }
+        .modal-close-btn:hover { background-color: var(--neon-glow); }
 
         @media (max-width: 500px) {
             .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; }
@@ -178,10 +103,20 @@
 </head>
 <body>
 
+    <!-- 🎬 ЭКРАН ЖИВОЙ КИБЕРПАНК ЗАСТАВКИ -->
+    <div id="intro-preloader">
+        <div class="intro-logo">HardwareVS</div>
+        <div class="intro-demo-monitor">
+            <div class="intro-title"><span>BENCHMARKING...</span><span id="load-pts">0 pts</span></div>
+            <div class="intro-bar-bg"><div class="intro-bar" id="introBar1"></div></div>
+            <div class="intro-bar-bg"><div class="intro-bar intro-bar-2" id="introBar2"></div></div>
+        </div>
+    </div>
+
     <!-- Кнопка-Шестерёнка -->
     <button class="settings-btn" id="openSettings" title="Настройки">
         <svg viewBox="0 0 24 24">
-            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 ... 1.25-1.25 1.25-1.25z"/>
+            <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1 .25 1 .25s.99.03 1.47.43l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.12.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1-.22 1-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
         </svg>
     </button>
 
@@ -198,44 +133,71 @@
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div class="modal-header">Настройки сайта</div>
-            
             <div class="setting-row">
                 <div class="setting-label">Язык интерфейса:</div>
                 <div style="color: #fff; font-weight: bold; background: #211a3d; padding: 10px; border-radius: 6px; border: 1px solid var(--accent-purple);">
                      🇷🇺 Русский (по умолчанию)
                 </div>
             </div>
-
             <div class="setting-row">
                 <div class="setting-label">Версия базы данных:</div>
                 <div style="color: #64f38c; font-size: 0.95rem; font-weight: bold;">
                     ● Актуальная (PassMark 2026)
                 </div>
             </div>
-
             <button class="modal-close-btn" id="closeSettings">Закрыть</button>
         </div>
     </div>
 
     <script>
+        // ЛОГИКА ЖИВОЙ АНИМАЦИИ ЗАСТАВКИ
+        window.addEventListener('DOMContentLoaded', () => {
+            const bar1 = document.getElementById('introBar1');
+            const bar2 = document.getElementById('introBar2');
+            const ptsText = document.getElementById('load-pts');
+            
+            // Запускаем шкалы демо-теста
+            setTimeout(() => {
+                if(bar1) bar1.style.width = '95%';
+                if(bar2) bar2.style.width = '78%';
+            }, 100);
+
+            // Бегущие цифры баллов от 0 до 43300 (как у флагмана RTX 4090)
+            let currentPts = 0;
+            const targetPts = 43300;
+            const duration = 1800; // 1.8 секунды
+            const startTime = performance.now();
+
+            function animatePoints(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                
+                const easeProgress = 1 - Math.pow(1 - progress, 3);
+                currentPts = Math.floor(easeProgress * targetPts);
+                
+                if(ptsText) ptsText.innerText = currentPts + ' pts';
+
+                if (progress < 1) {
+                    requestAnimationFrame(animatePoints);
+                }
+            }
+            requestAnimationFrame(animatePoints);
+
+            // Через 2.8 секунды плавно растворяем заставку
+            setTimeout(() => {
+                const preloader = document.getElementById('intro-preloader');
+                if(preloader) preloader.classList.add('fade-out');
+            }, 2800);
+        });
+
+        // Модальное окно настроек
         const openBtn = document.getElementById('openSettings');
         const closeBtn = document.getElementById('closeSettings');
         const overlay = document.getElementById('modalOverlay');
 
-        openBtn.addEventListener('click', () => {
-            overlay.classList.add('active');
-        });
-
-        closeBtn.addEventListener('click', () => {
-            overlay.classList.remove('active');
-        });
-
-        // Закрытие при клике на темную область вокруг окна
-        overlay.addEventListener('click', (e) => {
-            if (e.target === overlay) {
-                overlay.classList.remove('active');
-            }
-        });
+        if(openBtn) openBtn.addEventListener('click', () => { overlay.classList.add('active'); });
+        if(closeBtn) closeBtn.addEventListener('click', () => { overlay.classList.remove('active'); });
+        if(overlay) overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.classList.remove('active'); });
     </script>
 </body>
 </html>
