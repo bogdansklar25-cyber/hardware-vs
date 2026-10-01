@@ -11,7 +11,6 @@
             --accent-purple: #8a2be2;
             --neon-glow: #bf55ec;
             --text-color: #e2daf8;
-            --myth-yellow: #ffc107;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -19,74 +18,38 @@
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             min-height: 100vh; box-sizing: border-box; overflow: hidden; position: relative;
         }
-
-        /* 🎬 КРАТКИЙ ПРЕЛОАДЕР ПРИ ВХОДЕ (0.7 сек) */
-        #cinema-intro { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a; 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            z-index: 9999; transition: opacity 0.4s ease, visibility 0.4s; 
-        }
+        #cinema-intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s ease, visibility 0.4s; }
         #cinema-intro.fade-out { opacity: 0; visibility: hidden; }
-        .zoom-logo { 
-            font-size: 3.5rem; font-weight: 900; 
-            background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); 
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; 
-            filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.4));
-        }
+        .zoom-logo { font-size: 3.5rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.4)); }
         
-        /* 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР В ОДИН РЯД */
         .top-navbar { position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 12px; z-index: 5; }
-        .action-link-btn { 
-            background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple); 
-            border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-weight: bold; text-decoration: none; 
-            transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap; 
-        }
+        .action-link-btn { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple); border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-weight: bold; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap; }
         .action-link-btn:hover { border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15); box-shadow: 0 0 12px rgba(191,85,236,0.3); }
         
-        /* Кнопка-шестерёнка теперь ведёт на отдельный файл settings.html */
-        .settings-link { 
-            color: var(--text-color); display: flex; align-items: center; justify-content: center; 
-            transition: transform 0.3s ease, color 0.3s; filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2)); 
-        }
+        .settings-link { color: var(--text-color); display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s; filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2)); }
         .settings-link:hover { color: var(--neon-glow); transform: rotate(90deg); }
         .settings-link svg { width: 32px; height: 32px; fill: currentColor; }
         
         .header { text-align: center; margin-bottom: 50px; }
         .header h1 { font-size: 4rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
         
-        /* 🖥 ИДЕАЛЬНЫЙ ТРЕУГОЛЬНЫЙ РЯД КНОПОК ПО ЦЕНТРУ */
-        .buttons-container { display: flex; gap: 20px; max-width: 950px; width: 100%; align-items: center; justify-content: center; }
-        .nav-btn { 
-            flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); 
-            border-radius: 12px; padding: 26px 15px; font-size: 1.2rem; font-weight: bold; cursor: pointer; 
-            text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); 
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); white-space: nowrap; 
-        }
+        /* 🖥 ДВЕ КНОПКИ В РЯД БЕЗ МИФОВ */
+        .buttons-container { display: flex; gap: 25px; max-width: 700px; width: 100%; align-items: center; justify-content: center; }
+        .nav-btn { flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 26px 15px; font-size: 1.25rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); white-space: nowrap; }
         .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
-        
-        .nav-btn-myth { border-color: var(--myth-yellow); color: #fff; background: rgba(255,193,7,0.03); }
-        .nav-btn-myth:hover { background-color: var(--myth-yellow); color: #0b0813; box-shadow: 0 0 25px rgba(255,193,7,0.5); border-color: #ffa726; }
 
-        @media (max-width: 850px) { .top-navbar { position: static; margin-bottom: 20px; } .buttons-container { flex-direction: column; gap: 15px; } .nav-btn { width: 100%; } .header h1 { font-size: 2.8rem; } }
+        @media (max-width: 650px) { .top-navbar { position: static; margin-bottom: 20px; } .buttons-container { flex-direction: column; gap: 15px; } .nav-btn { width: 100%; } .header h1 { font-size: 2.8rem; } }
     </style>
 </head>
 <body>
 
-    <!-- 🎬 БЫСТРЫЙ ПРЕЛОАДЕР ПРИ ВХОДЕ (0.7 сек) -->
-    <div id="cinema-intro">
-        <div class="zoom-logo">HardwareVS</div>
-    </div>
+    <div id="cinema-intro"><div class="zoom-logo">HardwareVS</div></div>
 
-    <!-- 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР (ССЫЛКИ НА ОТДЕЛЬНЫЕ ФАЙЛЫ) -->
     <div class="top-navbar">
         <a href="suggest.html" class="action-link-btn">💡 Предложения</a>
         <a href="review.html" class="action-link-btn">✍️ Отзывы</a>
-        
-        <!-- Шестерёнка настроек теперь ведёт на отдельную страницу settings.html -->
         <a href="settings.html" class="settings-link" title="Настройки">
-            <svg viewBox="0 0 24 24" style="width: 32px; height: 32px; fill: currentColor;">
-                <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1-.22 1-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
-            </svg>
+            <svg viewBox="0 0 24 24" style="width: 32px; height: 32px; fill: currentColor;"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73(1.69-.98l-.38-2.65c.03.24.24.42.49.42h4c.25 0 1-.22 1-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
         </a>
     </div>
 
@@ -94,20 +57,14 @@
         <h1>HardwareVS</h1>
     </div>
 
-    <!-- 🖥 ИДЕАЛЬНЫЙ ТРЕУГОЛЬНЫЙ РЯД КНОПОК ПО ЦЕНТРУ -->
     <div class="buttons-container">
         <a href="gpu.html" class="nav-btn">Сравнить видеокарты</a>
-        <a href="myths.html" class="nav-btn nav-btn-myth">🔥 Разрушение Мифов</a>
         <a href="cpu.html" class="nav-btn">Сравнить процессоры</a>
     </div>
 
     <script>
-        // Прелоадер на входе
         window.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                const intro = document.getElementById('cinema-intro');
-                if (intro) intro.classList.add('fade-out');
-            }, 700);
+            setTimeout(() => { const intro = document.getElementById('cinema-intro'); if (intro) intro.classList.add('fade-out'); }, 700);
         });
     </script>
 </body>
