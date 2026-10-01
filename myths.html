@@ -82,29 +82,57 @@
             4: { title: "МИФ 4: Разгон комплектующих мгновенно сжигает компьютер!", desc: "Современное железо имеет встроенные многоуровневые системы защиты от перегрева (трэтлинг). При опасной температуре чип сбросит частоты или выключит ПК, но не сгорит." },
             5: { title: "МИФ 5: Жидкостное охлаждение (водянка) никогда не протекает!", desc: "Риск есть всегда. Даже дорогие СЖО со временем могут дать течь из-за высыхания шлангов или брака помпы. Хорошая тяжелая башня кулера намного безопаснее." }
         };
+
         let audioCtx = null; let isMyth1Running = false; let snake = [];
         let snakeX = 0, snakeY = 0, targetX = 0, targetY = 0, snakeAnimationId = null;
         const canvas = document.getElementById('snakeCanvas'); const ctx = canvas.getContext('2d');
-        function playHackerSound() {
+
+        // 🔊 КОРТКИЙ ИМПУЛЬСНЫЙ СИГНАЛ ВЗЛОМА (Больше не глушит голос)
+        function playHackerAlert() {
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-                let bSize = audioCtx.sampleRate * 5, buffer = audioCtx.createBuffer(1, bSize, audioCtx.sampleRate), data = buffer.getChannelData(0);
-                for (let i = 0; i < bSize; i++) data[i] = Math.random() * 2 - 1;
-                let src = audioCtx.createBufferSource(); src.buffer = buffer;
-                let flt = audioCtx.createBiquadFilter(); flt.type = 'peaking'; flt.frequency.setValueAtTime(600, audioCtx.currentTime); flt.Q.setValueAtTime(10, audioCtx.currentTime);
-                let gain = audioCtx.createGain(); gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
-                src.connect(flt); flt.connect(gain); gain.connect(audioCtx.destination); src.start();
-                setTimeout(() => { src.stop(); }, 5000);
-            } catch(e) { console.log("Звук ожидает взаимодействия."); }
+                
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime); // Низкий гул
+                osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.4); // Взлет частоты
+                
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5); // Затухание за полсекунды
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } catch(e) { console.log("Аудио дожидается клика."); }
         }
+
+        // 🎙️ ПРИНУДИТЕЛЬНЫЙ ЧИСТЫЙ ИИ-ГОЛОС С МАКСИМАЛЬНЫМ БАСОМ
+        function runVoiceAI(text) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel(); // Очищаем старые очереди
+            
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ru-RU';
+            utterance.rate = 0.85; // Тяжелый, размеренный темп
+            utterance.pitch = 0.35; // Экстремальный низкий бас ИИ!
+            utterance.volume = 1.0; // Максимальная громкость
+            
+            window.speechSynthesis.speak(utterance);
+        }
+
         function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         window.addEventListener('resize', resizeCanvas); resizeCanvas();
+
         function initSnake() {
             snake = []; snakeX = canvas.width / 2; snakeY = canvas.height / 2;
             for(let i = 0; i < 40; i++) snake.push({x: snakeX, y: snakeY});
             targetX = Math.random() * canvas.width; targetY = Math.random() * canvas.height;
         }
+
         function drawSnake() {
             if (!isMyth1Running) return;
             ctx.fillStyle = 'rgba(11, 8, 19, 0.2)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -113,19 +141,14 @@
             else { snakeX += (dx / dist) * 25; snakeY += (dy / dist) * 25; }
             snake.unshift({x: snakeX, y: snakeY}); snake.pop();
             ctx.strokeStyle = '#bf55ec'; ctx.lineWidth = 8; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-            ctx.shadowBlur = 20; ctx.shadowColor = '#8a2be2'; ctx.beginPath(); ctx.moveTo(snake[0].x, snake[0].y);
+            ctx.shadowBlur = 20; ctx.shadowColor = '#8a2be2'; ctx.beginPath(); ctx.moveTo(snake.x, snake.y);
             for(let i = 1; i < snake.length; i++) ctx.lineTo(snake[i].x, snake[i].y);
             ctx.stroke(); ctx.shadowBlur = 0;
             snakeAnimationId = requestAnimationFrame(drawSnake);
         }
-        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ С ХАКЕРСКИМ БАСОМ И ЗВУКОМ (Пробивает защиту браузера)
+
         function triggerMyth1() {
             if (isMyth1Running) return; isMyth1Running = true;
-
-            // 🔊 ХАК СНЯТИЯ БЛОКИРОВКИ: Будим аудио-движок принудительно перед стартом!
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-
             for(let i=1; i<=5; i++) document.getElementById(`mBtn${i}`).classList.remove('active');
             document.getElementById('mBtn1').classList.add('active');
             
@@ -136,38 +159,21 @@
             document.getElementById('bar1').style.width = '0%'; document.getElementById('bar2').style.width = '0%';
             canvas.style.display = 'block'; mSubs.style.display = 'block';
             
-            // Запуск глитч-сирены и инициализация фиолетовой змейки
-            playHackerSound(); initSnake(); drawSnake();
+            // Запуск импульса и летающей змейки
+            playHackerAlert(); initSnake(); drawSnake();
             
-            // 🎙️ Глубокий, брутальный голос ИИ и желтые субтитры
+            // 🎬 ЭТАП 1: Субтитры и громкий брутальный голос
             mSubs.innerText = "CRITICAL ERROR... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤔";
-            
-            // Говорим басом
-            if (window.speechSynthesis) {
-                window.speechSynthesis.cancel();
-                let utterance = new SpeechSynthesisUtterance("Ты реально думал, что это правда?");
-                utterance.lang = 'ru-RU';
-                utterance.rate = 0.85; // Тяжелый, зловещий темп
-                utterance.pitch = 0.4;  // Максимальный брутальный бас!
-                window.speechSynthesis.speak(utterance);
-            }
+            runVoiceAI("Ты реально думал, что это правда?");
 
-            // Через 5 секунд: Вторая фаза озвучки
+            // 🎬 ЭТАП 2: Через 5 секунд
             setTimeout(() => { 
                 if (!isMyth1Running) return; 
                 mSubs.innerText = "SYSTEM OVERRIDE... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️"; 
-                
-                if (window.speechSynthesis) {
-                    window.speechSynthesis.cancel();
-                    let utterance = new SpeechSynthesisUtterance("Сейчас я всё расскажу.");
-                    utterance.lang = 'ru-RU';
-                    utterance.rate = 0.85;
-                    utterance.pitch = 0.4;
-                    window.speechSynthesis.speak(utterance);
-                }
+                runVoiceAI("Сейчас я всё расскажу.");
             }, 5000);
 
-            // Финал через 7.5 секунд — убираем змейку и выкатываем графики
+            // 🎬 ЭТАП 3: Через 7.5 секунд финал и выкат графиков
             setTimeout(() => {
                 if (!isMyth1Running) return; isMyth1Running = false; cancelAnimationFrame(snakeAnimationId);
                 ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; mSubs.style.display = 'none';
@@ -183,7 +189,6 @@
             }, 7500);
         }
 
-        }
         function loadStaticMyth(num) {
             isMyth1Running = false; cancelAnimationFrame(snakeAnimationId); ctx.clearRect(0, 0, canvas.width, canvas.height);
             canvas.style.display = 'none'; document.getElementById('mythSubs').style.display = 'none'; document.getElementById('liveBench').classList.remove('active');
