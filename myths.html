@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HardwareVS — Разрушение Железных Мифов</title>
+    <style>
+        :root {
+            --bg-color: #0b0813;
+            --card-bg: #140e28;
+            --accent-purple: #8a2be2;
+            --neon-glow: #bf55ec;
+            --text-color: #e2daf8;
+            --input-bg: #211a3d;
+            --myth-yellow: #ffc107;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; min-height: 100vh; box-sizing: border-box;
+            position: relative; overflow-x: hidden;
+        }
+        .back-link { align-self: flex-start; color: #bfaee3; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: color 0.2s; margin-bottom: 20px; z-index: 5; }
+        .back-link:hover { color: var(--neon-glow); }
+        .header { text-align: center; margin-bottom: 35px; z-index: 5; }
+        .header h1 { font-size: 2.8rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--myth-yellow), #ff9f00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 1px; }
+        .myths-container { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 20px; padding: 35px; max-width: 800px; width: 100%; box-shadow: 0 16px 40px rgba(0,0,0,0.7); box-sizing: border-box; z-index: 5; }
+        .myths-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 25px; }
+        .myth-card-btn { background-color: var(--input-bg); border: 1px solid #302654; color: #bfaee3; padding: 15px 5px; font-size: 0.95rem; font-weight: bold; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; text-align: center; }
+        .myth-card-btn:hover { border-color: var(--myth-yellow); transform: translateY(-2px); }
+        .myth-card-btn.active { background-color: rgba(255, 159, 0, 0.12); border-color: var(--myth-yellow); color: #fff; box-shadow: 0 0 15px rgba(255,159,0,0.25); }
+        .myth-content-box { background-color: #0b0813; border: 1px solid #302654; border-radius: 12px; padding: 25px; min-height: 280px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; }
+        .myth-main-title { font-size: 1.3rem; font-weight: bold; color: #ff5252; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .myth-main-desc { font-size: 1.05rem; color: #e2daf8; line-height: 1.6; }
+        #snakeCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; display: none; }
+        .hacker-subs { display: none; font-size: 1.6rem; font-weight: 900; color: var(--myth-yellow); text-align: center; margin: 30px 0; text-shadow: 0 0 15px rgba(255, 193, 7, 0.6); font-family: 'Courier New', Courier, monospace; letter-spacing: 1px; line-height: 1.4; }
+        .live-benchmark-box { display: none; flex-direction: column; gap: 18px; margin-top: 20px; border-top: 2px solid #211a3d; padding-top: 20px; }
+        .live-benchmark-box.active { display: flex; }
+        .bench-item { background: #140e28; padding: 16px; border-radius: 10px; border: 1px solid #302654; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .bench-label { font-size: 0.95rem; color: #bfaee3; margin-bottom: 8px; font-weight: bold; display: flex; justify-content: space-between; }
+        .bench-bar-bg { background-color: #0b0813; border-radius: 6px; height: 26px; overflow: hidden; border: 1px solid #211a3d; }
+        .bench-bar-fill { height: 100%; width: 0%; transition: width 1.8s cubic-bezier(0.1, 1, 0.1, 1); display: flex; align-items: center; padding-left: 12px; font-size: 0.9rem; font-weight: bold; color: #fff; box-sizing: border-box; }
+        .bar-4060 { background: linear-gradient(90deg, #e55350, #ff7070); box-shadow: 0 0 10px rgba(229,83,80,0.3); }
+        .bar-4070 { background: linear-gradient(90deg, #2ea043, #3fb950); box-shadow: 0 0 10px rgba(63,185,80,0.3); }
+        .final-verdict { font-size: 1.15rem; color: #e2daf8; line-height: 1.6; margin-top: 15px; text-align: center; background: rgba(138,43,226,0.1); padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent-purple); }
+        @media (max-width: 700px) { .myths-grid { grid-template-columns: repeat(3, 1fr); } .header h1 { font-size: 2.2rem; } .hacker-subs { font-size: 1.2rem; } }
+    </style>
+</head>
+<body>
+    <canvas id="snakeCanvas"></canvas>
+    <a href="index.html" class="back-link">⬅ На главную</a>
+    <div class="header"><h1>Разрушение железных мифов</h1></div>
+    <div class="myths-container" id="mainMythsContainer">
+        <div class="myths-grid">
+            <button class="myth-card-btn" id="mBtn1" onclick="triggerMyth1()">МИФ 1</button>
+            <button class="myth-card-btn" id="mBtn2" onclick="loadStaticMyth(2)">МИФ 2</button>
+            <button class="myth-card-btn" id="mBtn3" onclick="loadStaticMyth(3)">МИФ 3</button>
+            <button class="myth-card-btn" id="mBtn4" onclick="loadStaticMyth(4)">МИФ 4</button>
+            <button class="myth-card-btn" id="mBtn5" onclick="loadStaticMyth(5)">МИФ 5</button>
+        </div>
+        <div class="myth-content-box">
+            <div class="myth-main-title" id="mythTitle">Выберите тему</div>
+            <div class="myth-main-desc" id="mythDesc">Нажмите на МИФ 1 для запуска интерактивного хакерского разбора...</div>
+            <div class="hacker-subs" id="mythSubs"></div>
+            <div class="live-benchmark-box" id="liveBench">
+                <div class="bench-item">
+                    <div class="bench-label"><span>NVIDIA GeForce RTX 4060 Ti (16GB VRAM)</span><span style="color:#ff5252;">УЗКАЯ ШИНА 128-BIT</span></div>
+                    <div class="bench-bar-bg"><div class="bench-bar-fill bar-4060" id="bar1">0 pts</div></div>
+                </div>
+                <div class="bench-item">
+                    <div class="bench-label"><span>NVIDIA GeForce RTX 4070 (Урезанная память 12GB)</span><span style="color:#64f38c;">МОЩНЫЙ ЧИП & ШИРОКАЯ ШИНА</span></div>
+                    <div class="bench-bar-bg"><div class="bench-bar-fill bar-4070" id="bar2">0 pts</div></div>
+                </div>
+                <div class="final-verdict"><strong>Официальные тесты доказали:</strong> Несмотря на то, что у RTX 4060 Ti видеопамяти на 4 гигабайта больше, мощный графический процессор и более широкая разрядность шины RTX 4070 делают её производительнее в реальных играх в среднем на 25-30%! Большой объем памяти на слабом чипе — это чистый маркетинг!</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const mythsDatabase = {
+            2: { title: "МИФ 2: Процессоры Core i9 всегда лучше для игр, чем Core i5!", desc: "Неправда. В играх решает производительность на одно ядро, а не их общее количество. Флагманские i9 просто сильнее греются и стоят в два раза дороже, давая в играх всего 5-10% прироста по сравнению с современным i5." },
+            3: { title: "МИФ 3: Чем больше Ватт потребляет блок питания, тем больше счет за свет!", desc: "Заблуждение. Блок питания на 1000W не берет из розетки киловатт постоянно. Он берет ровно столько, сколько просит твое железо в данный момент (например, 350 Ватт в игре)." },
+            4: { title: "МИФ 4: Разгон комплектующих мгновенно сжигает компьютер!", desc: "Современное железо имеет встроенные многоуровневые системы защиты от перегрева (трэтлинг). При опасной температуре чип сбросит частоты или выключит ПК, но не сгорит." },
+            5: { title: "МИФ 5: Жидкостное охлаждение (водянка) никогда не протекает!", desc: "Риск есть всегда. Даже дорогие СЖО со временем могут дать течь из-за высыхания шлангов или брака помпы. Хорошая тяжелая башня кулера намного безопаснее." }
+        };
+        let audioCtx = null; let isMyth1Running = false; let snake = [];
+        let snakeX = 0, snakeY = 0, targetX = 0, targetY = 0, snakeAnimationId = null;
+        const canvas = document.getElementById('snakeCanvas'); const ctx = canvas.getContext('2d');
+        function playHackerSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                let bSize = audioCtx.sampleRate * 5, buffer = audioCtx.createBuffer(1, bSize, audioCtx.sampleRate), data = buffer.getChannelData(0);
+                for (let i = 0; i < bSize; i++) data[i] = Math.random() * 2 - 1;
+                let src = audioCtx.createBufferSource(); src.buffer = buffer;
+                let flt = audioCtx.createBiquadFilter(); flt.type = 'peaking'; flt.frequency.setValueAtTime(600, audioCtx.currentTime); flt.Q.setValueAtTime(10, audioCtx.currentTime);
+                let gain = audioCtx.createGain(); gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+                src.connect(flt); flt.connect(gain); gain.connect(audioCtx.destination); src.start();
+                setTimeout(() => { src.stop(); }, 5000);
+            } catch(e) { console.log("Звук ожидает взаимодействия."); }
+        }
+        function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+        window.addEventListener('resize', resizeCanvas); resizeCanvas();
+        function initSnake() {
+            snake = []; snakeX = canvas.width / 2; snakeY = canvas.height / 2;
+            for(let i = 0; i < 40; i++) snake.push({x: snakeX, y: snakeY});
+            targetX = Math.random() * canvas.width; targetY = Math.random() * canvas.height;
+        }
+        function drawSnake() {
+            if (!isMyth1Running) return;
+            ctx.fillStyle = 'rgba(11, 8, 19, 0.2)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            let dx = targetX - snakeX; let dy = targetY - snakeY; let dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 30) { targetX = Math.random() * canvas.width; targetY = Math.random() * canvas.height; }
+            else { snakeX += (dx / dist) * 25; snakeY += (dy / dist) * 25; }
+            snake.unshift({x: snakeX, y: snakeY}); snake.pop();
+            ctx.strokeStyle = '#bf55ec'; ctx.lineWidth = 8; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+            ctx.shadowBlur = 20; ctx.shadowColor = '#8a2be2'; ctx.beginPath(); ctx.moveTo(snake[0].x, snake[0].y);
+            for(let i = 1; i < snake.length; i++) ctx.lineTo(snake[i].x, snake[i].y);
+            ctx.stroke(); ctx.shadowBlur = 0;
+            snakeAnimationId = requestAnimationFrame(drawSnake);
+        }
+        function triggerMyth1() {
+            if (isMyth1Running) return; isMyth1Running = true;
+            for(let i=1; i<=5; i++) document.getElementById(`mBtn${i}`).classList.remove('active');
+            document.getElementById('mBtn1').classList.add('active');
+            const mTitle = document.getElementById('mythTitle'); const mDesc = document.getElementById('mythDesc');
+            const mSubs = document.getElementById('mythSubs'); const lBench = document.getElementById('liveBench');
+            mTitle.style.display = 'none'; mDesc.style.display = 'none'; lBench.classList.remove('active');
+            document.getElementById('bar1').style.width = '0%'; document.getElementById('bar2').style.width = '0%';
+            canvas.style.display = 'block'; mSubs.style.display = 'block';
+            playHackerSound(); initSnake(); drawSnake();
+            mSubs.innerText = "CRITICAL ERROR... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤔";
+            setTimeout(() => { if (!isMyth1Running) return; mSubs.innerText = "SYSTEM OVERRIDE... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️"; }, 5000);
+            setTimeout(() => {
+                if (!isMyth1Running) return; isMyth1Running = false; cancelAnimationFrame(snakeAnimationId);
+                ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; mSubs.style.display = 'none';
+                mTitle.style.display = 'block'; mDesc.style.display = 'block'; lBench.classList.add('active');
+                mTitle.innerText = "МИФ 1: Чем больше гигабайт памяти — тем мощнее видеокарта!";
+                mDesc.innerText = "Абсолютная ложь! Объем памяти (VRAM) — это просто размер 'склада'. Если сам графический чип слабый, а шина памяти узкая, то хоть 32 гигабайта туда поставь — карта будет безбожно лагать.";
+                setTimeout(() => {
+                    document.getElementById('bar1').style.width = '64%'; document.getElementById('bar1').innerText = '20562 pts (RTX 4060 Ti 16GB)';
+                    document.getElementById('bar2').style.width = '95%'; document.getElementById('bar2').innerText = '30144 pts (RTX 4070 12GB)';
+                }, 50);
+            }, 7500);
+        }
+        function loadStaticMyth(num) {
+            isMyth1Running = false; cancelAnimationFrame(snakeAnimationId); ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'none'; document.getElementById('mythSubs').style.display = 'none'; document.getElementById('liveBench').classList.remove('active');
+            for(let i=1; i<=5; i++) document.getElementById(`mBtn${i}`).classList.remove('active');
+            document.getElementById(`mBtn${num}`).classList.add('active');
+            const mTitle = document.getElementById('mythTitle'); const mDesc = document.getElementById('mythDesc');
+            mTitle.style.display = 'block'; mDesc.style.display = 'block';
+            mTitle.innerText = mythsDatabase[num].title; mDesc.innerText = mythsDatabase[num].desc;
+        }
+    </script>
+</body>
+</html>
