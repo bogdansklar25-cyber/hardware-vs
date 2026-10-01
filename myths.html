@@ -118,29 +118,71 @@
             ctx.stroke(); ctx.shadowBlur = 0;
             snakeAnimationId = requestAnimationFrame(drawSnake);
         }
+        // 🔥 ИСПРАВЛЕННАЯ ФУНКЦИЯ С ХАКЕРСКИМ БАСОМ И ЗВУКОМ (Пробивает защиту браузера)
         function triggerMyth1() {
             if (isMyth1Running) return; isMyth1Running = true;
+
+            // 🔊 ХАК СНЯТИЯ БЛОКИРОВКИ: Будим аудио-движок принудительно перед стартом!
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
             for(let i=1; i<=5; i++) document.getElementById(`mBtn${i}`).classList.remove('active');
             document.getElementById('mBtn1').classList.add('active');
+            
             const mTitle = document.getElementById('mythTitle'); const mDesc = document.getElementById('mythDesc');
             const mSubs = document.getElementById('mythSubs'); const lBench = document.getElementById('liveBench');
+            
             mTitle.style.display = 'none'; mDesc.style.display = 'none'; lBench.classList.remove('active');
             document.getElementById('bar1').style.width = '0%'; document.getElementById('bar2').style.width = '0%';
             canvas.style.display = 'block'; mSubs.style.display = 'block';
+            
+            // Запуск глитч-сирены и инициализация фиолетовой змейки
             playHackerSound(); initSnake(); drawSnake();
+            
+            // 🎙️ Глубокий, брутальный голос ИИ и желтые субтитры
             mSubs.innerText = "CRITICAL ERROR... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤔";
-            setTimeout(() => { if (!isMyth1Running) return; mSubs.innerText = "SYSTEM OVERRIDE... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️"; }, 5000);
+            
+            // Говорим басом
+            if (window.speechSynthesis) {
+                window.speechSynthesis.cancel();
+                let utterance = new SpeechSynthesisUtterance("Ты реально думал, что это правда?");
+                utterance.lang = 'ru-RU';
+                utterance.rate = 0.85; // Тяжелый, зловещий темп
+                utterance.pitch = 0.4;  // Максимальный брутальный бас!
+                window.speechSynthesis.speak(utterance);
+            }
+
+            // Через 5 секунд: Вторая фаза озвучки
+            setTimeout(() => { 
+                if (!isMyth1Running) return; 
+                mSubs.innerText = "SYSTEM OVERRIDE... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️"; 
+                
+                if (window.speechSynthesis) {
+                    window.speechSynthesis.cancel();
+                    let utterance = new SpeechSynthesisUtterance("Сейчас я всё расскажу.");
+                    utterance.lang = 'ru-RU';
+                    utterance.rate = 0.85;
+                    utterance.pitch = 0.4;
+                    window.speechSynthesis.speak(utterance);
+                }
+            }, 5000);
+
+            // Финал через 7.5 секунд — убираем змейку и выкатываем графики
             setTimeout(() => {
                 if (!isMyth1Running) return; isMyth1Running = false; cancelAnimationFrame(snakeAnimationId);
                 ctx.clearRect(0, 0, canvas.width, canvas.height); canvas.style.display = 'none'; mSubs.style.display = 'none';
                 mTitle.style.display = 'block'; mDesc.style.display = 'block'; lBench.classList.add('active');
+                
                 mTitle.innerText = "МИФ 1: Чем больше гигабайт памяти — тем мощнее видеокарта!";
                 mDesc.innerText = "Абсолютная ложь! Объем памяти (VRAM) — это просто размер 'склада'. Если сам графический чип слабый, а шина памяти узкая, то хоть 32 гигабайта туда поставь — карта будет безбожно лагать.";
+                
                 setTimeout(() => {
                     document.getElementById('bar1').style.width = '64%'; document.getElementById('bar1').innerText = '20562 pts (RTX 4060 Ti 16GB)';
                     document.getElementById('bar2').style.width = '95%'; document.getElementById('bar2').innerText = '30144 pts (RTX 4070 12GB)';
                 }, 50);
             }, 7500);
+        }
+
         }
         function loadStaticMyth(num) {
             isMyth1Running = false; cancelAnimationFrame(snakeAnimationId); ctx.clearRect(0, 0, canvas.width, canvas.height);
