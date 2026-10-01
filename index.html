@@ -21,12 +21,12 @@
             min-height: 100vh; box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        /* 🎬 ПRELOADER */
+        /* 🎬 КРАТКИЙ ПРЕЛОАДЕР ПРИ ВХОДЕ */
         #cinema-intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s ease, visibility 0.4s; }
         #cinema-intro.fade-out { opacity: 0; visibility: hidden; }
         .zoom-logo { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
 
-        /* 👑 НАВИГАЦИЯ */
+        /* 👑 НАВИГАЦИОННЫЙ ТУЛБАР */
         .top-navbar { position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 12px; z-index: 5; }
         .action-link-btn { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple); border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-weight: bold; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap; }
         .action-link-btn:hover { border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15); box-shadow: 0 0 12px rgba(191,85,236,0.3); }
@@ -37,21 +37,28 @@
         .header { text-align: center; margin-bottom: 40px; }
         .header h1 { font-size: 4rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
         
+        /* ТРЕУГОЛЬНЫЙ РЯД КНОПОК ПО СЕРЕДИНЕ */
         .buttons-container { display: flex; gap: 20px; max-width: 900px; width: 100%; z-index: 2; align-items: center; justify-content: center; }
         .nav-btn { flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 24px 15px; font-size: 1.15rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); white-space: nowrap; }
         .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
         .nav-btn-myth { border-color: var(--myth-orange); color: #fff; background: rgba(255,159,0,0.05); }
         .nav-btn-myth:hover { background-color: var(--myth-orange); box-shadow: 0 0 25px rgba(255,159,0,0.6); border-color: #ffa726; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 8, 19, 0.8); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 10; backdrop-filter: blur(4px); }
+        /* 💥 ЭФФЕКТ ЦИФРОВОГО РАЗВЕРТЫВАНИЯ ОКНА (ГЛИТЧ-ВСПЫШКА) */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 3, 10, 0.85); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; z-index: 10; backdrop-filter: blur(5px); }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 620px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative; }
-        .modal-overlay.active .modal-content { transform: scale(1); }
+        .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 620px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); box-sizing: border-box; position: relative; transform: scale(0.7) cubic-bezier(0.175, 0.885, 0.32, 1.275); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .modal-overlay.active .modal-content { transform: scale(1); animation: glitchFlash 0.25s linear; }
+        
+        @keyframes glitchFlash {
+            0% { border-color: #ff5252; box-shadow: 0 0 40px #ff5252; opacity: 0.8; }
+            50% { border-color: #ff9f00; box-shadow: 0 0 20px #ff9f00; opacity: 0.9; }
+            100% { border-color: var(--accent-purple); box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); opacity: 1; }
+        }
+
         .modal-header { font-size: 1.6rem; font-weight: bold; margin-bottom: 20px; color: #fff; border-bottom: 1px solid #302654; padding-bottom: 10px; }
         .modal-close-btn { width: 100%; background-color: var(--accent-purple); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
         .modal-close-btn:hover { background-color: var(--neon-glow); }
-
-        /* СЕТКА ТАБОВ МИФОВ */
         .myths-tabs-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 20px; }
         .myth-tab-btn { background-color: var(--input-bg); border: 1px solid #302654; color: #bfaee3; padding: 10px 5px; font-size: 0.85rem; font-weight: bold; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; }
         .myth-tab-btn:hover { border-color: var(--myth-orange); }
@@ -61,22 +68,24 @@
         .myth-text-title { font-size: 1.15rem; font-weight: bold; color: #ff5252; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         .myth-text-desc { font-size: 0.95rem; color: #e2daf8; line-height: 1.6; margin-bottom: 15px; }
 
-        /* 🔄 ЗАГРУЗКА */
-        .real-loader-box { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin: 20px 0; }
+        /* 🔄 НОВАЯ АНИМАЦИЯ: ГОРИЗОНТАЛЬНАЯ КИБЕР-ЛИНИЯ */
+        .real-loader-box { display: none; flex-direction: column; width: 100%; margin: 25px 0; }
         .real-loader-box.active { display: flex; }
-        .loading-radar { width: 70px; height: 70px; border: 3px double transparent; border-top-color: var(--myth-orange); border-bottom-color: var(--myth-orange); border-radius: 50%; animation: spinRadar 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite; filter: drop-shadow(0 0 15px var(--myth-orange)); }
-        @keyframes spinRadar { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } 100% { transform: rotate(360deg) scale(1); } }
-        .percent-counter { font-size: 2.2rem; font-weight: 900; color: #fff; margin-top: 15px; font-family: monospace; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-        .matrix-log-text { font-size: 0.75rem; color: #8b949e; font-family: monospace; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .myth-subs { font-size: 1.2rem; font-weight: 900; color: var(--myth-orange); text-align: center; margin-top: 20px; min-height: 45px; text-shadow: 0 0 12px rgba(255,159,0,0.4); line-height: 1.4; }
+        
+        .cyber-progress-bg { width: 100%; background: #140e28; height: 16px; border: 1px solid #302654; border-radius: 4px; overflow: hidden; position: relative; }
+        .cyber-progress-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ff6f00, var(--myth-orange)); box-shadow: 0 0 15px var(--myth-orange); }
+        
+        .percent-counter { font-size: 2.5rem; font-weight: 900; color: #fff; margin-top: 15px; font-family: monospace; text-align: center; }
+        .matrix-log-text { font-size: 0.8rem; color: #8b949e; font-family: monospace; margin-top: 10px; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
+        .myth-subs { font-size: 1.25rem; font-weight: 900; color: var(--myth-orange); text-align: center; margin-top: 15px; min-height: 45px; text-shadow: 0 0 10px rgba(255,159,0,0.4); line-height: 1.4; }
 
-        /* 📊 ШКАЛЫ СРАВНЕНИЯ */
+        /* 📊 ЖИВОЙ ПРИМЕР СРАВНЕНИЯ ВИДЕОКАРТ */
         .myth-live-battle { display: none; flex-direction: column; gap: 16px; margin-top: 15px; width: 100%; border-top: 1px solid #211a3d; padding-top: 15px; }
         .myth-live-battle.active { display: flex; }
-        .myth-bar-item { background: #140e28; padding: 14px; border-radius: 8px; border: 1px solid #302654; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .myth-bar-item { background: #140e28; padding: 14px; border-radius: 8px; border: 1px solid #302654; }
         .myth-bar-label { font-size: 0.9rem; color: #bfaee3; margin-bottom: 8px; font-weight: bold; display: flex; justify-content: space-between; }
-        .myth-bar-bg { background-color: #0b0813; border-radius: 6px; height: 24px; overflow: hidden; position: relative; border: 1px solid #211a3d; }
-        .myth-bar-fill { height: 100%; width: 0%; transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1); display: flex; align-items: center; padding-left: 12px; font-size: 0.85rem; font-weight: bold; color: #fff; box-sizing: border-box; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); }
+        .myth-bar-bg { background-color: #0b0813; border-radius: 6px; height: 24px; overflow: hidden; border: 1px solid #211a3d; }
+        .myth-bar-fill { height: 100%; width: 0%; transition: width 1.5s cubic-bezier(0.1, 1, 0.1, 1); display: flex; align-items: center; padding-left: 12px; font-size: 0.85rem; font-weight: bold; color: #fff; box-sizing: border-box; }
         .b-red { background: linear-gradient(90deg, #e55350, #ff7070); box-shadow: 0 0 10px rgba(229,83,80,0.3); }
         .b-green { background: linear-gradient(90deg, #2ea043, #3fb950); box-shadow: 0 0 10px rgba(63,185,80,0.3); }
 
@@ -85,7 +94,7 @@
 </head>
 <body>
 
-    <!-- 🎬 БЫСТРЫЙ ПРЕЛОАДЕР ПРИ ВХОДЕ -->
+    <!-- 🎬 БЫСТРЫЙ ПРЕЛОАДЕР ПРИ ВХОДЕ (0.7 сек) -->
     <div id="cinema-intro">
         <div class="zoom-logo">HardwareVS</div>
     </div>
@@ -148,11 +157,11 @@
                 <div class="myth-text-title" id="mythTitle">Заблуждение</div>
                 <div class="myth-text-desc" id="mythDesc">Нажмите на любой МИФ для запуска развенчания...</div>
                 
-                <!-- 🔄 КИНЕМАТОГРАФИЧЕСКАЯ ЗАГРУЗКА РАДАР -->
+                <!-- 🔄 КИНЕМАТОГРАФИЧЕСКАЯ ЗАГРУЗКА: КИБЕР-ЛИНИЯ -->
                 <div class="real-loader-box" id="realLoaderBox">
-                    <div class="loading-radar"></div>
+                    <div class="cyber-progress-bg"><div class="cyber-progress-fill" id="cyberProgressFill"></div></div>
                     <div class="percent-counter" id="percentCounter">0%</div>
-                    <div class="matrix-log-text" id="matrixLog">INJECTING BENCHMARK MODULES...</div>
+                    <div class="matrix-log-text" id="matrixLog">CONNECTING TO REPO...</div>
                 </div>
 
                 <!-- 🎙️ ПАНЕЛЬ НЕОНОВЫХ СУБТИТРОВ -->
@@ -161,7 +170,7 @@
                 <!-- 📊 ЖИВОЙ ПРИМЕР-ДОКАЗАТЕЛЬСТВО СТОЛКНОВЕНИЯ КАРТ -->
                 <div class="myth-live-battle" id="mythLiveBattle">
                     <div class="myth-bar-item">
-                        <div class="myth-bar-label"><span>Слабая карта с кучей гигабайт (GeForce GTX 1060 16GB)</span><span style="color: #ff5252;">СЛАБЫЙ ЧИП</span></div>
+                        <div class="myth-bar-label"><span>Слабая карта с кучей памяти (GeForce GTX 1060 16GB)</span><span style="color: #ff5252;">СЛАБЫЙ ЧИП</span></div>
                         <div class="myth-bar-bg"><div class="myth-bar-fill b-red" id="mythBar1">0 pts</div></div>
                     </div>
                     <div class="myth-bar-item">
@@ -175,7 +184,7 @@
         </div>
     </div>
 
-    <!-- ДОПОЛНИТЕЛЬНЫЕ ОКНА ДЛЯ СТАБИЛЬНОСТИ -->
+    <!-- СЛУЖЕБНЫЕ ОКНА ДЛЯ СТАБИЛЬНОСТИ -->
     <div class="modal-overlay" id="suggestOverlay"><div class="modal-content"><div class="modal-header">Предложения</div><button class="modal-close-btn" onclick="closeSuggestModal()">Закрыть</button></div></div>
     <div class="modal-overlay" id="reviewOverlay"><div class="modal-content"><div class="modal-header">Отзывы</div><button class="modal-close-btn" onclick="closeReviewModal()">Закрыть</button></div></div>
     <script>
@@ -190,18 +199,44 @@
         };
 
         let currentLanguage = 'ru';
+        let audioCtx = null;
 
-        function speakAI(text) {
-            if (!window.speechSynthesis) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(text);
-            const voices = window.speechSynthesis.getVoices();
-            const deepVoice = voices.find(v => v.lang.includes('ru') && (v.name.includes('Male') || v.name.includes('Google') || v.name.includes('Microsoft')));
-            if(deepVoice) utterance.voice = deepVoice;
-            utterance.lang = 'ru-RU';
-            utterance.rate = 0.88;
-            utterance.pitch = 0.45; // Тот самый низкий грозный бас ИИ!
-            window.speechSynthesis.speak(utterance);
+        // 🔊 КИБЕРПАНКОВЫЙ ЗВУКОВОЙ ДВИЖОК: СИРЕНА И ЦИФРОВОЙ ГЛИТЧ-ШУМ ВЗЛОМА
+        function playGlitchSound() {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                // Генератор шума глитча
+                let bufferSize = audioCtx.sampleRate * 5; // 5 секунд звука
+                let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                let data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = Math.random() * 2 - 1;
+                }
+
+                let noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+
+                // Фильтр для создания эффекта "электронного писка"
+                let filter = audioCtx.createBiquadFilter();
+                filter.type = 'bandpass';
+                filter.frequency.setValueAtTime(800, audioCtx.currentTime);
+                filter.Q.setValueAtTime(5, audioCtx.currentTime);
+
+                // Модуляция частоты (эффект прерывистой хакерской сирены)
+                let gainNode = audioCtx.createGain();
+                gainNode.gain.setValueAtTime(0.08, audioCtx.currentTime); // Делаем звук приятным и не слишком громким
+
+                noise.connect(filter);
+                filter.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+
+                noise.start();
+                
+                // Автоматически глушим шум через 5 секунд, когда пойдет разбор
+                setTimeout(() => { noise.stop(); }, 5000);
+            } catch(e) { console.log("Браузер заблокировал звук до клика."); }
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -209,11 +244,10 @@
                 const intro = document.getElementById('cinema-intro');
                 if(intro) intro.classList.add('fade-out');
             }, 700);
-            if(window.speechSynthesis) window.speechSynthesis.getVoices();
         });
 
         function openMythsModal(e) { e.preventDefault(); document.getElementById('mythsOverlay').classList.add('active'); }
-        function closeMythsModal() { document.getElementById('mythsOverlay').classList.remove('active'); window.speechSynthesis.cancel(); }
+        function closeMythsModal() { document.getElementById('mythsOverlay').classList.remove('active'); if(audioCtx) audioCtx.close().then(() => audioCtx = null); }
 
         let mythActiveAnimation = false;
 
@@ -230,28 +264,36 @@
             const mLoader = document.getElementById('realLoaderBox');
             const mPercent = document.getElementById('percentCounter');
             const mLog = document.getElementById('matrixLog');
+            const mFill = document.getElementById('cyberProgressFill');
 
             document.getElementById('mythBar1').style.width = '0%';
             document.getElementById('mythBar2').style.width = '0%';
 
             if (num === 1) {
+                // 🔄 НОВЫЙ ТАЙМЛАЙН С КИБЕР-ЛИНИЕЙ И КИБЕР-ЗВУКОМ
                 mythActiveAnimation = true;
                 mTitle.style.display = 'none';
                 mDesc.style.display = 'none';
                 mBattle.classList.remove('active');
+                
                 mLoader.classList.add('active');
                 mSubs.style.display = 'block';
+                mFill.style.width = '0%';
                 
-                mSubs.innerText = "CRITICAL OVERLOAD... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤖";
-                speakAI("Ты реально думал, что это правда?");
+                // Врубаем хакерский звук и дублируем неоновыми субтитрами!
+                playGlitchSound();
+                mSubs.innerText = "🚨 ALERT: SYSTEM CORRUPTION DETECTED... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤖";
 
+                // Заполнение пиксельной шкалы и логов за 5 секунд
                 let progress = 0;
                 mPercent.innerText = "0%";
-                const logs = ["READING CACHE...", "SCANNING VRAM BUS...", "FETCHING PASSMARK REPO...", "DECODING SPECIFICATIONS...", "COMPILING EVIDENCE..."];
+                const logs = ["CONNECTING TO REPO...", "DECODING VRAM BUS...", "FETCHING PASSMARK REPO...", "ANALYZING CHIP FREQUENCY...", "COMPILING EVIDENCE..."];
                 
                 let percentInterval = setInterval(() => {
                     progress += 1;
                     mPercent.innerText = progress + "%";
+                    mFill.style.width = progress + "%";
+                    
                     if (progress % 20 === 0 && progress < 100) {
                         mLog.innerText = logs[Math.floor(progress / 20)];
                     }
@@ -260,12 +302,13 @@
                     }
                 }, 48);
 
+                // Через 5 секунд: "Сейчас я всё расскажу!"
                 setTimeout(() => {
-                    mLog.innerText = "OVERRIDE COMPLETE. BROADCASTING LIVE DATA...";
-                    mSubs.innerText = "DECODING PROVED... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️";
-                    speakAI("Сейчас я всё расскажу.");
+                    mLog.innerText = "OVERRIDE COMPLETE. DISPROVING MYTHS...";
+                    mSubs.innerText = "⚡ TRANSMISSION SECURED... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️";
                 }, 5000);
 
+                // Через 7.2 секунды: Конец загрузки, вспышка и вывод шкал-доказательств!
                 setTimeout(() => {
                     mLoader.classList.remove('active');
                     mSubs.style.display = 'none';
@@ -277,11 +320,12 @@
                     mTitle.innerText = data.title;
                     mDesc.innerText = data.desc;
 
+                    // Плавно заполняем шкалы реального примера (PassMark G3D Mark)
                     setTimeout(() => {
                         const bar1 = document.getElementById('mythBar1');
                         const bar2 = document.getElementById('mythBar2');
-                        bar1.style.width = '20%'; bar1.innerText = '5123 pts (GTX 1060)';
-                        bar2.style.width = '98%'; bar2.innerText = '25114 pts (RTX 4070 Ti)';
+                        bar1.style.width = '20%'; bar1.innerText = '5123 pts (GTX 1060 16GB)';
+                        bar2.style.width = '98%'; bar2.innerText = '25114 pts (RTX 4070 Ti 12GB)';
                     }, 50);
 
                     mythActiveAnimation = false;
