@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HardwareVS — Настройки системы</title>
+    <style>
+        :root {
+            --bg-color: #0b0813;
+            --card-bg: #140e28;
+            --accent-purple: #8a2be2;
+            --neon-glow: #bf55ec;
+            --text-color: #e2daf8;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            min-height: 100vh; box-sizing: border-box;
+        }
+        .back-link { align-self: flex-start; color: #bfaee3; text-decoration: none; font-weight: bold; font-size: 1.1rem; transition: color 0.2s; position: absolute; top: 25px; left: 25px; }
+        .back-link:hover { color: var(--neon-glow); }
+        .config-container {
+            background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px;
+            padding: 35px; max-width: 480px; width: 100%; box-shadow: 0 12px 32px rgba(0,0,0,0.6); box-sizing: border-box;
+        }
+        .config-header { font-size: 1.7rem; font-weight: 900; margin-bottom: 25px; text-align: center; color: #fff; border-bottom: 1px solid #302654; padding-bottom: 12px; }
+        .config-row { margin-bottom: 22px; }
+        .config-label { font-size: 1.05rem; font-weight: bold; margin-bottom: 10px; color: #bfaee3; }
+        .lang-btn { width: 100%; background-color: #211a3d; color: #fff; border: 1px solid var(--accent-purple); border-radius: 8px; padding: 14px; font-size: 1.05rem; font-weight: bold; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
+        .lang-btn:hover { border-color: var(--neon-glow); background-color: #2a204e; box-shadow: 0 0 10px rgba(191,85,236,0.2); }
+        .status-badge { color: #64f38c; font-size: 1rem; font-weight: bold; background: rgba(100,243,140,0.1); padding: 10px; border-radius: 6px; border-left: 3px solid #2ea043; }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="back-link">⬅ Вернуться на главную</a>
+
+    <div class="config-container">
+        <div class="config-header">Системные Настройки</div>
+        
+        <div class="config-row">
+            <div class="config-label">Язык интерфейса:</div>
+            <button class="lang-btn">
+                <span>🇷🇺 Русский (По умолчанию)</span>
+                <span style="color: var(--neon-glow); font-size: 0.85rem;">LOCK 🔒</span>
+            </button>
+        </div>
+
+        <div class="config-row">
+            <div class="config-label">Статус базы данных:</div>
+            <div class="status-badge">● Синхронизировано (PassMark 2026)</div>
+        </div>
+    </div>
+
+</body>
+</html>
