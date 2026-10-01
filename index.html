@@ -12,6 +12,7 @@
             --neon-glow: #bf55ec;
             --text-color: #e2daf8;
             --input-bg: #211a3d;
+            --myth-orange: #ff9f00;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -20,7 +21,7 @@
             min-height: 100vh; box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        /* 🎬 КРАТКИЙ ПРЕЛОАДЕР ПРИ ВХОДЕ (0.7 сек) */
+        /* 🎬 КРАТКИЙ ПРЕЛОАДЕР */
         #cinema-intro {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a;
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
@@ -29,17 +30,7 @@
         #cinema-intro.fade-out { opacity: 0; visibility: hidden; }
         .zoom-logo { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
 
-        /* 🌐 ЭКРАН МАТРИЧНОГО ПЕРЕВОДА ЯЗЫКА */
-        #translate-preloader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 3, 10, 0.95);
-            display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(8px);
-        }
-        #translate-preloader.active { display: flex; }
-        .translate-title { font-size: 1.4rem; font-weight: bold; color: var(--neon-glow); margin-bottom: 20px; letter-spacing: 2px; text-shadow: 0 0 10px rgba(191,85,236,0.5); }
-        .translate-bar-bg { width: 80%; max-width: 350px; background-color: #0b0813; border: 1px solid var(--accent-purple); height: 12px; border-radius: 4px; overflow: hidden; }
-        .translate-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-purple), var(--neon-glow)); box-shadow: 0 0 15px var(--neon-glow); transition: width 1.8s linear; }
-
-        /* 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР В ОДИН РЯД */
+        /* 👑 НАВИГАЦИОННЫЙ ТУЛБАР ВЕРХУ (ОСТАЛИСЬ ТОЛЬКО СЛУЖЕБНЫЕ КНОПКИ) */
         .top-navbar { position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 12px; z-index: 5; }
         .action-link-btn {
             background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple);
@@ -47,54 +38,70 @@
             transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap;
         }
         .action-link-btn:hover { border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15); box-shadow: 0 0 12px rgba(191,85,236,0.3); }
-        .myth-trigger-btn { border-color: #ff9f00; color: #e2daf8; }
-        .myth-trigger-btn:hover { border-color: #ffa726; background-color: rgba(255, 159, 0, 0.15); box-shadow: 0 0 12px rgba(255, 159, 0, 0.3); }
 
         .settings-btn { background: none; border: none; cursor: pointer; color: var(--text-color); padding: 0; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s; filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2)); }
         .settings-btn:hover { color: var(--neon-glow); transform: rotate(90deg); }
         .settings-btn svg { width: 32px; height: 32px; fill: currentColor; }
         
-        .header { text-align: center; margin-bottom: 50px; }
-        .header h1 { font-size: 3.5rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 { font-size: 4rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
         
-        .buttons-container { display: flex; gap: 25px; max-width: 600px; width: 100%; z-index: 2; }
-        .nav-btn { flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 24px; font-size: 1.3rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
+        /* 👑 КНОПКА МИФОВ ПЕРЕЕХАЛА В РЯД ПОСЕРЕДИНЕ КНОПОК ПК */
+        .buttons-container { display: flex; gap: 20px; max-width: 900px; width: 100%; z-index: 2; align-items: center; justify-content: center; }
+        .nav-btn {
+            flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 24px 15px; font-size: 1.15rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); white-space: nowrap;
+        }
         .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
         
+        /* Центральная кнопка МИФОВ */
+        .nav-btn-myth { border-color: var(--myth-orange); color: #fff; background: rgba(255,159,0,0.05); }
+        .nav-btn-myth:hover { background-color: var(--myth-orange); box-shadow: 0 0 25px rgba(255,159,0,0.6); border-color: #ffa726; }
+
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 8, 19, 0.8); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 10; backdrop-filter: blur(4px); }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 550px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative; }
+        .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 580px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { font-size: 1.6rem; font-weight: bold; margin-bottom: 20px; color: #fff; border-bottom: 1px solid #302654; padding-bottom: 10px; }
         .modal-close-btn { width: 100%; background-color: var(--accent-purple); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
         .modal-close-btn:hover { background-color: var(--neon-glow); }
 
-        /* СТИЛИ СЕТКИ ТАБОВ МИФОВ */
+        /* СЕТКА ТАБОВ */
         .myths-tabs-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 20px; }
         .myth-tab-btn { background-color: var(--input-bg); border: 1px solid #302654; color: #bfaee3; padding: 10px 5px; font-size: 0.85rem; font-weight: bold; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; }
-        .myth-tab-btn:hover { border-color: #ff9f00; }
-        .myth-tab-btn.active { background-color: rgba(255, 159, 0, 0.15); border-color: #ff9f00; color: #fff; box-shadow: 0 0 10px rgba(255,159,0,0.2); }
+        .myth-tab-btn:hover { border-color: var(--myth-orange); }
+        .myth-tab-btn.active { background-color: rgba(255, 159, 0, 0.15); border-color: var(--myth-orange); color: #fff; box-shadow: 0 0 10px rgba(255,159,0,0.2); }
         
-        .myth-display-box { background-color: #0b0813; border: 1px solid #302654; border-radius: 8px; padding: 18px; min-height: 250px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; position: relative; overflow: hidden; }
-        .myth-text-title { font-size: 1.05rem; font-weight: bold; color: #ff5252; margin-bottom: 12px; text-transform: uppercase; }
+        .myth-display-box { background-color: #0b0813; border: 1px solid #302654; border-radius: 8px; padding: 22px; min-height: 280px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; position: relative; overflow: hidden; }
+        .myth-text-title { font-size: 1.1rem; font-weight: bold; color: #ff5252; margin-bottom: 12px; text-transform: uppercase; }
         .myth-text-desc { font-size: 0.95rem; color: #e2daf8; line-height: 1.5; }
 
-        /* 🎬 ИНТЕРАКТИВНЫЕ СУБТИТРЫ И ЖИВЫЕ ШКАЛЫ ВНУТРИ МИФА 1 */
-        .myth-subs { font-size: 1.15rem; font-weight: bold; color: #ff9f00; text-align: center; margin: 20px 0; min-height: 40px; text-shadow: 0 0 8px rgba(255,159,0,0.3); }
-        .myth-live-battle { display: none; flex-direction: column; gap: 15px; margin-top: 10px; width: 100%; }
+        /* 🌐 СТИЛИ РЕАЛЬНОГО ХАКЕРСКОГО ИНДИКАТОРА ЗАГРУЗКИ (ПП. 3 ТВОЕГО ЗАПРОСА) */
+        .real-loader-box { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin: 15px 0; }
+        .real-loader-box.active { display: flex; }
+        
+        .loading-spinner {
+            width: 60px; height: 60px; border: 4px solid #140e28; border-top: 4px solid var(--myth-orange);
+            border-radius: 50%; animation: spin 1s linear infinite; box-shadow: 0 0 15px rgba(255,159,0,0.3);
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        
+        .percent-counter { font-size: 1.8rem; font-weight: 900; color: #fff; margin-top: 15px; font-family: monospace; letter-spacing: 1px; }
+        .myth-subs { font-size: 1.1rem; font-weight: bold; color: var(--myth-orange); text-align: center; margin-top: 15px; min-height: 35px; text-shadow: 0 0 8px rgba(255,159,0,0.3); }
+
+        /* ЖИВЫЕ ШКАЛЫ СРАВНЕНИЯ */
+        .myth-live-battle { display: none; flex-direction: column; gap: 15px; margin-top: 15px; width: 100%; }
         .myth-live-battle.active { display: flex; }
-        .myth-bar-item { background: #140e28; padding: 10px; border-radius: 6px; border: 1px solid #302654; }
-        .myth-bar-label { font-size: 0.85rem; color: #bfaee3; margin-bottom: 5px; font-weight: bold; }
-        .myth-bar-bg { background-color: #0b0813; border-radius: 4px; height: 20px; overflow: hidden; position: relative; border: 1px solid #211a3d; }
-        .myth-bar-fill { height: 100%; width: 0%; transition: width 1s cubic-bezier(0.1, 1, 0.1, 1); display: flex; align-items: center; padding-left: 8px; font-size: 0.8rem; font-weight: bold; color: #fff; box-sizing: border-box; }
+        .myth-bar-item { background: #140e28; padding: 12px; border-radius: 8px; border: 1px solid #302654; }
+        .myth-bar-label { font-size: 0.85rem; color: #bfaee3; margin-bottom: 6px; font-weight: bold; }
+        .myth-bar-bg { background-color: #0b0813; border-radius: 4px; height: 22px; overflow: hidden; position: relative; border: 1px solid #211a3d; }
+        .myth-bar-fill { height: 100%; width: 0%; transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1); display: flex; align-items: center; padding-left: 10px; font-size: 0.85rem; font-weight: bold; color: #fff; box-sizing: border-box; }
         .b-blue { background: linear-gradient(90deg, #1f6feb, #2f81f7); }
         .b-green { background: linear-gradient(90deg, #2ea043, #3fb950); }
 
-        @media (max-width: 650px) {
-            .top-navbar { position: static; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; width: 100%; }
+        @media (max-width: 850px) {
             .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; }
-            .nav-btn { padding: 20px; font-size: 1.15rem; }
-            .header h1 { font-size: 2.6rem; }
+            .nav-btn { width: 100%; padding: 20px; font-size: 1.1rem; }
+            .header h1 { font-size: 2.8rem; }
             .myths-tabs-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
@@ -112,9 +119,8 @@
         <div class="translate-bar-bg"><div class="translate-bar-fill" id="transBarFill"></div></div>
     </div>
 
-    <!-- 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР В ОДИН РЯД -->
+    <!-- 👑 НАВИГАЦИОННЫЙ ТУЛБАР ВЕРХУ -->
     <div class="top-navbar">
-        <a href="#myths" class="action-link-btn myth-trigger-btn" id="nav-myths-btn" onclick="openMythsModal(event)">🔥 Разрушение Мифов</a>
         <a href="#suggest" class="action-link-btn" id="nav-suggest-btn" onclick="openSuggestModal(event)">💡 Предложения</a>
         <a href="#review" class="action-link-btn" id="nav-review-btn" onclick="openReviewModal(event)">✍️ Отзывы</a>
         
@@ -129,8 +135,10 @@
         <h1 id="main-logo-text">HardwareVS</h1>
     </div>
 
+    <!-- 🖥 ТРЕУГОЛЬНЫЙ РЯД: КНОПКА МИФОВ ПРЯМО ПОСЕРЕДИНЕ КНОПОК ПК -->
     <div class="buttons-container">
         <a href="gpu.html" class="nav-btn" id="btn-gpu-text">Сравнить видеокарты</a>
+        <a href="#myths" class="nav-btn nav-btn-myth" id="btn-myth-text" onclick="openMythsModal(event)">🔥 Разрушение Мифов</a>
         <a href="cpu.html" class="nav-btn" id="btn-cpu-text">Сравнить процессоры</a>
     </div>
 
@@ -155,7 +163,7 @@
             <div class="modal-header" id="myths-header-text">Разрушение железных мифов</div>
             
             <div class="myths-tabs-grid">
-                <button class="myth-tab-btn active" id="mTab1" onclick="switchMyth(1)">МИФ 1</button>
+                <button class="myth-tab-btn" id="mTab1" onclick="switchMyth(1)">МИФ 1</button>
                 <button class="myth-tab-btn" id="mTab2" onclick="switchMyth(2)">МИФ 2</button>
                 <button class="myth-tab-btn" id="mTab3" onclick="switchMyth(3)">МИФ 3</button>
                 <button class="myth-tab-btn" id="mTab4" onclick="switchMyth(4)">МИФ 4</button>
@@ -164,19 +172,25 @@
 
             <div class="myth-display-box" id="mythDisplayBox">
                 <div class="myth-text-title" id="mythTitle">Заблуждение</div>
-                <div class="myth-text-desc" id="mythDesc">Нажмите на МИФ 1 для запуска интерактивного теста...</div>
+                <div class="myth-text-desc" id="mythDesc">Нажмите на любой МИФ для получения оперативных данных...</div>
                 
+                <!-- 🌐 ИНТЕРАКТИВНЫЙ БЛОК НАСТОЯЩЕЙ ЗАГРУЗКИ -->
+                <div class="real-loader-box" id="realLoaderBox">
+                    <div class="loading-spinner"></div>
+                    <div class="percent-counter" id="percentCounter">0%</div>
+                </div>
+
                 <!-- 🎙️ ПАНЕЛЬ ХАКЕРСКИХ СУБТИТРОВ РАЗОБЛАЧЕНИЯ -->
                 <div class="myth-subs" id="mythSubsBlock" style="display: none;"></div>
 
                 <!-- 📊 ЖИВЫЕ ВИРТУАЛЬНЫЕ ШКАЛЫ СРАВНЕНИЯ ДЛЯ МИФА 1 -->
                 <div class="myth-live-battle" id="mythLiveBattle">
                     <div class="myth-bar-item">
-                        <div class="myth-bar-label">Слабая карта с кучей памяти (Офисный чип 16GB)</div>
+                        <div class="myth-bar-label">Слабая видеокарта с кучей памяти (Офисный чип 16GB)</div>
                         <div class="myth-bar-bg"><div class="myth-bar-fill b-blue" id="mythBar1">0 pts</div></div>
                     </div>
                     <div class="myth-bar-item">
-                        <div class="myth-bar-label">Мощная карта с быстрой памятью (Игровой чип 8GB GDDR6X)</div>
+                        <div class="myth-bar-label">Мощная видеокарта с быстрой памятью (Игровой чип 8GB GDDR6X)</div>
                         <div class="myth-bar-bg"><div class="myth-bar-fill b-green" id="mythBar2">0 pts</div></div>
                     </div>
                 </div>
@@ -186,38 +200,9 @@
         </div>
     </div>
 
-    <!-- ОКНО ПРЕДЛОЖЕНИЙ ЖЕЛЕЗА -->
-    <div class="modal-overlay" id="suggestOverlay">
-        <div class="modal-content">
-            <div class="modal-header">Предложить новое железо</div>
-            <form action="mailto:bogdansklar43@gmail.com" method="GET" enctype="text/plain" style="margin: 0; padding: 0;">
-                <div class="setting-row">
-                    <div class="setting-label">Что добавить?</div>
-                    <select name="Тип комплектующего" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%;">
-                        <option value="Новая Видеокарта">📟 Новую видеокарту</option>
-                        <option value="Новый Процессор">🎛️ Новый процессор</option>
-                    </select>
-                </div>
-                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #2ea043, #3fb950); margin-bottom: 10px;">Отправить письмо</button>
-            </form>
-            <button class="modal-close-btn" onclick="closeSuggestModal()">Отмена</button>
-        </div>
-    </div>
-
-    <!-- ОКНО ОТЗЫВОВ АДМИНИСТРАЦИИ -->
-    <div class="modal-overlay" id="reviewOverlay">
-        <div class="modal-content">
-            <div class="modal-header">Оставить отзыв администрации</div>
-            <form action="mailto:bogdansklar43@gmail.com" method="GET" enctype="text/plain" style="margin: 0; padding: 0;">
-                <div class="setting-row">
-                    <div class="setting-label">Текст отзыва:</div>
-                    <textarea name="Текст отзыва" placeholder="Ваше мнение о сайте..." style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; height:80px; resize:none; font-family:inherit; box-sizing:border-box;" required></textarea>
-                </div>
-                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #0071e3, #005bb5); margin-bottom: 10px;">Отправить отзыв</button>
-            </form>
-            <button class="modal-close-btn" onclick="closeReviewModal()">Закрыть</button>
-        </div>
-    </div>
+    <!-- ДРУГИЕ ОКНА ДЛЯ СТАБИЛЬНОСТИ -->
+    <div class="modal-overlay" id="suggestOverlay"><div class="modal-content"><div class="modal-header">Предложения</div><button class="modal-close-btn" onclick="closeSuggestModal()">Закрыть</button></div></div>
+    <div class="modal-overlay" id="reviewOverlay"><div class="modal-content"><div class="modal-header">Отзывы</div><button class="modal-close-btn" onclick="closeReviewModal()">Закрыть</button></div></div>
     <script>
         const mythsDatabase = {
             ru: {
@@ -231,13 +216,14 @@
 
         let currentLanguage = 'ru';
 
+        // 🎙️ КИБЕРПАНК ГОЛОС ИИ С НИЗКИМ ТЕМБРОМ
         function speakAI(text) {
             if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             utterance.lang = 'ru-RU';
-            utterance.rate = 1.05;
-            utterance.pitch = 0.95;
+            utterance.rate = 1.0; 
+            utterance.pitch = 0.65; // Низкий глубокий бас
             window.speechSynthesis.speak(utterance);
         }
 
@@ -248,7 +234,7 @@
             }, 700);
         });
 
-        function openMythsModal(e) { e.preventDefault(); document.getElementById('mythsOverlay').classList.add('active'); switchMyth(1); }
+        function openMythsModal(e) { e.preventDefault(); document.getElementById('mythsOverlay').classList.add('active'); }
         function closeMythsModal() { document.getElementById('mythsOverlay').classList.remove('active'); window.speechSynthesis.cancel(); }
 
         let mythActiveAnimation = false;
@@ -263,26 +249,45 @@
             const mDesc = document.getElementById('mythDesc');
             const mSubs = document.getElementById('mythSubsBlock');
             const mBattle = document.getElementById('mythLiveBattle');
+            const mLoader = document.getElementById('realLoaderBox');
+            const mPercent = document.getElementById('percentCounter');
 
             document.getElementById('mythBar1').style.width = '0%';
             document.getElementById('mythBar2').style.width = '0%';
 
             if (num === 1) {
+                // 🔥 ЗАПУСК ИНТЕРАКТИВНОГО СЦЕНАРИЯ С РЕАЛЬНОЙ ЗАГРУЗКОЙ ПО ПРОЦЕНТАМ
                 mythActiveAnimation = true;
                 mTitle.style.display = 'none';
                 mDesc.style.display = 'none';
                 mBattle.classList.remove('active');
+                
+                mLoader.classList.add('active');
                 mSubs.style.display = 'block';
                 
-                mSubs.innerText = "LOADING SYSTEM... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤔";
+                mSubs.innerText = "CRITICAL ERROR... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤖";
                 speakAI("Ты реально думал, что это правда?");
 
+                // Счётчик процентов от 0% до 100% ровно на 5 секунд
+                let progress = 0;
+                mPercent.innerText = "0%";
+                let percentInterval = setInterval(() => {
+                    progress += 1;
+                    mPercent.innerText = progress + "%";
+                    if (progress >= 100) {
+                        clearInterval(percentInterval);
+                    }
+                }, 48);
+
+                // Переход на "Сейчас я всё расскажу" через 5 секунд (5000 мс)
                 setTimeout(() => {
-                    mSubs.innerText = "DECODING... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️";
+                    mSubs.innerText = "SYSTEM DECODING... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️";
                     speakAI("Сейчас я всё расскажу.");
                 }, 5000);
 
+                // Окончание загрузки и запуск шкал через 7.2 секунды
                 setTimeout(() => {
+                    mLoader.classList.remove('active');
                     mSubs.style.display = 'none';
                     mTitle.style.display = 'block';
                     mDesc.style.display = 'block';
@@ -305,6 +310,7 @@
             } else {
                 mTitle.style.display = 'block';
                 mDesc.style.display = 'block';
+                mLoader.classList.remove('active');
                 mSubs.style.display = 'none';
                 mBattle.classList.remove('active');
 
