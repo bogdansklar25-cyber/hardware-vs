@@ -11,6 +11,7 @@
             --accent-purple: #8a2be2;
             --neon-glow: #bf55ec;
             --text-color: #e2daf8;
+            --input-bg: #211a3d;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
@@ -19,54 +20,16 @@
             min-height: 100vh; box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        /* 🎬 КИНЕМАТОГРАФИЧНЫЙ ПРЕЛОАДЕР */
+        /* 🎬 КРАТКИЙ ПРЕЛОАДЕР ПРИ ВХОДЕ (0.7 сек) */
         #cinema-intro {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a;
             display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999;
-            transition: opacity 0.6s ease, visibility 0.6s; perspective: 1000px;
+            transition: opacity 0.4s ease, visibility 0.4s;
         }
         #cinema-intro.fade-out { opacity: 0; visibility: hidden; }
+        .zoom-logo { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
 
-        .intro-stage { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; }
-        .intro-stage.active { display: flex; }
-
-        .stage-tag {
-            font-size: 1.1rem; font-weight: bold; letter-spacing: 3px; color: #ff9f00; margin-bottom: 20px;
-            text-transform: uppercase; text-shadow: 0 0 10px rgba(255,159,0,0.5);
-        }
-        .stage-tag.cpu-tag { color: #2f81f7; text-shadow: 0 0 10px rgba(47,129,247,0.5); }
-
-        .intro-monitor {
-            background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px;
-            padding: 25px; width: 90%; max-width: 450px; box-shadow: 0 0 40px rgba(138, 43, 226, 0.25); box-sizing: border-box;
-        }
-        .monitor-header { display: flex; justify-content: space-between; font-size: 0.95rem; color: #8b949e; font-weight: bold; margin-bottom: 15px; }
-        .monitor-bar-bg { background-color: #0b0813; border-radius: 6px; height: 18px; margin-bottom: 14px; overflow: hidden; border: 1px solid #302654; }
-        .monitor-bar { height: 100%; width: 0%; transition: width 1.2s cubic-bezier(0.1, 1, 0.1, 1); }
-        .gpu-b1 { background: linear-gradient(90deg, #1f6feb, #2f81f7); box-shadow: 0 0 10px rgba(47,129,247,0.4); }
-        .gpu-b2 { background: linear-gradient(90deg, #ab47bc, #bf55ec); box-shadow: 0 0 10px rgba(191,85,236,0.4); }
-        .cpu-b1 { background: linear-gradient(90deg, #e55350, #f25f5c); box-shadow: 0 0 10px rgba(242,95,92,0.4); }
-        .cpu-b2 { background: linear-gradient(90deg, #2ea043, #3fb950); box-shadow: 0 0 10px rgba(63,185,80,0.4); }
-        .monitor-verdict {
-            margin-top: 15px; padding: 12px; background-color: rgba(138, 43, 226, 0.08); border-left: 3px solid var(--accent-purple);
-            border-radius: 0 6px 6px 0; font-size: 0.95rem; text-align: center; opacity: 0; transition: opacity 0.3s ease;
-        }
-        .monitor-verdict.show { opacity: 1; }
-
-        .zoom-logo {
-            font-size: 1.5rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px;
-            transform: scale(0.3) translateZ(-500px); opacity: 0; filter: blur(10px); box-sizing: border-box; text-align: center;
-        }
-        .zoom-logo.active { animation: cinematicZoom 1.4s cubic-bezier(0.1, 0.8, 0.1, 1) forwards; }
-
-        @keyframes cinematicZoom {
-            0% { transform: scale(0.2) translateZ(-400px); opacity: 0; filter: blur(10px); }
-            50% { opacity: 1; filter: blur(0px); }
-            100% { transform: scale(3.5) translateZ(100px); opacity: 1; filter: drop-shadow(0 0 30px rgba(191,85,236,0.8)); font-size: 1.8rem; }
-        }
-
-        /* 🌐 ЗАГРУЗКА ХАКЕРСКОГО ПЕРЕВОДА */
+        /* 🌐 ЭКРАН МАТРИЧНОГО ПЕРЕВОДА ЯЗЫКА */
         #translate-preloader {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5, 3, 10, 0.95);
             display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10000; backdrop-filter: blur(8px);
@@ -76,24 +39,18 @@
         .translate-bar-bg { width: 80%; max-width: 350px; background-color: #0b0813; border: 1px solid var(--accent-purple); height: 12px; border-radius: 4px; overflow: hidden; }
         .translate-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent-purple), var(--neon-glow)); box-shadow: 0 0 15px var(--neon-glow); transition: width 1.8s linear; }
 
-        /* 👑 ВЕРХНИЙ ТУЛБАР В ОДИН РЯД */
-        .top-navbar {
-            position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 15px; z-index: 5;
-        }
+        /* 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР В ОДИН РЯД */
+        .top-navbar { position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 12px; z-index: 5; }
         .action-link-btn {
             background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple);
-            border-radius: 8px; padding: 10px 16px; font-size: 0.9rem; font-weight: bold; text-decoration: none;
+            border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-weight: bold; text-decoration: none;
             transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap;
         }
-        .action-link-btn:hover {
-            border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15);
-            box-shadow: 0 0 12px rgba(191,85,236,0.3);
-        }
-        .settings-btn {
-            background: none; border: none; cursor: pointer; color: var(--text-color); padding: 0;
-            display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s;
-            filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2));
-        }
+        .action-link-btn:hover { border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15); box-shadow: 0 0 12px rgba(191,85,236,0.3); }
+        .myth-trigger-btn { border-color: #ff9f00; color: #e2daf8; }
+        .myth-trigger-btn:hover { border-color: #ffa726; background-color: rgba(255, 159, 0, 0.15); box-shadow: 0 0 12px rgba(255, 159, 0, 0.3); }
+
+        .settings-btn { background: none; border: none; cursor: pointer; color: var(--text-color); padding: 0; display: flex; align-items: center; justify-content: center; transition: transform 0.3s ease, color 0.3s; filter: drop-shadow(0 0 8px rgba(191, 85, 236, 0.2)); }
         .settings-btn:hover { color: var(--neon-glow); transform: rotate(90deg); }
         .settings-btn svg { width: 32px; height: 32px; fill: currentColor; }
         
@@ -101,59 +58,55 @@
         .header h1 { font-size: 3.5rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
         
         .buttons-container { display: flex; gap: 25px; max-width: 600px; width: 100%; z-index: 2; }
-        .nav-btn {
-            flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple);
-            border-radius: 12px; padding: 24px; font-size: 1.3rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-        }
+        .nav-btn { flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 24px; font-size: 1.3rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); }
         .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
         
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(11, 8, 19, 0.8); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; z-index: 10; backdrop-filter: blur(4px); }
         .modal-overlay.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 400px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative; }
+        .modal-content { background-color: var(--card-bg); border: 2px solid var(--accent-purple); border-radius: 16px; padding: 30px; max-width: 550px; width: 100%; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); transform: scale(0.85); transition: transform 0.3s ease; box-sizing: border-box; position: relative; }
         .modal-overlay.active .modal-content { transform: scale(1); }
         .modal-header { font-size: 1.6rem; font-weight: bold; margin-bottom: 20px; color: #fff; border-bottom: 1px solid #302654; padding-bottom: 10px; }
-        .setting-row { margin-bottom: 20px; }
-        .setting-label { font-size: 1.05rem; margin-bottom: 8px; color: #bfaee3; }
-        .lang-switch-btn { width: 100%; background-color: #211a3d; color: #fff; border: 1px solid var(--accent-purple); border-radius: 6px; padding: 12px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: left; display: flex; justify-content: space-between; align-items: center; transition: all 0.2s; }
-        .lang-switch-btn:hover { border-color: var(--neon-glow); background-color: #2a204e; }
         .modal-close-btn { width: 100%; background-color: var(--accent-purple); color: #fff; border: none; border-radius: 8px; padding: 12px; font-size: 1.1rem; font-weight: bold; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
         .modal-close-btn:hover { background-color: var(--neon-glow); }
+
+        /* СТИЛИ СЕТКИ ТАБОВ МИФОВ */
+        .myths-tabs-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-bottom: 20px; }
+        .myth-tab-btn { background-color: var(--input-bg); border: 1px solid #302654; color: #bfaee3; padding: 10px 5px; font-size: 0.85rem; font-weight: bold; border-radius: 6px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .myth-tab-btn:hover { border-color: #ff9f00; }
+        .myth-tab-btn.active { background-color: rgba(255, 159, 0, 0.15); border-color: #ff9f00; color: #fff; box-shadow: 0 0 10px rgba(255,159,0,0.2); }
+        
+        .myth-display-box { background-color: #0b0813; border: 1px solid #302654; border-radius: 8px; padding: 18px; min-height: 250px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-start; position: relative; overflow: hidden; }
+        .myth-text-title { font-size: 1.05rem; font-weight: bold; color: #ff5252; margin-bottom: 12px; text-transform: uppercase; }
+        .myth-text-desc { font-size: 0.95rem; color: #e2daf8; line-height: 1.5; }
+
+        /* 🎬 ИНТЕРАКТИВНЫЕ СУБТИТРЫ И ЖИВЫЕ ШКАЛЫ ВНУТРИ МИФА 1 */
+        .myth-subs { font-size: 1.15rem; font-weight: bold; color: #ff9f00; text-align: center; margin: 20px 0; min-height: 40px; text-shadow: 0 0 8px rgba(255,159,0,0.3); }
+        .myth-live-battle { display: none; flex-direction: column; gap: 15px; margin-top: 10px; width: 100%; }
+        .myth-live-battle.active { display: flex; }
+        .myth-bar-item { background: #140e28; padding: 10px; border-radius: 6px; border: 1px solid #302654; }
+        .myth-bar-label { font-size: 0.85rem; color: #bfaee3; margin-bottom: 5px; font-weight: bold; }
+        .myth-bar-bg { background-color: #0b0813; border-radius: 4px; height: 20px; overflow: hidden; position: relative; border: 1px solid #211a3d; }
+        .myth-bar-fill { height: 100%; width: 0%; transition: width 1s cubic-bezier(0.1, 1, 0.1, 1); display: flex; align-items: center; padding-left: 8px; font-size: 0.8rem; font-weight: bold; color: #fff; box-sizing: border-box; }
+        .b-blue { background: linear-gradient(90deg, #1f6feb, #2f81f7); }
+        .b-green { background: linear-gradient(90deg, #2ea043, #3fb950); }
+
         @media (max-width: 650px) {
             .top-navbar { position: static; margin-bottom: 20px; flex-wrap: wrap; justify-content: center; width: 100%; }
             .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; }
             .nav-btn { padding: 20px; font-size: 1.15rem; }
             .header h1 { font-size: 2.6rem; }
+            .myths-tabs-grid { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
 <body>
 
-    <!-- 🎬 ЭПИЧНЫЙ СЮЖЕТНЫЙ ТРЕЙЛЕР-ЗАСТАВКА -->
+    <!-- 🎬 БЫСТРЫЙ КИНЕМАТОГРАФИЧНЫЙ ПРЕЛОАДЕР (0.7 сек при входе) -->
     <div id="cinema-intro">
-        <div class="intro-stage" id="stage-gpu">
-            <div class="stage-tag">GPU BENCHMARK...</div>
-            <div class="intro-monitor">
-                <div class="monitor-header"><span>NVIDIA RTX 5090 VS AMD RX 8800 XT</span><span id="gpu-pts">0 pts</span></div>
-                <div class="monitor-bar-bg"><div class="monitor-bar gpu-b1" id="gpuBar1"></div></div>
-                <div class="monitor-bar-bg"><div class="monitor-bar gpu-b2" id="gpuBar2"></div></div>
-                <div class="monitor-verdict" id="gpuVerdict">Модель RTX 5090 мощнее в тестах ровно на 5532 балла!</div>
-            </div>
-        </div>
-
-        <div class="intro-stage" id="stage-cpu">
-            <div class="stage-tag cpu-tag">CPU BENCHMARK...</div>
-            <div class="intro-monitor">
-                <div class="monitor-header"><span>Core i9-14900KS VS Ryzen 9 9950X</span><span id="cpu-pts">0 pts</span></div>
-                <div class="monitor-bar-bg"><div class="monitor-bar cpu-b1" id="cpuBar1"></div></div>
-                <div class="monitor-bar-bg"><div class="monitor-bar cpu-b2" id="cpuBar2"></div></div>
-                <div class="monitor-verdict" id="cpuVerdict">Процессор Core i9-14900KS вырывается вперед в синглкоре!</div>
-            </div>
-        </div>
-
-        <div class="zoom-logo" id="stage-zoom">HardwareVS</div>
+        <div class="zoom-logo">HardwareVS</div>
     </div>
 
-    <!-- 🌐 ЭКРАН ЗАГРУЗКИ ХАКЕРСКОГО ПЕРЕВОДА -->
+    <!-- 🌐 ЭКРАН ЗАГРУЗКИ МАТРИЧНОГО ПЕРЕВОДА -->
     <div id="translate-preloader">
         <div class="translate-title" id="trans-loading-text">TRANSLATING SYSTEM...</div>
         <div class="translate-bar-bg"><div class="translate-bar-fill" id="transBarFill"></div></div>
@@ -161,6 +114,7 @@
 
     <!-- 👑 ВЕРХНИЙ НАВИГАЦИОННЫЙ ТУЛБАР В ОДИН РЯД -->
     <div class="top-navbar">
+        <a href="#myths" class="action-link-btn myth-trigger-btn" id="nav-myths-btn" onclick="openMythsModal(event)">🔥 Разрушение Мифов</a>
         <a href="#suggest" class="action-link-btn" id="nav-suggest-btn" onclick="openSuggestModal(event)">💡 Предложения</a>
         <a href="#review" class="action-link-btn" id="nav-review-btn" onclick="openReviewModal(event)">✍️ Отзывы</a>
         
@@ -180,7 +134,7 @@
         <a href="cpu.html" class="nav-btn" id="btn-cpu-text">Сравнить процессоры</a>
     </div>
 
-    <!-- 1️⃣ ОКНО НАСТРОЕК (ЯЗЫК) -->
+    <!-- ОКНО НАСТРОЕК -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <div class="modal-header" id="modal-title-text">Настройки сайта</div>
@@ -191,117 +145,174 @@
                     <span style="color: var(--neon-glow); font-size: 0.85rem;">CHANGE 🔁</span>
                 </button>
             </div>
-            <div class="setting-row">
-                <div class="setting-label" id="label-db-text">Версия базы данных:</div>
-                <div style="color: #64f38c; font-size: 0.95rem; font-weight: bold;" id="db-status-text">● Актуальная (PassMark 2026)</div>
-            </div>
             <button class="modal-close-btn" id="closeSettings">Закрыть</button>
         </div>
     </div>
 
-    <!-- 2️⃣ ОКНО ПРЕДЛОЖЕНИЙ ЖЕЛЕЗА -->
+    <!-- 🛠️ ИНТЕРАКТИВНОЕ ОКНО РАЗВЕНЧАНИЯ МИФОВ -->
+    <div class="modal-overlay" id="mythsOverlay">
+        <div class="modal-content" style="max-width: 580px;">
+            <div class="modal-header" id="myths-header-text">Разрушение железных мифов</div>
+            
+            <div class="myths-tabs-grid">
+                <button class="myth-tab-btn active" id="mTab1" onclick="switchMyth(1)">МИФ 1</button>
+                <button class="myth-tab-btn" id="mTab2" onclick="switchMyth(2)">МИФ 2</button>
+                <button class="myth-tab-btn" id="mTab3" onclick="switchMyth(3)">МИФ 3</button>
+                <button class="myth-tab-btn" id="mTab4" onclick="switchMyth(4)">МИФ 4</button>
+                <button class="myth-tab-btn" id="mTab5" onclick="switchMyth(5)">МИФ 5</button>
+            </div>
+
+            <div class="myth-display-box" id="mythDisplayBox">
+                <div class="myth-text-title" id="mythTitle">Заблуждение</div>
+                <div class="myth-text-desc" id="mythDesc">Нажмите на МИФ 1 для запуска интерактивного теста...</div>
+                
+                <!-- 🎙️ ПАНЕЛЬ ХАКЕРСКИХ СУБТИТРОВ РАЗОБЛАЧЕНИЯ -->
+                <div class="myth-subs" id="mythSubsBlock" style="display: none;"></div>
+
+                <!-- 📊 ЖИВЫЕ ВИРТУАЛЬНЫЕ ШКАЛЫ СРАВНЕНИЯ ДЛЯ МИФА 1 -->
+                <div class="myth-live-battle" id="mythLiveBattle">
+                    <div class="myth-bar-item">
+                        <div class="myth-bar-label">Слабая карта с кучей памяти (Офисный чип 16GB)</div>
+                        <div class="myth-bar-bg"><div class="myth-bar-fill b-blue" id="mythBar1">0 pts</div></div>
+                    </div>
+                    <div class="myth-bar-item">
+                        <div class="myth-bar-label">Мощная карта с быстрой памятью (Игровой чип 8GB GDDR6X)</div>
+                        <div class="myth-bar-bg"><div class="myth-bar-fill b-green" id="mythBar2">0 pts</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="modal-close-btn" style="margin-top: 20px;" onclick="closeMythsModal()" id="myths-btn-close">Вернуться на сайт</button>
+        </div>
+    </div>
+
+    <!-- ОКНО ПРЕДЛОЖЕНИЙ ЖЕЛЕЗА -->
     <div class="modal-overlay" id="suggestOverlay">
         <div class="modal-content">
-            <div class="modal-header" id="suggest-header-text">Предложить новое железо</div>
+            <div class="modal-header">Предложить новое железо</div>
             <form action="mailto:bogdansklar43@gmail.com" method="GET" enctype="text/plain" style="margin: 0; padding: 0;">
                 <div class="setting-row">
-                    <div class="setting-label" id="suggest-label-type">Что добавить?</div>
+                    <div class="setting-label">Что добавить?</div>
                     <select name="Тип комплектующего" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%;">
                         <option value="Новая Видеокарта">📟 Новую видеокарту</option>
                         <option value="Новый Процессор">🎛️ Новый процессор</option>
                     </select>
                 </div>
-                <div class="setting-row">
-                    <div class="setting-label" id="suggest-label-name">Название модели:</div>
-                    <input type="text" name="Название модели" placeholder="Напр. NVIDIA RTX 5070 Ti" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; box-sizing:border-box;" required>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-label" id="suggest-label-specs">Характеристики (Ватты, Баллы):</div>
-                    <input type="text" name="Точные характеристики" placeholder="Точные баллы PassMark и TDP ватт без округлений" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; box-sizing:border-box;" required>
-                </div>
-                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #2ea043, #3fb950); margin-bottom: 10px;" id="suggest-btn-send">Отправить письмо</button>
+                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #2ea043, #3fb950); margin-bottom: 10px;">Отправить письмо</button>
             </form>
-            <button class="modal-close-btn" onclick="closeSuggestModal()" id="suggest-btn-close">Отмена</button>
+            <button class="modal-close-btn" onclick="closeSuggestModal()">Отмена</button>
         </div>
     </div>
 
-    <!-- 3️⃣ ОКНО ОТЗЫВОВ АДМИНИСТРАЦИИ -->
+    <!-- ОКНО ОТЗЫВОВ АДМИНИСТРАЦИИ -->
     <div class="modal-overlay" id="reviewOverlay">
         <div class="modal-content">
-            <div class="modal-header" id="review-header-text">Оставить отзыв администрации</div>
+            <div class="modal-header">Оставить отзыв администрации</div>
             <form action="mailto:bogdansklar43@gmail.com" method="GET" enctype="text/plain" style="margin: 0; padding: 0;">
                 <div class="setting-row">
-                    <div class="setting-label" id="review-label-name">Ваше имя или ник:</div>
-                    <input type="text" name="Имя пользователя" placeholder="Никнейм" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; box-sizing:border-box;" required>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-label" id="review-label-stars">Оценка сайта:</div>
-                    <select name="Оценка сайта" style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%;">
-                        <option value="5 из 5 звезд">5 из 5 ⭐⭐⭐⭐⭐</option>
-                        <option value="4 из 5 звезд">4 из 5 ⭐⭐⭐⭐</option>
-                        <option value="3 из 5 звезд">3 из 5 ⭐⭐⭐</option>
-                    </select>
-                </div>
-                <div class="setting-row">
-                    <div class="setting-label" id="review-label-msg">Текст отзыва:</div>
+                    <div class="setting-label">Текст отзыва:</div>
                     <textarea name="Текст отзыва" placeholder="Ваше мнение о сайте..." style="background-color:#211a3d; color:#fff; border:1px solid var(--accent-purple); border-radius:6px; padding:10px; width:100%; height:80px; resize:none; font-family:inherit; box-sizing:border-box;" required></textarea>
                 </div>
-                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #0071e3, #005bb5); margin-bottom: 10px;" id="review-btn-send">Отправить отзыв</button>
+                <button type="submit" class="modal-close-btn" style="background: linear-gradient(90deg, #0071e3, #005bb5); margin-bottom: 10px;">Отправить отзыв</button>
             </form>
-            <button class="modal-close-btn" onclick="closeReviewModal()" id="review-btn-close">Закрыть</button>
+            <button class="modal-close-btn" onclick="closeReviewModal()">Закрыть</button>
         </div>
     </div>
     <script>
-        const languages = {
+        const mythsDatabase = {
             ru: {
-                logo: "HardwareVS", btnGpu: "Сравнить видеокарты", btnCpu: "Сравнить процессоры",
-                modalTitle: "Настройки сайта", labelLang: "Язык интерфейса:", labelDb: "Версия базы данных:",
-                dbStatus: "● Актуальная (PassMark 2026)", modalClose: "Закрыть", currentLang: "🇷🇺 Русский",
-                navSuggest: "💡 Предложения", navReview: "✍️ Отзывы",
-                sHead: "Предложить новое железо", sType: "Что добавить?", sName: "Название модели:", sSpecs: "Характеристики (Ватты, Баллы):", sSend: "Отправить письмо", sClose: "Отмена",
-                rHead: "Оставить отзыв администрации", rName: "Ваше имя или ник:", rStars: "Оценка сайта:", rMsg: "Текст отзыва:", rSend: "Отправить отзыв", rClose: "Закрыть"
-            },
-            en: {
-                logo: "HARDWARE.VS", btnGpu: "COMPARE GRAPHICS CARDS", btnCpu: "COMPARE PROCESSORS",
-                modalTitle: "SYSTEM SETTINGS", labelLang: "INTERFACE LANGUAGE:", labelDb: "DATABASE VERSION:",
-                dbStatus: "● LIVE REPO (PassMark 2026)", modalClose: "CLOSE WINDOW", currentLang: "🇺🇸 English",
-                navSuggest: "💡 Suggestions", navReview: "✍️ Reviews",
-                sHead: "Suggest New Hardware", sType: "Hardware category:", sName: "Model name:", sSpecs: "Specs (Watts, Scores):", sSend: "Send Email", sClose: "Cancel",
-                rHead: "Leave Feedback to Admin", rName: "Your name or nick:", rStars: "Site rating:", rMsg: "Review message:", rSend: "Submit Review", rClose: "Close"
+                1: { title: "МИФ 1: Чем больше гигабайт памяти — тем мощнее видеокарта!", desc: "Абсолютная ложь! Объем памяти (VRAM) — это просто размер 'склада'. Если сам графический чип слабый, а шина памяти узкая, то хоть 32 гигабайта туда поставь — карта будет тормозить. Быстрая память (GDDR6X/GDDR7) на широкой шине и мощный чип всегда уничтожат медленные гигабайты." },
+                2: { title: "МИФ 2: Процессоры Core i9 всегда лучше для игр, чем Core i5!", desc: "Неправда. В играх решает производительность на одно ядро, а не их общее количество. Флагманские i9 просто сильнее греются и стоят в два раза дороже, давая в играх всего 5-10% прироста по сравнению с современным i5." },
+                3: { title: "МИФ 3: Чем больше Ватт потребляет блок питания, тем больше счет за свет!", desc: "Заблуждение. Блок питания на 1000W не берет из розетки киловатт постоянно. Он берет ровно столько, сколько просит твое железо в данный момент (например, 350 Ватт в игре)." },
+                4: { title: "МИФ 4: Разгон комплектующих мгновенно сжигает компьютер!", desc: "Современное железо имеет встроенные многоуровневые системы защиты от перегрева (трэтлинг). При опасной температуре чип сбросит частоты или выключит ПК, но не сгорит." },
+                5: { title: "МИФ 5: Жидкостное охлаждение (водянка) никогда не протекает!", desc: "Риск есть всегда. Даже дорогие СЖО со временем могут дать течь из-за высыхания шлангов или брака помпы. Хорошая тяжелая башня кулера намного безопаснее." }
             }
         };
 
         let currentLanguage = 'ru';
 
-        window.addEventListener('DOMContentLoaded', () => {
-            if (document.referrer.includes('gpu.html') || document.referrer.includes('cpu.html')) {
-                document.getElementById('cinema-intro').style.display = 'none';
-                document.body.style.opacity = '0'; document.body.style.transform = 'scale(1.05)'; document.body.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                setTimeout(() => { document.body.style.opacity = '1'; document.body.style.transform = 'scale(1)'; }, 50);
-                return; 
-            }
-            const stageGpu = document.getElementById('stage-gpu'); const stageCpu = document.getElementById('stage-cpu'); const stageZoom = document.getElementById('stage-zoom');
-            stageGpu.classList.add('active');
-            setTimeout(() => { document.getElementById('gpuBar1').style.width = '95%'; document.getElementById('gpuBar2').style.width = '78%'; animatePoints('gpu-pts', 39652, 1000); }, 100);
-            setTimeout(() => { document.getElementById('gpuVerdict').classList.add('show'); }, 1100);
-            setTimeout(() => {
-                stageGpu.classList.remove('active'); stageCpu.classList.add('active');
-                setTimeout(() => { document.getElementById('cpuBar1').style.width = '92%'; document.getElementById('cpuBar2').style.width = '88%'; animatePoints('cpu-pts', 64000, 1000); }, 50);
-            }, 2500);
-            setTimeout(() => { document.getElementById('cpuVerdict').classList.add('show'); }, 3600);
-            setTimeout(() => { stageCpu.classList.remove('active'); stageZoom.classList.add('active'); }, 5000);
-            setTimeout(() => { document.getElementById('cinema-intro').classList.add('fade-out'); }, 6200);
+        function speakAI(text) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ru-RU';
+            utterance.rate = 1.05;
+            utterance.pitch = 0.95;
+            window.speechSynthesis.speak(utterance);
+        }
 
-            function animatePoints(elementId, target, time) {
-                const el = document.getElementById(elementId); let current = 0; const start = performance.now();
-                function step(now) {
-                    const elapsed = now - start; const progress = Math.min(elapsed / time, 1);
-                    current = Math.floor(progress * target); if(el) el.innerText = current + ' pts';
-                    if (progress < 1) requestAnimationFrame(step);
-                }
-                requestAnimationFrame(step);
-            }
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const intro = document.getElementById('cinema-intro');
+                if(intro) intro.classList.add('fade-out');
+            }, 700);
         });
+
+        function openMythsModal(e) { e.preventDefault(); document.getElementById('mythsOverlay').classList.add('active'); switchMyth(1); }
+        function closeMythsModal() { document.getElementById('mythsOverlay').classList.remove('active'); window.speechSynthesis.cancel(); }
+
+        let mythActiveAnimation = false;
+
+        function switchMyth(num) {
+            if (mythActiveAnimation) return;
+
+            for(let i=1; i<=5; i++) document.getElementById(`mTab${i}`).classList.remove('active');
+            document.getElementById(`mTab${num}`).classList.add('active');
+
+            const mTitle = document.getElementById('mythTitle');
+            const mDesc = document.getElementById('mythDesc');
+            const mSubs = document.getElementById('mythSubsBlock');
+            const mBattle = document.getElementById('mythLiveBattle');
+
+            document.getElementById('mythBar1').style.width = '0%';
+            document.getElementById('mythBar2').style.width = '0%';
+
+            if (num === 1) {
+                mythActiveAnimation = true;
+                mTitle.style.display = 'none';
+                mDesc.style.display = 'none';
+                mBattle.classList.remove('active');
+                mSubs.style.display = 'block';
+                
+                mSubs.innerText = "LOADING SYSTEM... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤔";
+                speakAI("Ты реально думал, что это правда?");
+
+                setTimeout(() => {
+                    mSubs.innerText = "DECODING... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️";
+                    speakAI("Сейчас я всё расскажу.");
+                }, 5000);
+
+                setTimeout(() => {
+                    mSubs.style.display = 'none';
+                    mTitle.style.display = 'block';
+                    mDesc.style.display = 'block';
+                    mBattle.classList.add('active');
+                    
+                    const data = mythsDatabase.ru[1];
+                    mTitle.innerText = data.title;
+                    mDesc.innerText = data.desc;
+
+                    setTimeout(() => {
+                        const bar1 = document.getElementById('mythBar1');
+                        const bar2 = document.getElementById('mythBar2');
+                        bar1.style.width = '35%'; bar1.innerText = '5123 pts (16GB)';
+                        bar2.style.width = '95%'; bar2.innerText = '25114 pts (8GB)';
+                    }, 50);
+
+                    mythActiveAnimation = false;
+                }, 7200);
+
+            } else {
+                mTitle.style.display = 'block';
+                mDesc.style.display = 'block';
+                mSubs.style.display = 'none';
+                mBattle.classList.remove('active');
+
+                const data = mythsDatabase.ru[num];
+                mTitle.innerText = data.title;
+                mDesc.innerText = data.desc;
+            }
+        }
 
         function openSuggestModal(e) { e.preventDefault(); document.getElementById('suggestOverlay').classList.add('active'); }
         function closeSuggestModal() { document.getElementById('suggestOverlay').classList.remove('active'); }
@@ -311,61 +322,6 @@
         const openBtn = document.getElementById('openSettings'); const closeBtn = document.getElementById('closeSettings'); const overlay = document.getElementById('modalOverlay');
         if(openBtn) openBtn.addEventListener('click', () => { overlay.classList.add('active'); });
         if(closeBtn) closeBtn.addEventListener('click', () => { overlay.classList.remove('active'); });
-
-        changeLangBtn.addEventListener('click', () => {
-            overlay.classList.remove('active'); transPreloader.classList.add('active'); transBarFill.style.width = '0%';
-            setTimeout(() => { transBarFill.style.width = '100%'; }, 50);
-            const nextLang = currentLanguage === 'ru' ? 'en' : 'ru';
-
-            let intervals = [];
-            const scrambleElements = [
-                { id: 'main-logo-text', final: languages[nextLang].logo },
-                { id: 'btn-gpu-text', final: languages[nextLang].btnGpu },
-                { id: 'btn-cpu-text', final: languages[nextLang].btnCpu },
-                { id: 'nav-suggest-btn', final: languages[nextLang].navSuggest },
-                { id: 'nav-review-btn', final: languages[nextLang].navReview }
-            ];
-
-            scrambleElements.forEach(item => {
-                const el = document.getElementById(item.id); if(!el) return;
-                const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#@$%&*";
-                let interval = setInterval(() => {
-                    let scrambled = ""; for(let i=0; i<item.final.length; i++) scrambled += chars[Math.floor(Math.random() * chars.length)];
-                    el.innerText = scrambled;
-                }, 60); intervals.push(interval);
-            });
-
-            setTimeout(() => {
-                intervals.forEach(clearInterval); currentLanguage = nextLang; const data = languages[currentLanguage];
-                document.getElementById('main-logo-text').innerText = data.logo;
-                document.getElementById('btn-gpu-text').innerText = data.btnGpu;
-                document.getElementById('btn-cpu-text').innerText = data.btnCpu;
-                document.getElementById('nav-suggest-btn').innerText = data.navSuggest;
-                document.getElementById('nav-review-btn').innerText = data.navReview;
-                document.getElementById('modal-title-text').innerText = data.modalTitle;
-                document.getElementById('label-lang-text').innerText = data.labelLang;
-                document.getElementById('label-db-text').innerText = data.labelDb;
-                document.getElementById('db-status-text').innerText = data.dbStatus;
-                document.getElementById('closeSettings').innerText = data.modalClose;
-                document.getElementById('current-lang-name').innerText = data.currentLang;
-
-                document.getElementById('suggest-header-text').innerText = data.sHead;
-                document.getElementById('suggest-label-type').innerText = data.sType;
-                document.getElementById('suggest-label-name').innerText = data.sName;
-                document.getElementById('suggest-label-specs').innerText = data.sSpecs;
-                document.getElementById('suggest-btn-send').innerText = data.sSend;
-                document.getElementById('suggest-btn-close').innerText = data.sClose;
-
-                document.getElementById('review-header-text').innerText = data.rHead;
-                document.getElementById('review-label-name').innerText = data.rName;
-                document.getElementById('review-label-stars').innerText = data.rStars;
-                document.getElementById('review-label-msg').innerText = data.rMsg;
-                document.getElementById('review-btn-send').innerText = data.rSend;
-                document.getElementById('review-btn-close').innerText = data.rClose;
-
-                transPreloader.classList.remove('active');
-            }, 1800);
-        });
     </script>
 </body>
 </html>
