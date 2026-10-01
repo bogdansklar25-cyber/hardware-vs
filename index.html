@@ -21,12 +21,12 @@
             min-height: 100vh; box-sizing: border-box; position: relative; overflow: hidden;
         }
 
-        /* 🎬 КРАТКИЙ ПРЕЛОАДЕР */
+        /* 🎬 ПRELOADER */
         #cinema-intro { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #05030a; display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; transition: opacity 0.4s ease, visibility 0.4s; }
         #cinema-intro.fade-out { opacity: 0; visibility: hidden; }
         .zoom-logo { font-size: 3rem; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
 
-        /* 👑 НАВИГАЦИОННЫЙ ТУЛБАР ВЕРХУ */
+        /* 👑 НАВИГАЦИЯ */
         .top-navbar { position: absolute; top: 25px; right: 25px; display: flex; align-items: center; gap: 12px; z-index: 5; }
         .action-link-btn { background-color: var(--card-bg); color: var(--text-color); border: 1px solid var(--accent-purple); border-radius: 8px; padding: 10px 14px; font-size: 0.9rem; font-weight: bold; text-decoration: none; transition: all 0.2s ease; box-shadow: 0 4px 10px rgba(0,0,0,0.3); white-space: nowrap; }
         .action-link-btn:hover { border-color: var(--neon-glow); color: #fff; background-color: rgba(138, 43, 226, 0.15); box-shadow: 0 0 12px rgba(191,85,236,0.3); }
@@ -37,7 +37,6 @@
         .header { text-align: center; margin-bottom: 40px; }
         .header h1 { font-size: 4rem; margin: 0; font-weight: 900; background: linear-gradient(45deg, var(--accent-purple), var(--neon-glow)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; filter: drop-shadow(0 0 15px rgba(191, 85, 236, 0.3)); }
         
-        /* ТРЕУГОЛЬНЫЙ РЯД КНОПОК ПО СЕРЕДИНЕ */
         .buttons-container { display: flex; gap: 20px; max-width: 900px; width: 100%; z-index: 2; align-items: center; justify-content: center; }
         .nav-btn { flex: 1; background-color: var(--card-bg); color: var(--text-color); border: 2px solid var(--accent-purple); border-radius: 12px; padding: 24px 15px; font-size: 1.15rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: all 0.3s cubic-bezier(0.1, 1, 0.1, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4); white-space: nowrap; }
         .nav-btn:hover { background-color: var(--accent-purple); color: #fff; transform: translateY(-5px); box-shadow: 0 0 25px rgba(138, 43, 226, 0.6); border-color: var(--neon-glow); }
@@ -62,22 +61,16 @@
         .myth-text-title { font-size: 1.15rem; font-weight: bold; color: #ff5252; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
         .myth-text-desc { font-size: 0.95rem; color: #e2daf8; line-height: 1.6; margin-bottom: 15px; }
 
-        /* 🔄 МОЩНАЯ КИНЕМАТОГРАФИЧЕСКАЯ ЗАГРУЗКА РАДАР + КОД (ПП. 2 ТВОЕГО ЗАПРОСА) */
+        /* 🔄 ЗАГРУЗКА */
         .real-loader-box { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; margin: 20px 0; }
         .real-loader-box.active { display: flex; }
-        
-        .loading-radar {
-            width: 70px; height: 70px; border: 3px double transparent; border-top-color: var(--myth-orange); border-bottom-color: var(--myth-orange);
-            border-radius: 50%; animation: spinRadar 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite; filter: drop-shadow(0 0 15px var(--myth-orange));
-        }
+        .loading-radar { width: 70px; height: 70px; border: 3px double transparent; border-top-color: var(--myth-orange); border-bottom-color: var(--myth-orange); border-radius: 50%; animation: spinRadar 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite; filter: drop-shadow(0 0 15px var(--myth-orange)); }
         @keyframes spinRadar { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(180deg) scale(1.08); } 100% { transform: rotate(360deg) scale(1); } }
-        
         .percent-counter { font-size: 2.2rem; font-weight: 900; color: #fff; margin-top: 15px; font-family: monospace; letter-spacing: 2px; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
         .matrix-log-text { font-size: 0.75rem; color: #8b949e; font-family: monospace; margin-top: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        
         .myth-subs { font-size: 1.2rem; font-weight: 900; color: var(--myth-orange); text-align: center; margin-top: 20px; min-height: 45px; text-shadow: 0 0 12px rgba(255,159,0,0.4); line-height: 1.4; }
 
-        /* 📊 ЖИВОЙ ПРИМЕР СРАВНЕНИЯ ВИДЕОКАРТ (ПП. 3 ТВОЕГО ЗАПРОСА) */
+        /* 📊 ШКАЛЫ СРАВНЕНИЯ */
         .myth-live-battle { display: none; flex-direction: column; gap: 16px; margin-top: 15px; width: 100%; border-top: 1px solid #211a3d; padding-top: 15px; }
         .myth-live-battle.active { display: flex; }
         .myth-bar-item { background: #140e28; padding: 14px; border-radius: 8px; border: 1px solid #302654; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -90,12 +83,102 @@
         @media (max-width: 850px) { .buttons-container { flex-direction: column; gap: 15px; padding: 0 10px; } .nav-btn { width: 100%; padding: 20px; font-size: 1.1rem; } .header h1 { font-size: 2.8rem; } .myths-tabs-grid { grid-template-columns: repeat(3, 1fr); } }
     </style>
 </head>
+<body>
+
+    <!-- 🎬 БЫСТРЫЙ ПРЕЛОАДЕР ПРИ ВХОДЕ -->
+    <div id="cinema-intro">
+        <div class="zoom-logo">HardwareVS</div>
+    </div>
+
+    <!-- 🌐 ЭКРАН ЗАГРУЗКИ МАТРИЧНОГО ПЕРЕВОДА -->
+    <div id="translate-preloader">
+        <div class="translate-title" id="trans-loading-text">TRANSLATING SYSTEM...</div>
+        <div class="translate-bar-bg"><div class="translate-bar-fill" id="transBarFill"></div></div>
+    </div>
+
+    <!-- 👑 НАВИГАЦИОННЫЙ ТУЛБАР ВЕРХУ -->
+    <div class="top-navbar">
+        <a href="#suggest" class="action-link-btn" id="nav-suggest-btn" onclick="openSuggestModal(event)">💡 Предложения</a>
+        <a href="#review" class="action-link-btn" id="nav-review-btn" onclick="openReviewModal(event)">✍️ Отзывы</a>
+        <button class="settings-btn" id="openSettings" title="Настройки">
+            <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 1-.22 1-.42l-.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.22.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+        </button>
+    </div>
+
+    <div class="header">
+        <h1 id="main-logo-text">HardwareVS</h1>
+    </div>
+
+    <!-- 🖥 ИДЕАЛЬНЫЙ ТРЕУГОЛЬНЫЙ РЯД -->
+    <div class="buttons-container">
+        <a href="gpu.html" class="nav-btn" id="btn-gpu-text">Сравнить видеокарты</a>
+        <a href="#myths" class="nav-btn nav-btn-myth" id="btn-myth-text" onclick="openMythsModal(event)">🔥 Разрушение Мифов</a>
+        <a href="cpu.html" class="nav-btn" id="btn-cpu-text">Сравнить процессоры</a>
+    </div>
+
+    <!-- ОКНО НАСТРОЕК -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-content">
+            <div class="modal-header" id="modal-title-text">Настройки сайта</div>
+            <div class="setting-row">
+                <div class="setting-label" id="label-lang-text">Язык интерфейса:</div>
+                <button class="lang-switch-btn" id="changeLangBtn">
+                    <span id="current-lang-name">🇷🇺 Русский</span>
+                    <span style="color: var(--neon-glow); font-size: 0.85rem;">CHANGE 🔁</span>
+                </button>
+            </div>
+            <button class="modal-close-btn" id="closeSettings">Закрыть</button>
+        </div>
+    </div>
+
+    <!-- 🛠️ ИНТЕРАКТИВНОЕ ОКНО РАЗВЕНЧАНИЯ МИФОВ -->
+    <div class="modal-overlay" id="mythsOverlay">
+        <div class="modal-content" style="max-width: 620px;">
+            <div class="modal-header" id="myths-header-text">Разрушение железных мифов</div>
+            
+            <div class="myths-tabs-grid">
+                <button class="myth-tab-btn" id="mTab1" onclick="switchMyth(1)">МИФ 1</button>
+                <button class="myth-tab-btn" id="mTab2" onclick="switchMyth(2)">МИФ 2</button>
+                <button class="myth-tab-btn" id="mTab3" onclick="switchMyth(3)">МИФ 3</button>
+                <button class="myth-tab-btn" id="mTab4" onclick="switchMyth(4)">МИФ 4</button>
+                <button class="myth-tab-btn" id="mTab5" onclick="switchMyth(5)">МИФ 5</button>
+            </div>
+
+            <div class="myth-display-box" id="mythDisplayBox">
+                <div class="myth-text-title" id="mythTitle">Заблуждение</div>
+                <div class="myth-text-desc" id="mythDesc">Нажмите на любой МИФ для запуска развенчания...</div>
+                
+                <!-- 🔄 КИНЕМАТОГРАФИЧЕСКАЯ ЗАГРУЗКА РАДАР -->
+                <div class="real-loader-box" id="realLoaderBox">
+                    <div class="loading-radar"></div>
+                    <div class="percent-counter" id="percentCounter">0%</div>
+                    <div class="matrix-log-text" id="matrixLog">INJECTING BENCHMARK MODULES...</div>
+                </div>
+
+                <!-- 🎙️ ПАНЕЛЬ НЕОНОВЫХ СУБТИТРОВ -->
+                <div class="myth-subs" id="mythSubsBlock" style="display: none;"></div>
+
+                <!-- 📊 ЖИВОЙ ПРИМЕР-ДОКАЗАТЕЛЬСТВО СТОЛКНОВЕНИЯ КАРТ -->
+                <div class="myth-live-battle" id="mythLiveBattle">
+                    <div class="myth-bar-item">
+                        <div class="myth-bar-label"><span>Слабая карта с кучей гигабайт (GeForce GTX 1060 16GB)</span><span style="color: #ff5252;">СЛАБЫЙ ЧИП</span></div>
+                        <div class="myth-bar-bg"><div class="myth-bar-fill b-red" id="mythBar1">0 pts</div></div>
+                    </div>
+                    <div class="myth-bar-item">
+                        <div class="myth-bar-label"><span>Мощная карта с быстрой памятью (GeForce RTX 4070 Ti 12GB)</span><span style="color: #64f38c;">МОЩНЫЙ ЧИП</span></div>
+                        <div class="myth-bar-bg"><div class="myth-bar-fill b-green" id="mythBar2">0 pts</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="modal-close-btn" style="margin-top: 20px;" onclick="closeMythsModal()" id="myths-btn-close">Вернуться на сайт</button>
+        </div>
+    </div>
+
     <!-- ДОПОЛНИТЕЛЬНЫЕ ОКНА ДЛЯ СТАБИЛЬНОСТИ -->
     <div class="modal-overlay" id="suggestOverlay"><div class="modal-content"><div class="modal-header">Предложения</div><button class="modal-close-btn" onclick="closeSuggestModal()">Закрыть</button></div></div>
     <div class="modal-overlay" id="reviewOverlay"><div class="modal-content"><div class="modal-header">Отзывы</div><button class="modal-close-btn" onclick="closeReviewModal()">Закрыть</button></div></div>
-
     <script>
-        // БАЗА ДАННЫХ 5 ЖЕЛЕЗНЫХ МИФОВ
         const mythsDatabase = {
             ru: {
                 1: { title: "МИФ 1: Чем больше гигабайт памяти — тем мощнее видеокарта!", desc: "Абсолютная ложь! Объем памяти (VRAM) — это просто размер 'склада'. Если сам графический чип слабый, а шина памяти узкая, то хоть 32 гигабайта туда поставь — карта будет безбожно лагать. Быстрая память (GDDR6X/GDDR7) на широкой шине и мощный чип всегда в щепки уничтожат пустые медленные гигабайты." },
@@ -108,20 +191,16 @@
 
         let currentLanguage = 'ru';
 
-        // 🎙️ ХАКЕРСКИЙ КИНЕМАТОГРАФИЧЕСКИЙ БРУТАЛЬНЫЙ ГОЛОС
         function speakAI(text) {
             if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
-            
-            // Находим глубокий мужской голос в системе
             const voices = window.speechSynthesis.getVoices();
             const deepVoice = voices.find(v => v.lang.includes('ru') && (v.name.includes('Male') || v.name.includes('Google') || v.name.includes('Microsoft')));
             if(deepVoice) utterance.voice = deepVoice;
-
             utterance.lang = 'ru-RU';
-            utterance.rate = 0.88; // Нарочито замедленный темп для брутальности
-            utterance.pitch = 0.45; // Максимально низкий бас грозного ИИ
+            utterance.rate = 0.88;
+            utterance.pitch = 0.45; // Тот самый низкий грозный бас ИИ!
             window.speechSynthesis.speak(utterance);
         }
 
@@ -137,6 +216,7 @@
         function closeMythsModal() { document.getElementById('mythsOverlay').classList.remove('active'); window.speechSynthesis.cancel(); }
 
         let mythActiveAnimation = false;
+
         function switchMyth(num) {
             if (mythActiveAnimation) return;
 
@@ -155,20 +235,16 @@
             document.getElementById('mythBar2').style.width = '0%';
 
             if (num === 1) {
-                // 🔄 ТАЙМЛАЙН ХАКЕРСКОГО ВЗЛОМА ДЛЯ МИФА 1
                 mythActiveAnimation = true;
                 mTitle.style.display = 'none';
                 mDesc.style.display = 'none';
                 mBattle.classList.remove('active');
-                
-                // Включаем радар и счетчик
                 mLoader.classList.add('active');
                 mSubs.style.display = 'block';
                 
                 mSubs.innerText = "CRITICAL OVERLOAD... ТЫ РЕАЛЬНО ДУМАЛ, ЧТО ЭТО ПРАВДА?! 🤖";
                 speakAI("Ты реально думал, что это правда?");
 
-                // Счётчик процентов от 0% до 100% ровно на 5 секунд
                 let progress = 0;
                 mPercent.innerText = "0%";
                 const logs = ["READING CACHE...", "SCANNING VRAM BUS...", "FETCHING PASSMARK REPO...", "DECODING SPECIFICATIONS...", "COMPILING EVIDENCE..."];
@@ -184,14 +260,12 @@
                     }
                 }, 48);
 
-                // Через 5 секунд: "Сейчас я всё расскажу!"
                 setTimeout(() => {
                     mLog.innerText = "OVERRIDE COMPLETE. BROADCASTING LIVE DATA...";
                     mSubs.innerText = "DECODING PROVED... СЕЙЧАС Я ВСЁ РАССКАЖУ! 🎙️";
                     speakAI("Сейчас я всё расскажу.");
                 }, 5000);
 
-                // Через 7.2 секунды: Конец загрузки, вывод доказательств видеокарт!
                 setTimeout(() => {
                     mLoader.classList.remove('active');
                     mSubs.style.display = 'none';
@@ -203,7 +277,6 @@
                     mTitle.innerText = data.title;
                     mDesc.innerText = data.desc;
 
-                    // Запускаем точные шкалы параллельного сравнения карт (PassMark G3D Mark)
                     setTimeout(() => {
                         const bar1 = document.getElementById('mythBar1');
                         const bar2 = document.getElementById('mythBar2');
@@ -215,7 +288,6 @@
                 }, 7200);
 
             } else {
-                // Мгновенный вывод для остальных мифов
                 mTitle.style.display = 'block';
                 mDesc.style.display = 'block';
                 mLoader.classList.remove('active');
@@ -232,10 +304,6 @@
         function closeSuggestModal() { document.getElementById('suggestOverlay').classList.remove('active'); }
         function openReviewModal(e) { e.preventDefault(); document.getElementById('reviewOverlay').classList.add('active'); }
         function closeReviewModal() { document.getElementById('reviewOverlay').classList.remove('active'); }
-
-        const openBtn = document.getElementById('openSettings'); const closeBtn = document.getElementById('closeSettings'); const overlay = document.getElementById('modalOverlay');
-        if(openBtn) openBtn.addEventListener('click', () => { overlay.classList.add('active'); });
-        if(closeBtn) closeBtn.addEventListener('click', () => { overlay.classList.remove('active'); });
     </script>
 </body>
 </html>
