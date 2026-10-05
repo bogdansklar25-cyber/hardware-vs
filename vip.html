@@ -128,17 +128,18 @@
 </div>
 
 <script>
-    // База данных промокодов твоих первых блогеров (пиши их сюда СТРОГО большими буквами)
+    // Список промокодов твоих 15 блогеров (пиши сюда большими буквами)
     const activePromos = ["PROMO1", "TECH2026", "VLAD_TT", "MONSTER_PC"];
 
     function checkPromo() {
         let inputField = document.getElementById("promo-field");
         let inputCode = inputField.value.toUpperCase().trim();
         let statusMsg = document.getElementById("promo-status");
-        let priceVal = document.getElementById("price-val");
         
         let linkUa = document.getElementById("link-ua");
         let linkRu = document.getElementById("link-ru");
+        
+        // Твой личный кошелек Keeper (сеть TON)
         let myWallet = "UQB5A-6ZfDMDoAeZMvWpEqfZLA0slByUF9mQsrb66B56GNCK";
 
         if (inputCode === "") {
@@ -149,24 +150,23 @@
         }
 
         if (activePromos.includes(inputCode)) {
-            // Если код верный: выводим скидку и меняем цену визуально
             statusMsg.style.color = "#10b981";
-            statusMsg.innerText = "🟢 Промокод активирован! Скидка учтена.";
+            statusMsg.innerText = "🟢 Промокод блогера успешно применен!";
             statusMsg.style.display = "block";
-            priceVal.innerHTML = "<s>50 грн / 99 руб</s> <span>45 грн / 89 руб</span>";
-
-            // Перенастраиваем ссылки BestChange, вшивая промокод в описание транзакции,
-            // чтобы в приложении Keeper на телефоне ты видел, кому платить 50% прибыли!
-            linkUa.href = `https://bestchange.ru{myWallet}&description=PROMO_${inputCode}`;
-            linkRu.href = `https://bestchange.ru{myWallet}&description=PROMO_${inputCode}`;
+            
+            // 🇺🇦 Обновляем ссылку для Украины (на BestChange с фильтром от 50 грн)
+            linkUa.href = `https://bestchange.ru{inputCode}`;
+            
+            // 🇷🇺 Обновляем ссылку AlfaBit для РФ (вшиваем сумму 99 руб, твой кошелек и промокод в описание)
+            linkRu.href = `https://alfabit.org{myWallet}&description=PROMO_${inputCode}`;
         } else {
-            // Если кода нет в нашей базе
             statusMsg.style.color = "#ef4444";
             statusMsg.innerText = "❌ Неверный код. Проверьте правильность букв!";
             statusMsg.style.display = "block";
         }
     }
 </script>
+
 
 </body>
 </html>
