@@ -5,63 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HardwareVS — Активация VIP</title>
     <style>
-        body { 
-            background-color: #0b0713; 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            color: #fff; 
-            display: flex; 
-            flex-direction: column;
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-        }
-        .back-link {
-            color: #a855f7;
-            text-decoration: none;
-            font-weight: bold;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        .pay-card { 
-            background: #140f1e; 
-            border: 2px solid #a855f7; 
-            border-radius: 12px; 
-            padding: 35px 30px; 
-            max-width: 450px; 
-            width: 90%; 
-            text-align: center; 
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.2); 
-        }
+        body { background-color: #0b0713; font-family: 'Segoe UI', sans-serif; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .back-link { color: #a855f7; text-decoration: none; font-weight: bold; margin-bottom: 20px; font-size: 14px; }
+        .pay-card { background: #140f1e; border: 2px solid #a855f7; border-radius: 12px; padding: 35px 30px; max-width: 450px; width: 90%; text-align: center; box-shadow: 0 0 30px rgba(168, 85, 247, 0.2); position: relative; }
         h2 { margin-top: 0; font-size: 26px; color: #fff; }
         .price-text { font-size: 18px; color: #ccc; margin-bottom: 25px; }
-        .price-text span { color: #f59e0b; font-weight: bold; }
+        .promo-block, .activation-block { margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; }
+        .promo-input { background: #221a30; border: 1px solid #a855f7; padding: 12px; border-radius: 6px; color: #fff; font-weight: bold; text-align: center; text-transform: uppercase; width: 60%; font-size: 14px; outline: none; }
+        .promo-btn { background: #a855f7; border: none; color: #fff; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; }
+        .status-msg { margin-top: -10px; margin-bottom: 20px; font-size: 13px; font-weight: bold; display: none; }
+        .btn-pay { display: block; color: #ffffff; text-decoration: none; padding: 16px; border-radius: 8px; font-weight: bold; font-size: 15px; margin-bottom: 15px; text-transform: uppercase; }
+        .btn-ua { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+        .btn-ru { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
         
-        .btn-tg { 
-            display: block; 
-            background: linear-gradient(135deg, #24a1de 0%, #0088cc 100%);
-            color: #ffffff; 
-            text-decoration: none; 
-            padding: 18px; 
-            border-radius: 8px; 
-            font-weight: bold; 
-            font-size: 16px; 
-            margin-bottom: 15px; 
-            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
-            text-transform: uppercase; 
-            letter-spacing: 0.5px; 
-            transition: transform 0.2s;
-        }
-        .btn-tg:hover { transform: scale(1.03); }
-        
-        .info-box { 
-            background: rgba(255,255,255,0.03); 
-            padding: 14px; 
-            border-radius: 6px; 
-            border-left: 4px solid #0088cc; 
-            margin-top: 25px;
-        }
-        .info-box p { color: #aaa; font-size: 13px; margin: 0; text-align: left; line-height: 1.4; }
+        /* ОКНО С КЛЮЧОМ ПО СЕРЕДИНЕ ЭКРАНА */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.85); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-box { background: #1a122c; border: 3px solid #f59e0b; border-radius: 12px; padding: 30px; text-align: center; max-width: 400px; width: 85%; box-shadow: 0 0 40px #f59e0b; }
+        .modal-box h3 { color: #f59e0b; margin-top: 0; font-size: 22px; }
+        .generated-key { background: #2a1b46; border: 2px dashed #f59e0b; padding: 15px; font-size: 20px; font-family: monospace; font-weight: bold; color: #fff; margin: 20px 0; border-radius: 6px; letter-spacing: 1px; }
+        .close-modal-btn { background: #f59e0b; color: #000; border: none; padding: 10px 25px; border-radius: 6px; font-weight: bold; cursor: pointer; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -72,18 +34,120 @@
     <h2>👑 HardwareVS Premium</h2>
     <p class="price-text">Стоимость подписки: <span>50 грн / 99 руб</span></p>
 
-    <!-- ОДНА ЕДИНСТВЕННАЯ РАБОЧАЯ КНОПКА, КОТОРАЯ ПЕРЕКИДЫВАЕТ В БОТА НА ОПЛАТУ -->
-    <!-- ⚠️ ЗАМЕНИ слово ХХХ_bot НА ЮЗЕРНЕЙМ СВОЕГО БОТА ИЗ BOTFATHER -->
-    <a href="https://t.me" target="_blank" class="btn-tg">
-        🤖 Оплатить и получить VIP мгновенно
-    </a>
+    <!-- ПОЛЕ 1: ВВОД ПРОМОКОДА БЛОГЕРА -->
+    <div class="promo-block">
+        <input type="text" id="promo-field" class="promo-input" placeholder="ПРОМОКОД БЛОГЕРА">
+        <button class="promo-btn" onclick="checkPromo()">ОК</button>
+    </div>
+    <div id="promo-status" class="status-msg"></div>
 
-    <div class="info-box">
-        <p>
-            🚀 **АВТОВЫДАЧА:** Кнопка откроет нашего официального Telegram-бота. Бот автоматически примет оплату в один клик и **мгновенно выдаст вам VIP-код на 30 дней**, который вы вставите на сайте. Больше никаких ожиданий чеков!
-        </p>
+    <!-- КНОПКИ ОПЛАТЫ -->
+    <a id="link-ua" href="https://bestchange.ru" target="_blank" class="btn-pay btn-ua" onclick="showKeyModal()">🇺🇦 Оплатить картой Украины</a>
+    <a id="link-ru" href="https://alfabit.org" target="_blank" class="btn-pay btn-ru" onclick="showKeyModal()">🇷🇺 Оплатить картой РФ / СНГ</a>
+
+    <hr style="border: 0; border-top: 1px solid #3b2d54; margin: 25px 0;">
+
+    <!-- ПОЛЕ 2: ОТДЕЛЬНОЕ ПОЛЕ ДЛЯ ВВОДА КЛЮЧА -->
+    <h3 style="font-size: 16px; margin-bottom: 10px; color: #ccc;">🔑 Активация VIP-ключа:</h3>
+    <div class="activation-block">
+        <input type="text" id="key-field" class="promo-input" placeholder="ВВЕДИТЕ ВАШ КЛЮЧ">
+        <button class="promo-btn" style="background: #10b981;" onclick="activateVipKey()">АКТИВИРОВАТЬ</button>
+    </div>
+    <div id="key-status" class="status-msg"></div>
+</div>
+
+<!-- ОКНО ПОСЕРЕДИНЕ ЭКРАНА С ВЫДАЧЕЙ КЛЮЧА -->
+<div id="payment-modal" class="modal-overlay">
+    <div class="modal-box">
+        <h3>🎉 ВАШ VIP-КЛЮЧ ГОТОВ!</h3>
+        <p style="font-size: 14px; color: #ccc; line-height: 1.4;">Скопируйте этот ключ. После того как вы завершите оплату на сайте банка, вставьте его в поле активации ниже!</p>
+        <div id="key-display" class="generated-key">🔑 КЛЮЧ</div>
+        <button class="close-modal-btn" onclick="closeKeyModal()">Я скопировал</button>
     </div>
 </div>
+
+<script>
+    // Защита от F12, Ctrl+Shift+I и правой кнопки мыши
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123) return false; // Блок F12
+        if (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) return false; // Блок Ctrl+Shift+I/J
+        if (e.ctrlKey && e.keyCode == 85) return false; // Блок Ctrl+U
+    };
+
+    const activePromos = ["PROMO1", "TECH2026", "VLAD_TT", "MONSTER_PC"];
+
+    // Списки зашифрованных ключей в Base64
+    const encryptedMonthKeys = [
+        "SFZTLU1PTlRILUhSNEtXOUwz", "SFZTLU1PTlRILVk1UDJYOFYx", "SFZTLU1PTlRILU5MOUdaNlEz", "SFZTLU1PTlRILUpLN1Y0UTlS", "SFZTLU1PTlRILU0zWDVCOEsy",
+        "SFZTLU1PTlRILVBTNlQ4Vjc1", "SFZTLU1PTlRILVhSMjlLNlpR", "SFZTLU1PTlRILUJHNVY0UTND", "SFZTLU1PTlRILUpPOTJYNFYx", "SFZTLU1PTlRILU5NWTVCOEsy"
+    ];
+    const encryptedForeverKeys = [
+        "SFZTLUZPUkVWRVItWjRYN0M5VjI=", "SFZTLUZPUkVWRVItSzNNOVY0UTI=", "SFZTLUZPUkVWRVItTDU5WjhLNlE=", "SFZTLUZPUkVWRVItTTNXNlY0UTI=", "SFZTLUZPUkVWRVItUlA2VDlWNzg="
+    ];
+
+    // Очередь выдачи ключей для имитации автовыдачи
+    let currentKeyIndex = 0;
+
+    function checkPromo() {
+        let inputCode = document.getElementById("promo-field").value.toUpperCase().trim();
+        let statusMsg = document.getElementById("promo-status");
+        let linkUa = document.getElementById("link-ua");
+        let linkRu = document.getElementById("link-ru");
+        let myWallet = "UQB5A-6ZfDMDoAeZMvWpEqfZLA0slByUF9mQsrb66B56GNCK";
+
+        if (inputCode === "") {
+            statusMsg.style.color = "#f59e0b"; statusMsg.innerText = "⚠️ Введите код!"; statusMsg.style.display = "block"; return;
+        }
+        if (activePromos.includes(inputCode)) {
+            statusMsg.style.color = "#10b981"; statusMsg.innerText = "🟢 Промокод применен!"; statusMsg.style.display = "block";
+            linkUa.href = `https://bestchange.ru&description=PROMO_${inputCode}`;
+            linkRu.href = `https://alfabit.org&address=${myWallet}&description=PROMO_${inputCode}`;
+        } else {
+            statusMsg.style.color = "#ef4444"; statusMsg.innerText = "❌ Неверный код!"; statusMsg.style.display = "block";
+        }
+    }
+
+    // Появление ключа по середине экрана при нажатии на оплату
+    function showKeyModal() {
+        let rawKey = atob(encryptedMonthKeys[currentKeyIndex]); // Расшифровка на лету
+        document.getElementById("key-display").innerText = rawKey;
+        document.getElementById("payment-modal").style.display = "flex";
+        
+        // Сдвигаем индекс, чтобы следующий покупатель получил другой ключ
+        currentKeyIndex = (currentKeyIndex + 1) % encryptedMonthKeys.length;
+    }
+
+    function closeKeyModal() { document.getElementById("payment-modal").style.display = "none"; }
+
+    // Логика проверки и активации введенного ключа
+    function activateVipKey() {
+        let inputKey = document.getElementById("key-field").value.toUpperCase().trim();
+        let statusMsg = document.getElementById("key-status");
+
+        // Массивы расшифрованных ключей для сверки
+        let monthKeys = encryptedMonthKeys.map(k => atob(k));
+        let foreverKeys = encryptedForeverKeys.map(k => atob(k));
+
+        if (inputKey === "") {
+            statusMsg.style.color = "#f59e0b"; statusMsg.innerText = "⚠️ Введите ключ!"; statusMsg.style.display = "block"; return;
+        }
+
+        if (monthKeys.includes(inputKey)) {
+            statusMsg.style.color = "#10b981";
+            statusMsg.innerText = "🟢 УСПЕШНО! VIP-статус активирован на 1 МЕСЯЦ! Доступ открыт.";
+            statusMsg.style.display = "block";
+        } else if (foreverKeys.includes(inputKey)) {
+            statusMsg.style.color = "#10b981";
+            statusMsg.innerText = "🔥 НЕВЕРОЯТНО! Активирован НАВСЕГДА (ВЕЧНЫЙ VIP)! Полный безлимит.";
+            statusMsg.style.display = "block";
+        } else {
+            statusMsg.style.color = "#ef4444";
+            statusMsg.innerText = "❌ ОШИБКА: Данный ключ не существует или уже активирован!";
+            statusMsg.style.display = "block";
+        }
+    }
+</script>
 
 </body>
 </html>
