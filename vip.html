@@ -102,33 +102,35 @@
 
 <div class="pay-card">
     <h2>👑 HardwareVS Premium</h2>
-    <p class="price-text">Стоимость подписки: <span id="price-val">99 рублей</span></p>
+    <p class="price-text">Стоимость подписки: <span>50 грн / 99 руб</span></p>
 
     <!-- ВВОД ПРОМОКОДА БЛОГЕРА -->
     <div class="promo-block">
         <input type="text" id="promo-field" class="promo-input" placeholder="ПРОМОКОД БЛОГЕРА">
         <button class="promo-btn" onclick="checkPromo()">ОК</button>
     </div>
-    <div id="promo-status" class="promo-status-msg status-msg"></div>
+    <div id="promo-status" class="status-msg"></div>
 
-    <!-- КНОПКИ БАНКОВСКОЙ ОПЛАТЫ ЧЕРЕЗ АВТО-ОБМЕННИК -->
-    <a id="link-ua" https://alfabit.org/ru/converter/rub/usdt" class="btn-pay btn-ua">
+    <!-- КНОПКИ БАНКОВСКОЙ ОПЛАТЫ КАРТОЙ -->
+    <!-- Кнопка Украины (По умолчанию ведет на BestChange с фильтром 50 грн) -->
+    <a id="link-ua" href="https://bestchange.ru" target="_blank" class="btn-pay btn-ua">
         🇺🇦 Оплатить картой Украины
     </a>
 
-    <a id="link-ru" https://alfabit.org/ru/converter/rub/usdt" target="_blank" class="btn-pay btn-ru">
+    <!-- Кнопка РФ/СНГ (По умолчанию ведет на AlfaBit с авто-заполнением твоего счета и суммы 99 руб) -->
+    <a id="link-ru" href="https://alfabit.org" target="_blank" class="btn-pay btn-ru">
         🇷🇺 Оплатить картой РФ / СНГ
     </a>
 
     <div class="info-box">
         <p>
-            💡 **ИНСТРУКЦИЯ:** Вы платите со своей обычной банковской карты. Кнопка откроет проверенный обменник, который автоматически сконвертирует ваши деньги и отправит их на кошелек сайта. Безопасно, без паспорта и личных данных!
+            💡 **ИНСТРУКЦИЯ:** Вы платите со своей обычной банковской карты. Кнопка откроет проверенный обменник, который автоматически сконвертирует ваши деньги и отправит их на кошелек сайта. Безопасно, без паспорта и личных данных! После оплаты отправьте чек администратору.
         </p>
     </div>
 </div>
 
 <script>
-    // Список промокодов твоих 15 блогеров (пиши сюда большими буквами)
+    // База данных промокодов твоих 15 блогеров (пиши их сюда СТРОГО большими буквами)
     const activePromos = ["PROMO1", "TECH2026", "VLAD_TT", "MONSTER_PC"];
 
     function checkPromo() {
@@ -138,8 +140,6 @@
         
         let linkUa = document.getElementById("link-ua");
         let linkRu = document.getElementById("link-ru");
-        
-        // Твой личный кошелек Keeper (сеть TON)
         let myWallet = "UQB5A-6ZfDMDoAeZMvWpEqfZLA0slByUF9mQsrb66B56GNCK";
 
         if (inputCode === "") {
@@ -150,23 +150,24 @@
         }
 
         if (activePromos.includes(inputCode)) {
+            // Если код верный, цена не меняется (интерес медиек), но в ссылку вшивается метка блогера
             statusMsg.style.color = "#10b981";
             statusMsg.innerText = "🟢 Промокод блогера успешно применен!";
             statusMsg.style.display = "block";
             
-            // 🇺🇦 Обновляем ссылку для Украины (на BestChange с фильтром от 50 грн)
-            linkUa.href = `https://bestchange.ru{inputCode}`;
+            // Вшиваем промокод в ссылку для Украины
+            linkUa.href = `https://bestchange.ru&description=PROMO_${inputCode}`;
             
-            // 🇷🇺 Обновляем ссылку AlfaBit для РФ (вшиваем сумму 99 руб, твой кошелек и промокод в описание)
+            // Вшиваем промокод в ссылку AlfaBit для РФ
             linkRu.href = `https://alfabit.org{myWallet}&description=PROMO_${inputCode}`;
         } else {
+            // Если кода нет в базе
             statusMsg.style.color = "#ef4444";
             statusMsg.innerText = "❌ Неверный код. Проверьте правильность букв!";
             statusMsg.style.display = "block";
         }
     }
 </script>
-
 
 </body>
 </html>
