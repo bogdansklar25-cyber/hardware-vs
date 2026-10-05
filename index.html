@@ -6,8 +6,8 @@
     <title>HardwareVS — Главная</title>
     <style>
         body { 
-            background-color: #0b0713; 
-            font-family: 'Segoe UI', sans-serif; 
+            background-color: #06020b; 
+            font-family: 'Segoe UI', Roboto, sans-serif; 
             color: #fff; 
             display: flex; 
             flex-direction: column; 
@@ -16,80 +16,143 @@
             min-height: 100vh; 
             margin: 0; 
             user-select: none;
+            overflow: hidden;
+            position: relative;
         }
+
+        /* АНИМИРОВАННЫЕ НЕОНОВЫЕ КРУГИ НА ФОНЕ */
+        .bg-glow {
+            position: absolute; width: 300px; height: 300px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(0,0,0,0) 70%);
+            top: 20%; left: 20%; border-radius: 50%; filter: blur(50px);
+            animation: floatGlow 8s infinite alternate ease-in-out; z-index: 1; pointer-events: none;
+        }
+        .bg-glow-2 {
+            position: absolute; width: 350px; height: 350px;
+            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(0,0,0,0) 70%);
+            bottom: 10%; right: 15%; border-radius: 50%; filter: blur(60px);
+            animation: floatGlow 12s infinite alternate-reverse ease-in-out; z-index: 1; pointer-events: none;
+        }
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 30px) scale(1.1); }
+        }
+
         .main-container {
-            text-align: center;
-            width: 90%;
-            max-width: 400px;
+            text-align: center; width: 90%; max-width: 400px; z-index: 10;
+            animation: fadeInContainer 1s ease-out;
         }
+        @keyframes fadeInContainer {
+            0% { opacity: 0; transform: translateY(15px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ПЕРЕЛИВАЮЩИЙСЯ ЗАГОЛОВОК */
         h1 {
-            font-size: 42px;
-            color: #a855f7;
-            margin-bottom: 30px;
-            text-shadow: 0 0 20px rgba(168, 85, 247, 0.6);
-            letter-spacing: 1px;
+            font-size: 46px; font-weight: 900; margin-bottom: 35px; letter-spacing: 2px;
+            background: linear-gradient(90deg, #a855f7, #f59e0b, #7c3aed, #a855f7);
+            background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            animation: textShine 5s linear infinite, pulseGlow 2s infinite alternate ease-in-out;
         }
-        .buttons-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            width: 100%;
+        @keyframes textShine { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
+        @keyframes pulseGlow {
+            0% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
+            100% { filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.7)); }
         }
+
+        .buttons-stack { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+
+        /* ОБЩИЙ СТИЛЬ ГЕЙМЕРСКИХ КНОПОК */
         .btn-style {
-            display: block;
-            width: 100%;
-            color: #ffffff;
-            text-decoration: none;
-            padding: 15px 0;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-sizing: border-box;
+            display: flex; justify-content: center; align-items: center; gap: 12px; width: 100%;
+            color: #ffffff; text-decoration: none; padding: 16px 0; border-radius: 10px;
+            font-weight: bold; font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; position: relative; overflow: hidden;
         }
-        .btn-purple {
-            background: linear-gradient(135deg, #a855f7 0%, #7c3aed 100%);
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+        .btn-style::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent); transition: all 0.6s ease;
         }
-        .btn-purple:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 35px rgba(168, 85, 247, 0.8);
-        }
-        .btn-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            box-shadow: 0 0 20px rgba(245, 158, 11, 0.4);
-        }
-        .btn-gold:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 35px rgba(245, 158, 11, 0.8);
+        .btn-style:hover::after { left: 100%; }
+
+        /* ЦВЕТА КНОПОК */
+        .btn-purple { background: linear-gradient(135deg, #a855f7 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); }
+        .btn-purple:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6); border-color: rgba(168, 85, 247, 0.5); }
+
+        .btn-gold { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25); }
+        .btn-gold:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.7); border-color: rgba(245, 158, 11, 0.5); }
+
+        /* КНОПКА ГАЙДА (БИРЮЗОВЫЙ КИБЕРПАНК) */
+        .btn-guide { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25); }
+        .btn-guide:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6); border-color: rgba(6, 182, 212, 0.5); }
+
+        .btn-style i { transition: transform 0.4s ease; font-style: normal; }
+        .btn-style:hover i { transform: scale(1.25); }
+
+        /* ЭЛЕМЕНТЫ ШЛЕЙФА МЫШКИ */
+        .trail-particle {
+            position: absolute; width: 6px; height: 6px; border-radius: 50%;
+            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
+            transition: width 0.5s, height 0.5s, opacity 0.5s;
         }
     </style>
 </head>
 <body>
 
+<div class="bg-glow"></div>
+<div class="bg-glow-2"></div>
+
 <div class="main-container">
     <h1>HardwareVS</h1>
     
     <div class="buttons-stack">
-        <!-- ФИОЛЕТОВЫЕ КНОПКИ СРАВНЕНИЯ -->
-        <a href="cpu.html" class="btn-style btn-purple">💻 Сравнить процессоры</a>
-        <a href="gpu.html" class="btn-style btn-purple">🎮 Сравнить видеокарты</a>
+        <a href="cpu.html" class="btn-style btn-purple"><i>💻</i> Сравнить процессоры</a>
+        <a href="gpu.html" class="btn-style btn-purple"><i>🎮</i> Сравнить видеокарты</a>
+        <a href="vip.html" class="btn-style btn-gold"><i>👑</i> АКТИВАЦИЯ VIP</a>
         
-        <!-- ЗОЛОТАЯ КНОПКА VIP-СТАТУСА -->
-        <a href="vip.html" class="btn-style btn-gold">👑 АКТИВАЦИЯ VIP</a>
+        <!-- НОВАЯ АНИМИРОВАННАЯ КНОПКА ГАЙДА -->
+        <a href="guide.html" class="btn-style btn-guide"><i>📖</i> Пошаговый Гайд</a>
     </div>
 </div>
 
 <script>
-    // Защита кода от F12 на главной странице
+    // Защита F12
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
+
+    // СКРИПТ КРАСИВОГО МЯГКОГО НЕОНОВОГО ШЛЕЙФА ЗА КУРСОРМ
+    const colors = ['#a855f7', '#f59e0b', '#7c3aed', '#06b6d4']; // Фиолетовый, золотой, бирюзовый
+    
+    document.addEventListener('mousemove', function(e) {
+        const particle = document.createElement('div');
+        particle.className = 'trail-particle';
+        
+        // Позиция курсора
+        particle.style.left = e.clientX + window.scrollX + 'px';
+        particle.style.top = e.clientY + window.scrollY + 'px';
+        
+        // Случайный цвет из нашей палитры
+        const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        particle.style.backgroundColor = randomColor;
+        particle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
+        
+        document.body.appendChild(particle);
+        
+        // Плавное затухание и исчезновение через мгновение
+        setTimeout(() => {
+            particle.style.opacity = '0';
+            particle.style.width = '0px';
+            particle.style.height = '0px';
+        }, 50);
+
+        // Полное удаление элемента из кода через полсекунды, чтобы сайт не лагал
+        setTimeout(() => {
+            particle.remove();
+        }, 500);
+    });
 </script>
 
 </body>
