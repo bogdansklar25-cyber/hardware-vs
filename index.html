@@ -5,150 +5,275 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HardwareVS — Главная</title>
     <style>
-        body { 
-            background-color: #06020b; 
-            font-family: 'Segoe UI', Roboto, sans-serif; 
-            color: #fff; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            user-select: none;
+        /* Базовые настройки и космический темный фон */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #06020b;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            color: #fff;
             overflow: hidden;
-            position: relative;
+            user-select: none;
         }
 
-        /* АНИМИРОВАННЫЕ НЕОНОВЫЕ КРУГИ НА ФОНЕ */
+        /* Холст для рисования неоновых полосок */
+        #trail-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none; /* Чтобы холст не мешал кликать на кнопки */
+        }
+
+        /* Задний анимированный неоновый свет */
+        .bg-glow-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
         .bg-glow {
             position: absolute; width: 300px; height: 300px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.25) 0%, rgba(0,0,0,0) 70%);
-            top: 20%; left: 20%; border-radius: 50%; filter: blur(50px);
-            animation: floatGlow 8s infinite alternate ease-in-out; z-index: 1; pointer-events: none;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.2) 0%, rgba(0,0,0,0) 70%);
+            top: 15%; left: 15%; border-radius: 50%; filter: blur(50px);
+            animation: floatGlow 8s infinite alternate ease-in-out;
         }
         .bg-glow-2 {
             position: absolute; width: 350px; height: 350px;
-            background: radial-gradient(circle, rgba(245, 158, 11, 0.15) 0%, rgba(0,0,0,0) 70%);
-            bottom: 10%; right: 15%; border-radius: 50%; filter: blur(60px);
-            animation: floatGlow 12s infinite alternate-reverse ease-in-out; z-index: 1; pointer-events: none;
+            background: radial-gradient(circle, rgba(6, 182, 212, 0.15) 0%, rgba(0,0,0,0) 70%);
+            bottom: 15%; right: 15%; border-radius: 50%; filter: blur(60px);
+            animation: floatGlow 12s infinite alternate-reverse ease-in-out;
         }
         @keyframes floatGlow {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, 30px) scale(1.1); }
+            100% { transform: translate(30px, 20px) scale(1.1); }
+        }
+
+        /* Центрирование контента */
+        .main-wrapper {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .main-container {
-            text-align: center; width: 90%; max-width: 400px; z-index: 10;
-            animation: fadeInContainer 1s ease-out;
+            text-align: center;
+            width: 90%;
+            max-width: 380px;
+            animation: fadeIn 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        @keyframes fadeInContainer {
-            0% { opacity: 0; transform: translateY(15px); }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ПЕРЕЛИВАЮЩИЙСЯ ЗАГОЛОВОК */
+        /* Переливающийся заголовок */
         h1 {
-            font-size: 46px; font-weight: 900; margin-bottom: 35px; letter-spacing: 2px;
-            background: linear-gradient(90deg, #a855f7, #f59e0b, #7c3aed, #a855f7);
-            background-size: 300% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: textShine 5s linear infinite, pulseGlow 2s infinite alternate ease-in-out;
+            font-size: 46px;
+            font-weight: 900;
+            margin-top: 0;
+            margin-bottom: 35px;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #a855f7, #06b6d4, #f59e0b, #a855f7);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textShine 6s linear infinite;
+            filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.4));
         }
-        @keyframes textShine { 0% { background-position: 0% 50%; } 100% { background-position: 300% 50%; } }
-        @keyframes pulseGlow {
-            0% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
-            100% { filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.7)); }
+        @keyframes textShine {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
         }
 
-        .buttons-stack { display: flex; flex-direction: column; gap: 16px; width: 100%; }
+        /* Стопка геймерских кнопок */
+        .buttons-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+        }
 
-        /* ОБЩИЙ СТИЛЬ ГЕЙМЕРСКИХ КНОПОК */
         .btn-style {
-            display: flex; justify-content: center; align-items: center; gap: 12px; width: 100%;
-            color: #ffffff; text-decoration: none; padding: 16px 0; border-radius: 10px;
-            font-weight: bold; font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255, 255, 255, 0.08); box-sizing: border-box; position: relative; overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 16px 0;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
         }
+
+        /* Блик при наведении */
         .btn-style::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent); transition: all 0.6s ease;
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: all 0.5s ease;
         }
         .btn-style:hover::after { left: 100%; }
 
-        /* ЦВЕТА КНОПОК */
-        .btn-purple { background: linear-gradient(135deg, #a855f7 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25); }
-        .btn-purple:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6); border-color: rgba(168, 85, 247, 0.5); }
+        /* Градиенты и тени неоновых кнопок */
+        .btn-purple {
+            background: linear-gradient(135deg, #a855f7 0%, #6d28d9 100%);
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.25);
+        }
+        .btn-purple:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(168, 85, 247, 0.6);
+            border-color: rgba(168, 85, 247, 0.5);
+        }
 
-        .btn-gold { background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25); }
-        .btn-gold:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.7); border-color: rgba(245, 158, 11, 0.5); }
+        .btn-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.25);
+        }
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.7);
+            border-color: rgba(245, 158, 11, 0.5);
+        }
 
-        /* КНОПКА ГАЙДА (БИРЮЗОВЫЙ КИБЕРПАНК) */
-        .btn-guide { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25); }
-        .btn-guide:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6); border-color: rgba(6, 182, 212, 0.5); }
+        .btn-guide {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.25);
+        }
+        .btn-guide:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.6);
+            border-color: rgba(6, 182, 212, 0.5);
+        }
 
-        .btn-style i { transition: transform 0.4s ease; font-style: normal; }
-        .btn-style:hover i { transform: scale(1.25); }
-
-        /* ЭЛЕМЕНТЫ ШЛЕЙФА МЫШКИ */
-        .trail-particle {
-            position: absolute; width: 6px; height: 6px; border-radius: 50%;
-            pointer-events: none; z-index: 9999; transform: translate(-50%, -50%);
-            transition: width 0.5s, height 0.5s, opacity 0.5s;
+        .btn-style i {
+            font-style: normal;
+            transition: transform 0.3s ease;
+        }
+        .btn-style:hover i {
+            transform: scale(1.2);
         }
     </style>
 </head>
 <body>
 
-<div class="bg-glow"></div>
-<div class="bg-glow-2"></div>
+<!-- Холст для рисования линий -->
+<canvas id="trail-canvas"></canvas>
 
-<div class="main-container">
-    <h1>HardwareVS</h1>
-    
-    <div class="buttons-stack">
-        <a href="cpu.html" class="btn-style btn-purple"><i>💻</i> Сравнить процессоры</a>
-        <a href="gpu.html" class="btn-style btn-purple"><i>🎮</i> Сравнить видеокарты</a>
-        <a href="vip.html" class="btn-style btn-gold"><i>👑</i> АКТИВАЦИЯ VIP</a>
+<!-- Живой фон -->
+<div class="bg-glow-container">
+    <div class="bg-glow"></div>
+    <div class="bg-glow-2"></div>
+</div>
+
+<!-- Контент -->
+<div class="main-wrapper">
+    <div class="main-container">
+        <h1>HardwareVS</h1>
         
-        <!-- КНОПКА ГАЙДА -->
-        <a href="guide.html" class="btn-style btn-guide"><i>📖</i> Пошаговый Гайд</a>
+        <div class="buttons-stack">
+            <a href="cpu.html" class="btn-style btn-purple"><i>💻</i> Сравнить процессоры</a>
+            <a href="gpu.html" class="btn-style btn-purple"><i>🎮</i> Сравнить видеокарты</a>
+            <a href="vip.html" class="btn-style btn-gold"><i>👑</i> АКТИВАЦИЯ VIP</a>
+            <a href="guide.html" class="btn-style btn-guide"><i>📖</i> Пошаговый Гайд</a>
+        </div>
     </div>
 </div>
 
 <script>
-    // Защита F12
+    // Защита от F12
     document.addEventListener('contextmenu', e => e.preventDefault());
     document.onkeydown = function(e) {
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
 
-    // СКРИПТ МЯГКОГО НЕОНОВОГО ШЛЕЙФА ЗА КУРСОРМ
-    const colors = ['#a855f7', '#f59e0b', '#7c3aed', '#06b6d4']; 
-    
-    document.addEventListener('mousemove', function(e) {
-        const particle = document.createElement('div');
-        particle.className = 'trail-particle';
-        
-        particle.style.left = e.clientX + window.scrollX + 'px';
-        particle.style.top = e.clientY + window.scrollY + 'px';
-        
-        const randomColor = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.backgroundColor = randomColor;
-        particle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
-        
-        document.body.appendChild(particle);
-        
-        setTimeout(() => {
-            particle.style.opacity = '0';
-            particle.style.width = '0px';
-            particle.style.height = '0px';
-        }, 50);
+    // СКРИПТ ШЛЕЙФА НА CANVAS (100% РАБОЧИЙ)
+    const canvas = document.getElementById('trail-canvas');
+    const ctx = canvas.getContext('2d');
 
-        setTimeout(() => {
-            particle.remove();
-        }, 500);
+    let points = [];
+    const maxPoints = 25; // Длина шлейфа (полоски)
+
+    // Подгоняем размер холста под экран
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Отслеживаем движение мыши
+    document.addEventListener('mousemove', (e) => {
+        points.push({
+            x: e.clientX,
+            y: e.clientY,
+            age: 0
+        });
     });
+
+    // Функция плавной анимации шлейфа
+    function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Обновляем состояние точек
+        for (let i = 0; i < points.length; i++) {
+            points[i].age++;
+        }
+
+        // Удаляем старые умершие точки
+        points = points.filter(p => p.age < maxPoints);
+
+        // Рисуем мягкую линию по точкам курсора
+        if (points.length > 1) {
+            for (let i = 1; i < points.length; i++) {
+                const p1 = points[i - 1];
+                const p2 = points[i];
+
+                // Плавное уменьшение прозрачности (затухание цвета)
+                const opacity = i / points.length;
+                
+                ctx.beginPath();
+                ctx.moveTo(p1.x, p1.y);
+                ctx.lineTo(p2.x, p2.y);
+
+                // Задаем красивый мягкий неоново-фиолетовый цвет полосок
+                ctx.strokeStyle = `rgba(168, 85, 247, ${opacity})`;
+                ctx.lineWidth = 4 * opacity; // Линия плавно сужается на конце
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                // Добавляем эффект неонового свечения вокруг полоски
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = '#a855f7';
+
+                ctx.stroke();
+            }
+        }
+
+        requestAnimationFrame(animate);
+    }
+
+    // Запускаем постоянную перерисовку шлейфа
+    animate();
 </script>
 
 </body>
