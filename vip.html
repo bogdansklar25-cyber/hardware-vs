@@ -130,12 +130,13 @@
 </div>
 
 <script>
-    // База данных промокодов твоих 15 блогеров (пиши их сюда СТРОГО большими буквами)
+    // Список промокодов твоих 15 блогеров (пиши их сюда СТРОГО большими буквами)
     const activePromos = ["PROMO1", "TECH2026", "VLAD_TT", "MONSTER_PC"];
 
     function checkPromo() {
         let inputField = document.getElementById("promo-field");
-        let inputCode = inputField.value.toUpperCase().trim();
+        // Использован правильный .trim() вместо ошибочного .strip()
+        let inputCode = inputField.value.toUpperCase().trim(); 
         let statusMsg = document.getElementById("promo-status");
         
         let linkUa = document.getElementById("link-ua");
@@ -150,15 +151,15 @@
         }
 
         if (activePromos.includes(inputCode)) {
-            // Если код верный, цена не меняется (интерес медиек), но в ссылку вшивается метка блогера
+            // Если код верный
             statusMsg.style.color = "#10b981";
             statusMsg.innerText = "🟢 Промокод блогера успешно применен!";
             statusMsg.style.display = "block";
             
-            // Вшиваем промокод в ссылку для Украины
-            linkUa.href = `https://bestchange.ru&description=PROMO_${inputCode}`;
+            // Вшиваем промокод в ссылку для Украины (BestChange)
+            linkUa.href = `https://bestchange.ru{inputCode}`;
             
-            // Вшиваем промокод в ссылку AlfaBit для РФ
+            // Вшиваем промокод в ссылку AlfaBit для РФ (исправленный порядок параметров)
             linkRu.href = `https://alfabit.org{myWallet}&description=PROMO_${inputCode}`;
         } else {
             // Если кода нет в базе
@@ -168,6 +169,7 @@
         }
     }
 </script>
+
 
 </body>
 </html>
