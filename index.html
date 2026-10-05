@@ -111,7 +111,7 @@
         <a href="gpu.html" class="btn-style btn-purple"><i>🎮</i> Сравнить видеокарты</a>
         <a href="vip.html" class="btn-style btn-gold"><i>👑</i> АКТИВАЦИЯ VIP</a>
         
-        <!-- НОВАЯ АНИМИРОВАННАЯ КНОПКА ГАЙДА -->
+        <!-- КНОПКА ГАЙДА -->
         <a href="guide.html" class="btn-style btn-guide"><i>📖</i> Пошаговый Гайд</a>
     </div>
 </div>
@@ -123,32 +123,28 @@
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
 
-    // СКРИПТ КРАСИВОГО МЯГКОГО НЕОНОВОГО ШЛЕЙФА ЗА КУРСОРМ
-    const colors = ['#a855f7', '#f59e0b', '#7c3aed', '#06b6d4']; // Фиолетовый, золотой, бирюзовый
+    // СКРИПТ МЯГКОГО НЕОНОВОГО ШЛЕЙФА ЗА КУРСОРМ
+    const colors = ['#a855f7', '#f59e0b', '#7c3aed', '#06b6d4']; 
     
     document.addEventListener('mousemove', function(e) {
         const particle = document.createElement('div');
         particle.className = 'trail-particle';
         
-        // Позиция курсора
         particle.style.left = e.clientX + window.scrollX + 'px';
         particle.style.top = e.clientY + window.scrollY + 'px';
         
-        // Случайный цвет из нашей палитры
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         particle.style.backgroundColor = randomColor;
         particle.style.boxShadow = `0 0 10px ${randomColor}, 0 0 20px ${randomColor}`;
         
         document.body.appendChild(particle);
         
-        // Плавное затухание и исчезновение через мгновение
         setTimeout(() => {
             particle.style.opacity = '0';
             particle.style.width = '0px';
             particle.style.height = '0px';
         }, 50);
 
-        // Полное удаление элемента из кода через полсекунды, чтобы сайт не лагал
         setTimeout(() => {
             particle.remove();
         }, 500);
