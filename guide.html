@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HardwareVS — Официальный Гайд</title>
+    <style>
+        body { background-color: #0b0713; font-family: 'Segoe UI', sans-serif; color: #fff; display: flex; flex-direction: column; align-items: center; min-height: 100vh; margin: 0; padding: 40px 20px; box-sizing: border-box; }
+        .back-link { color: #06b6d4; text-decoration: none; font-weight: bold; margin-bottom: 30px; font-size: 14px; transition: color 0.2s; align-self: center; }
+        .back-link:hover { color: #22d3ee; }
+        
+        /* КАРТОЧКА ГАЙДА С ПЛАВНЫМ ПОЯВЛЕНИЕМ */
+        .guide-card { 
+            background: #140f1e; border: 2px solid #06b6d4; border-radius: 14px; padding: 35px; max-width: 700px; width: 100%; 
+            box-shadow: 0 0 35px rgba(6, 182, 212, 0.25); box-sizing: border-box;
+            animation: slideInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideInUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 { margin-top: 0; font-size: 28px; color: #fff; text-align: center; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 15px rgba(6, 182, 212, 0.5); }
+        .sub-title { text-align: center; color: #aaa; font-size: 14px; margin-bottom: 30px; line-height: 1.5; }
+        
+        /* АНИМИРОВАННЫЙ БЛОК ДЛЯ ВИДЕО */
+        .video-wrapper { 
+            position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; 
+            border: 1px solid rgba(255,255,255,0.1); margin-bottom: 30px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        
+        /* БЛОК С ПОШАГОВЫМ ТЕКСТОМ */
+        .step-block { background: rgba(6, 182, 212, 0.03); border-left: 4px solid #06b6d4; padding: 18px; border-radius: 6px; margin-bottom: 20px; }
+        .step-num { font-weight: bold; color: #06b6d4; text-transform: uppercase; font-size: 13px; letter-spacing: 0.5px; margin-bottom: 5px; }
+        .step-text { color: #ccc; font-size: 14px; line-height: 1.5; margin: 0; }
+    </style>
+</head>
+<body>
+
+<a href="index.html" class="back-link">← Вернуться на главную</a>
+
+<div class="guide-card">
+    <h2>📖 Подробный видео-инструктаж</h2>
+    <p class="sub-title">Посмотрите видеоролик ниже. В нём детально показано, как пользоваться нашими продвинутыми калькуляторами и как активировать VIP-аккаунт через базу данных.</p>
+
+    <!-- ПЛЕЕР ДЛЯ ТВОЕГО РОЛИКА (Вместо этой ссылки можно вставить код своего YouTube/TikTok видео) -->
+    <div class="video-wrapper">
+        <iframe src="https://youtube.com" allowfullscreen></iframe>
+    </div>
+
+    <!-- ПОШАГОВАЯ СТРАТЕГИЯ ДЛЯ ТЕКСТА -->
+    <div class="step-block">
+        <div class="step-num">Шаг 1: Создание личного профиля</div>
+        <p class="step-text">Перейдите во вкладку «Активация VIP» на главной странице. Нажмите кнопку регистрации, придумайте уникальный логин, пароль и создайте свой профиль в нашей системе.</p>
+    </div>
+
+    <div class="step-block">
+        <div class="step-num">Шаг 2: Получение Premium-доступа</div>
+        <p class="step-text">Скопируйте реквизиты вашего кошелька TON или карты внутри личного кабинета, совершите перевод и отправьте скриншот чека администратору в Telegram [finance].</p>
+    </div>
+
+    <div class="step-block">
+        <div class="step-num">Шаг 3: Полная разблокировка сайта</div>
+        <p class="step-text">После подтверждения транзакции ваш профиль автоматически обновится в общей базе данных, открывая доступ к скрытым фильтрам «Анти-Перекуп» [finance].</p>
+    </div>
+</div>
+
+<script>
+    // Защита от просмотра кода
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
+</script>
+
+</body>
+</html>
