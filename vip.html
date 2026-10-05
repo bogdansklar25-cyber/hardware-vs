@@ -100,6 +100,38 @@
             authTitle.innerText = "🔑 Вход в аккаунт";
             mainBtn.innerText = "Войти";
             toggleLink.innerText = "Нет аккаунта? Зарегистрироваться";
+     <script>
+    // Твои точные, проверенные данные подключения к Supabase с экрана API Keys
+    const SUPABASE_URL = "https://supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_P24THScafpzTz8FrDbjVcg-2uRQDNDY1M2NlYjctNTU0Ni00YWE1LTg4MGItMmRmZTgyM2Y5NmRm";
+    
+    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    let isSignUpMode = false;
+
+    // Защита кода от F12
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.onkeydown = function(e) {
+        if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
+    };
+
+    // Переключение режимов Вход / Регистрация
+    function toggleAuthMode() {
+        isSignUpMode = !isSignUpMode;
+        let authTitle = document.getElementById("auth-title");
+        let mainBtn = document.getElementById("auth-main-btn");
+        let toggleLink = document.getElementById("auth-toggle");
+        let statusMsg = document.getElementById("auth-status");
+
+        statusMsg.style.display = "none";
+
+        if (isSignUpMode) {
+            authTitle.innerText = "📝 Регистрация аккаунта";
+            mainBtn.innerText = "Создать аккаунт";
+            toggleLink.innerText = "Уже есть аккаунт? Войти";
+        } else {
+            authTitle.innerText = "🔑 Вход в аккаунт";
+            mainBtn.innerText = "Войти";
+            toggleLink.innerText = "Нет аккаунта? Зарегистрироваться";
         }
     }
 
@@ -120,56 +152,66 @@
 
         statusMsg.style.color = "#aaa"; statusMsg.innerText = "Связь с базой данных..."; statusMsg.style.display = "block";
 
-        if (isSignUpMode) {
-            // Регистрация аккаунта
-            const { data, error } = await supabase.auth.signUp({ email, password });
-            if (error) { 
-                statusMsg.style.color = "#ef4444"; 
-                statusMsg.innerText = "❌ " + error.message; 
-            } else if (data.user) {
-                // Записываем акаунт в созданную таблицу users_vip
-                await supabase.from('users_vip').insert([{ id: data.user.id, email: email, is_vip: false }]);
-                statusMsg.style.color = "#10b981"; 
-                statusMsg.innerText = "🟢 Аккаунт создан! Теперь переключитесь на 'Войти'.";
+        try {
+            if (isSignUpMode) {
+                // Регистрация аккаунта
+                const { data, error } = await supabase.auth.signUp({ email, password });
+                if (error) { 
+                    statusMsg.style.color = "#ef4444"; 
+                    statusMsg.innerText = "❌ " + error.message; 
+                } else if (data.user) {
+                    // Записываем акаунт в созданную таблицу users_vip
+                    await supabase.from('users_vip').insert([{ id: data.user.id, email: email, is_vip: false }]);
+                    statusMsg.style.color = "#10b981"; 
+                    statusMsg.innerText = "🟢 Аккаунт создан! Переключитесь на форму входа.";
+                }
+            } else {
+                // Вход в акаунт
+                const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+                if (error) { 
+                    statusMsg.style.color = "#ef4444"; 
+                    statusMsg.innerText = "❌ Неверный Email или пароль!"; 
+                } else { 
+                    checkUserSession(); 
+                }
             }
-        } else {
-            // Вход в акаунт
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) { 
-                statusMsg.style.color = "#ef4444"; 
-                statusMsg.innerText = "❌ Неверный Email или пароль!"; 
-            } else { 
-                checkUserSession(); 
-            }
+        } catch (err) {
+            statusMsg.style.color = "#ef4444";
+            statusMsg.innerText = "❌ Ошибка подключения. Проверьте сеть!";
+            console.error(err);
         }
     }
 
     // Проверка сессии входа и статуса VIP
     async function checkUserSession() {
-        const { data: { session } } = await supabase.auth.getSession();
-        
-        if (session) {
-            document.getElementById("auth-zone").style.display = "none";
-            document.getElementById("cabinet-zone").style.display = "block";
-            document.getElementById("user-email-display").innerText = "Ваш аккаунт: " + session.user.email;
-
-            // Запрос статуса is_vip из созданной таблицы
-            const { data, error } = await supabase.from('users_vip').select('is_vip').eq('id', session.user.id).single();
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
             
-            if (data && data.is_vip === true) {
-                document.getElementById("vip-status-banner").style.display = "block";
-                document.getElementById("vip-inactive-info").style.display = "none";
-                document.getElementById("payment-section").style.display = "none"; 
-                localStorage.setItem('has_vip_access', 'true'); 
+            if (session) {
+                document.getElementById("auth-zone").style.display = "none";
+                document.getElementById("cabinet-zone").style.display = "block";
+                document.getElementById("user-email-display").innerText = "Ваш аккаунт: " + session.user.email;
+
+                // Запрос статуса is_vip из созданной таблицы
+                const { data, error } = await supabase.from('users_vip').select('is_vip').eq('id', session.user.id).single();
+                
+                if (data && data.is_vip === true) {
+                    document.getElementById("vip-status-banner").style.display = "block";
+                    document.getElementById("vip-inactive-info").style.display = "none";
+                    document.getElementById("payment-section").style.display = "none"; 
+                    localStorage.setItem('has_vip_access', 'true'); 
+                } else {
+                    document.getElementById("vip-status-banner").style.display = "none";
+                    document.getElementById("vip-inactive-info").style.display = "block";
+                    document.getElementById("payment-section").style.display = "block";
+                    localStorage.removeItem('has_vip_access');
+                }
             } else {
-                document.getElementById("vip-status-banner").style.display = "none";
-                document.getElementById("vip-inactive-info").style.display = "block";
-                document.getElementById("payment-section").style.display = "block";
-                localStorage.removeItem('has_vip_access');
+                document.getElementById("auth-zone").style.display = "block";
+                document.getElementById("cabinet-zone").style.display = "none";
             }
-        } else {
-            document.getElementById("auth-zone").style.display = "block";
-            document.getElementById("cabinet-zone").style.display = "none";
+        } catch (e) {
+            console.log("Ожидание авторизации...");
         }
     }
 
@@ -181,5 +223,3 @@
 
     window.onload = checkUserSession;
 </script>
-</body>
-</html>
