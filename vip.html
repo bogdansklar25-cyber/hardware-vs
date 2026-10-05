@@ -22,10 +22,7 @@
             font-weight: bold;
             margin-bottom: 20px;
             font-size: 14px;
-            transition: color 0.2s;
         }
-        .back-link:hover { color: #c084fc; }
-        
         .pay-card { 
             background: #140f1e; 
             border: 2px solid #a855f7; 
@@ -36,64 +33,35 @@
             text-align: center; 
             box-shadow: 0 0 30px rgba(168, 85, 247, 0.2); 
         }
-        h2 { margin-top: 0; font-size: 26px; color: #fff; letter-spacing: 0.5px; }
+        h2 { margin-top: 0; font-size: 26px; color: #fff; }
         .price-text { font-size: 18px; color: #ccc; margin-bottom: 25px; }
         .price-text span { color: #f59e0b; font-weight: bold; }
         
-        .promo-block { margin-bottom: 20px; display: flex; gap: 10px; justify-content: center; }
-        .promo-input { 
-            background: #221a30; 
-            border: 1px solid #a855f7; 
-            padding: 12px; 
-            border-radius: 6px; 
-            color: #fff; 
-            font-weight: bold; 
-            text-align: center; 
-            text-transform: uppercase; 
-            width: 60%; 
-            font-size: 14px; 
-            outline: none;
-        }
-        .promo-btn { 
-            background: #a855f7; 
-            border: none; 
-            color: #fff; 
-            padding: 12px 20px; 
-            border-radius: 6px; 
-            font-weight: bold; 
-            cursor: pointer; 
-            transition: background 0.2s; 
-            font-size: 14px; 
-        }
-        .promo-btn:hover { background: #9333ea; }
-        
-        .status-msg { margin-top: -10px; margin-bottom: 20px; font-size: 13px; font-weight: bold; display: none; }
-        
-        .btn-pay { 
+        .btn-tg { 
             display: block; 
+            background: linear-gradient(135deg, #24a1de 0%, #0088cc 100%);
             color: #ffffff; 
             text-decoration: none; 
-            padding: 16px; 
+            padding: 18px; 
             border-radius: 8px; 
             font-weight: bold; 
-            font-size: 15px; 
+            font-size: 16px; 
             margin-bottom: 15px; 
-            transition: transform 0.2s, box-shadow 0.2s; 
+            box-shadow: 0 4px 20px rgba(0, 136, 204, 0.4);
             text-transform: uppercase; 
             letter-spacing: 0.5px; 
+            transition: transform 0.2s;
         }
-        .btn-ua { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3); }
-        .btn-ru { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3); }
-        .btn-pay:hover { transform: scale(1.02); }
+        .btn-tg:hover { transform: scale(1.03); }
         
         .info-box { 
             background: rgba(255,255,255,0.03); 
             padding: 14px; 
             border-radius: 6px; 
-            border-left: 4px solid #a855f7; 
+            border-left: 4px solid #0088cc; 
             margin-top: 25px;
         }
-        .info-box p { color: #aaa; font-size: 12px; margin: 0; text-align: left; line-height: 1.4; }
+        .info-box p { color: #aaa; font-size: 13px; margin: 0; text-align: left; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -104,72 +72,18 @@
     <h2>👑 HardwareVS Premium</h2>
     <p class="price-text">Стоимость подписки: <span>50 грн / 99 руб</span></p>
 
-    <!-- ВВОД ПРОМОКОДА БЛОГЕРА -->
-    <div class="promo-block">
-        <input type="text" id="promo-field" class="promo-input" placeholder="ПРОМОКОД БЛОГЕРА">
-        <button class="promo-btn" onclick="checkPromo()">ОК</button>
-    </div>
-    <div id="promo-status" class="status-msg"></div>
-
-    <!-- КНОПКИ БАНКОВСКОЙ ОПЛАТЫ КАРТОЙ -->
-    <!-- Кнопка Украины (По умолчанию ведет на BestChange с фильтром 50 грн) -->
-    <a id="link-ua" href="https://bestchange.ru" target="_blank" class="btn-pay btn-ua">
-        🇺🇦 Оплатить картой Украины
-    </a>
-
-    <!-- Кнопка РФ/СНГ (По умолчанию ведет на AlfaBit с авто-заполнением твоего счета и суммы 99 руб) -->
-    <a id="link-ru" href="https://alfabit.org" target="_blank" class="btn-pay btn-ru">
-        🇷🇺 Оплатить картой РФ / СНГ
+    <!-- ОДНА ЕДИНСТВЕННАЯ РАБОЧАЯ КНОПКА, КОТОРАЯ ПЕРЕКИДЫВАЕТ В БОТА НА ОПЛАТУ -->
+    <!-- ⚠️ ЗАМЕНИ слово ХХХ_bot НА ЮЗЕРНЕЙМ СВОЕГО БОТА ИЗ BOTFATHER -->
+    <a href="https://t.me" target="_blank" class="btn-tg">
+        🤖 Оплатить и получить VIP мгновенно
     </a>
 
     <div class="info-box">
         <p>
-            💡 **ИНСТРУКЦИЯ:** Вы платите со своей обычной банковской карты. Кнопка откроет проверенный обменник, который автоматически сконвертирует ваши деньги и отправит их на кошелек сайта. Безопасно, без паспорта и личных данных! После оплаты отправьте чек администратору.
+            🚀 **АВТОВЫДАЧА:** Кнопка откроет нашего официального Telegram-бота. Бот автоматически примет оплату в один клик и **мгновенно выдаст вам VIP-код на 30 дней**, который вы вставите на сайте. Больше никаких ожиданий чеков!
         </p>
     </div>
 </div>
-
-<script>
-    // Список промокодов твоих 15 блогеров (пиши их сюда СТРОГО большими буквами)
-    const activePromos = ["PROMO1", "TECH2026", "VLAD_TT", "MONSTER_PC"];
-
-    function checkPromo() {
-        let inputField = document.getElementById("promo-field");
-        // Использован правильный .trim() вместо ошибочного .strip()
-        let inputCode = inputField.value.toUpperCase().trim(); 
-        let statusMsg = document.getElementById("promo-status");
-        
-        let linkUa = document.getElementById("link-ua");
-        let linkRu = document.getElementById("link-ru");
-        let myWallet = "UQB5A-6ZfDMDoAeZMvWpEqfZLA0slByUF9mQsrb66B56GNCK";
-
-        if (inputCode === "") {
-            statusMsg.style.color = "#f59e0b";
-            statusMsg.innerText = "⚠️ Введите код перед проверкой!";
-            statusMsg.style.display = "block";
-            return;
-        }
-
-        if (activePromos.includes(inputCode)) {
-            // Если код верный
-            statusMsg.style.color = "#10b981";
-            statusMsg.innerText = "🟢 Промокод блогера успешно применен!";
-            statusMsg.style.display = "block";
-            
-            // Вшиваем промокод в ссылку для Украины (BestChange)
-            linkUa.href = `https://bestchange.ru{inputCode}`;
-            
-            // Вшиваем промокод в ссылку AlfaBit для РФ (исправленный порядок параметров)
-            linkRu.href = `https://alfabit.org{myWallet}&description=PROMO_${inputCode}`;
-        } else {
-            // Если кода нет в базе
-            statusMsg.style.color = "#ef4444";
-            statusMsg.innerText = "❌ Неверный код. Проверьте правильность букв!";
-            statusMsg.style.display = "block";
-        }
-    }
-</script>
-
 
 </body>
 </html>
