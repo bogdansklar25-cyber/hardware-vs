@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HardwareVS — Личный Кабинет & VIP</title>
-    <!-- Подключаем официальную библиотеку Supabase -->
+    <!-- Официальный скрипт Supabase для авторизации и таблиц -->
     <script src="https://jsdelivr.net"></script>
     <style>
         body { background-color: #0b0713; font-family: 'Segoe UI', sans-serif; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; margin: 0; user-select: none; }
@@ -13,9 +13,10 @@
         h2 { margin-top: 0; font-size: 24px; color: #fff; }
         .input-field { background: #221a30; border: 1px solid #a855f7; padding: 12px; border-radius: 6px; color: #fff; width: 100%; font-size: 14px; outline: none; margin-bottom: 15px; box-sizing: border-box; text-align: center; }
         .action-btn { background: #a855f7; border: none; color: #fff; padding: 12px 20px; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 14px; width: 100%; margin-bottom: 10px; text-transform: uppercase; }
-        .toggle-text { font-size: 13px; color: #aaa; cursor: pointer; text-decoration: underline; margin-top: 10px; }
+        .toggle-text { font-size: 13px; color: #aaa; cursor: pointer; text-decoration: underline; display: inline-block; margin-top: 10px; }
         .status-msg { margin-top: 10px; font-size: 13px; font-weight: bold; display: none; }
-        .btn-pay { display: block; color: #ffffff; text-decoration: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; text-transform: uppercase; }
+        .btn-pay { display: block; color: #ffffff; text-decoration: none; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; text-transform: uppercase; transition: transform 0.2s; }
+        .btn-pay:hover { transform: scale(1.02); }
         .btn-ua { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
         .btn-ru { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
         .wallet-box { background: #1c152a; border: 1px dashed #a855f7; border-radius: 8px; padding: 10px; margin-bottom: 15px; cursor: pointer; }
@@ -28,23 +29,24 @@
 <a href="index.html" class="back-link">← На главную</a>
 
 <div class="pay-card">
-    <!-- ОКНО 1: ФОРМА АВТОРИЗАЦИИ (Вход / Регистрация) -->
+    <!-- ЗОНА АВТОРИЗАЦИИ (Вход и Регистрация) -->
     <div id="auth-zone">
         <h2 id="auth-title">🔑 Вход в аккаунт</h2>
-        <p style="font-size: 13px; color: #aaa; margin-bottom: 20px;">Зарегистрируйте аккаунт, чтобы мы могли включить VIP-статус именно для вас.</p>
+        <p style="font-size: 13px; color: #aaa; margin-bottom: 20px;">Зарегистрируйте аккаунт, чтобы мы могли включить VIP-статус для вашей почты.</p>
         <input type="email" id="auth-email" class="input-field" placeholder="Ваш Email">
         <input type="password" id="auth-password" class="input-field" placeholder="Пароль">
         <button id="auth-main-btn" class="action-btn" onclick="handleAuth()">Войти</button>
-        <div id="auth-toggle" class="toggle-text" onclick="toggleAuthMode()">Нет аккаунта? Зарегистрироваться</div>
+        <div>
+            <span id="auth-toggle" class="toggle-text" onclick="toggleAuthMode()">Нет аккаунта? Зарегистрироваться</span>
+        </div>
         <div id="auth-status" class="status-msg"></div>
     </div>
 
-    <!-- ОКНО 2: ЛИЧНЫЙ КАБИНЕТ ЮЗЕРА (Скрыт, пока не войдет) -->
+    <!-- ЗОНА ЛИЧНОГО КАБИНЕТА (Открывается после входа) -->
     <div id="cabinet-zone" style="display: none;">
         <h2 style="margin-bottom: 5px;">👤 Кабинет пользователя</h2>
         <p id="user-email-display" style="font-size: 13px; color: #aaa; margin-bottom: 20px;"></p>
 
-        <!-- Отображение статуса VIP из твоей базы -->
         <div id="vip-status-banner" class="vip-active-banner">👑 ВАШ VIP-СТАТУС АКТИВЕН!</div>
         <div id="vip-inactive-info" style="color: #ef4444; font-weight: bold; margin-bottom: 20px; font-size: 16px;">Статус подписки: НЕ АКТИВЕН ❌</div>
 
@@ -54,12 +56,12 @@
                 <div id="wallet-num" class="wallet-address">UQB5A-6ZfDMDoAeZMvWpEqfZLA0slByUF9mQsrb66B56GNCK</div>
             </div>
 
-            <!-- Ссылки оплаты -->
+            <!-- Ссылки способов оплаты -->
             <a href="https://bestchange.ru" target="_blank" class="btn-pay btn-ua">🇺🇦 Оплатить картой Украины (50 грн)</a>
             <a href="https://alfabit.org" target="_blank" class="btn-pay btn-ru">🇷🇺 Оплатить через AlfaBit (99 руб)</a>
             
-            <p style="font-size: 12px; color: #aaa; text-align: left; line-height: 1.4; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border-left: 3px solid #a855f7;">
-                📌 **КАК ПОЛУЧИТЬ VIP:** Оплатите подписку картой. Напишите администратору в Telegram, указав ваш Email. После быстрой проверки чека вам мгновенно включат VIP в базе данных на 1 месяц!
+            <p style="font-size: 12px; color: #aaa; text-align: left; line-height: 1.4; background: rgba(255,255,255,0.02); padding: 10px; border-radius: 6px; border-left: 3px solid #a855f7; margin-top: 15px;">
+                📌 **ИНСТРУКЦИЯ:** Оплатите подписку картой [finance]. Напишите администратору в Telegram, указав ваш Email. После быстрой проверки чека вам мгновенно включат VIP в базе данных на 1 месяц [finance]!
             </p>
         </div>
 
@@ -80,11 +82,25 @@
         if (e.keyCode == 123 || (e.ctrlKey && e.shiftKey && (e.keyCode == 73 || e.keyCode == 74)) || (e.ctrlKey && e.keyCode == 85)) return false;
     };
 
+    // Исправленное переключение режимов Вход / Регистрация
     function toggleAuthMode() {
         isSignUpMode = !isSignUpMode;
-        document.getElementById("auth-title").innerText = isSignUpMode ? "📝 Регистрация аккаунта" : "🔑 Вход в аккаунт";
-        document.getElementById("auth-main-btn").innerText = isSignUpMode ? "Создать аккаунт" : "Войти";
-        document.getElementById("auth-toggle").innerText = isSignUpMode ? "Уже есть аккаунт? Войти" : "Нет аккаунта? Зарегистрироваться";
+        let authTitle = document.getElementById("auth-title");
+        let mainBtn = document.getElementById("auth-main-btn");
+        let toggleLink = document.getElementById("auth-toggle");
+        let statusMsg = document.getElementById("auth-status");
+
+        statusMsg.style.display = "none";
+
+        if (isSignUpMode) {
+            authTitle.innerText = "📝 Регистрация аккаунта";
+            mainBtn.innerText = "Создать аккаунт";
+            toggleLink.innerText = "Уже есть аккаунт? Войти";
+        } else {
+            authTitle.innerText = "🔑 Вход в аккаунт";
+            mainBtn.innerText = "Войти";
+            toggleLink.innerText = "Нет аккаунта? Зарегистрироваться";
+        }
     }
 
     function copyWalletAddress() {
@@ -92,7 +108,7 @@
         alert("📋 Кошелек HardwareVS скопирован!");
     }
 
-    // Регистрация и Вход пользователей через базу
+    // Регистрация и Вход пользователей через базу данных
     async function handleAuth() {
         let email = document.getElementById("auth-email").value.trim();
         let password = document.getElementById("auth-password").value.trim();
@@ -105,24 +121,30 @@
         statusMsg.style.color = "#aaa"; statusMsg.innerText = "Связь с базой данных..."; statusMsg.style.display = "block";
 
         if (isSignUpMode) {
-            // Регистрация юзера в базе Supabase Auth
+            // Регистрация аккаунта
             const { data, error } = await supabase.auth.signUp({ email, password });
-            if (error) { statusMsg.style.color = "#ef4444"; statusMsg.innerText = "❌ " + error.message; }
-            else {
-                // Создаем для него пустую запись в созданной таблице users_vip (по умолчанию false)
-                await supabase.from('users_vip').insert([{ id: data.user.id, Email: email, is_vip: false }]);
-                statusMsg.style.color = "#10b981"; statusMsg.innerText = "🟢 Аккаунт создан! Войдите, используя свои данные.";
-                isSignUpMode = true; toggleAuthMode(); // Переключаем на вход
+            if (error) { 
+                statusMsg.style.color = "#ef4444"; 
+                statusMsg.innerText = "❌ " + error.message; 
+            } else if (data.user) {
+                // Записываем акаунт в созданную таблицу users_vip
+                await supabase.from('users_vip').insert([{ id: data.user.id, email: email, is_vip: false }]);
+                statusMsg.style.color = "#10b981"; 
+                statusMsg.innerText = "🟢 Аккаунт создан! Теперь переключитесь на 'Войти'.";
             }
         } else {
-            // Авторизация (Вход)
+            // Вход в акаунт
             const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) { statusMsg.style.color = "#ef4444"; statusMsg.innerText = "❌ Неверный Email или пароль!"; }
-            else { checkUserSession(); }
+            if (error) { 
+                statusMsg.style.color = "#ef4444"; 
+                statusMsg.innerText = "❌ Неверный Email или пароль!"; 
+            } else { 
+                checkUserSession(); 
+            }
         }
     }
 
-    // Проверка сессии и статуса подписки
+    // Проверка сессии входа и статуса VIP
     async function checkUserSession() {
         const { data: { session } } = await supabase.auth.getSession();
         
@@ -131,17 +153,15 @@
             document.getElementById("cabinet-zone").style.display = "block";
             document.getElementById("user-email-display").innerText = "Ваш аккаунт: " + session.user.email;
 
-            // Тянем информацию о VIP-статусе из таблицы users_vip
+            // Запрос статуса is_vip из созданной таблицы
             const { data, error } = await supabase.from('users_vip').select('is_vip').eq('id', session.user.id).single();
             
             if (data && data.is_vip === true) {
-                // Если ты включил ему VIP в панели управления
                 document.getElementById("vip-status-banner").style.display = "block";
                 document.getElementById("vip-inactive-info").style.display = "none";
-                document.getElementById("payment-section").style.display = "none"; // Прячем оплату
-                localStorage.setItem('has_vip_access', 'true'); // Разрешаем доступ к фичам
+                document.getElementById("payment-section").style.display = "none"; 
+                localStorage.setItem('has_vip_access', 'true'); 
             } else {
-                // Если VIP выключен
                 document.getElementById("vip-status-banner").style.display = "none";
                 document.getElementById("vip-inactive-info").style.display = "block";
                 document.getElementById("payment-section").style.display = "block";
@@ -159,7 +179,6 @@
         checkUserSession();
     }
 
-    // Автоматическая проверка при каждом заходе на страницу
     window.onload = checkUserSession;
 </script>
 </body>
